@@ -1,0 +1,170 @@
+{
+  "categories": {
+    "3d-effects": {
+      "name": "3D Effects",
+      "description": "Immersive three-dimensional visual experiences",
+      "color": "#00ffff",
+      "icon": "🎲"
+    },
+    "experimental": {
+      "name": "Experimental",
+      "description": "Cutting-edge design explorations",
+      "color": "#ff6b9d",
+      "icon": "🧪"
+    },
+    "geometric-designs": {
+      "name": "Geometric Designs",
+      "description": "Mathematical beauty in digital form",
+      "color": "#4ecdc4",
+      "icon": "📐"
+    },
+    "gradient-effects": {
+      "name": "Gradient Effects",
+      "description": "Color transitions and visual experiments",
+      "color": "#ffa726",
+      "icon": "🌈"
+    }
+  },
+  "works": [
+    {
+      "id": "rotating-cube",
+      "title": "3D Rotating Cube",
+      "category": "3d-effects",
+      "description": "Interactive 3D cube with click-to-rotate functionality and floating animations",
+      "technologies": ["CSS 3D Transform", "JavaScript", "Animation"],
+      "path": "demos/3d-effects/rotating-cube.html",
+      "featured": true,
+      "createDate": "2024-01-15"
+    },
+    {
+      "id": "isometric-cube",
+      "title": "Isometric Cube",
+      "category": "3d-effects", 
+      "description": "Isometric perspective cube design with depth illusion",
+      "technologies": ["CSS 3D", "Isometric Design"],
+      "path": "demos/3d-effects/isometric-cube.html",
+      "featured": false,
+      "createDate": "2024-01-12"
+    },
+    {
+      "id": "spatial-rhythm",
+      "title": "Spatial Rhythm",
+      "category": "3d-effects",
+      "description": "Dynamic spatial arrangements with rhythmic motion",
+      "technologies": ["CSS Animation", "3D Transform"],
+      "path": "demos/3d-effects/spatial-rhythm.html",
+      "featured": false,
+      "createDate": "2024-01-10"
+    },
+    {
+      "id": "floating-rings",
+      "title": "Floating Rings",
+      "category": "3d-effects",
+      "description": "Ethereal floating ring elements in 3D space",
+      "technologies": ["CSS 3D", "Animation"],
+      "path": "demos/3d-effects/floating-rings.html",
+      "featured": false,
+      "createDate": "2024-01-08"
+    },
+    {
+      "id": "visual-rhythm",
+      "title": "Visual Rhythm",
+      "category": "experimental",
+      "description": "Light beam compositions creating inspirational visual rhythms",
+      "technologies": ["CSS Gradient", "Clip-path", "Filter"],
+      "path": "demos/experimental/visual-rhythm.html",
+      "featured": true,
+      "createDate": "2024-01-20"
+    },
+    {
+      "id": "composition-study",
+      "title": "Composition Study",
+      "category": "experimental",
+      "description": "Experimental research in visual composition principles",
+      "technologies": ["CSS Layout", "Experimental Design"],
+      "path": "demos/experimental/composition-study.html",
+      "featured": false,
+      "createDate": "2024-01-18"
+    },
+    {
+      "id": "static-rectangles",
+      "title": "Static Rectangles",
+      "category": "geometric-designs",
+      "description": "3D perspective rectangles creating layered depth perception",
+      "technologies": ["CSS 3D Transform", "Perspective", "JavaScript"],
+      "path": "demos/geometric-designs/static-rectangles.html",
+      "featured": true,
+      "createDate": "2024-01-25"
+    },
+    {
+      "id": "perspective-bars",
+      "title": "Perspective Bars",
+      "category": "geometric-designs",
+      "description": "Perspective bar effects with color gradients and interactive animations",
+      "technologies": ["CSS Transform", "Color Interpolation", "JavaScript"],
+      "path": "demos/geometric-designs/perspective-bars.html",
+      "featured": true,
+      "createDate": "2024-01-23"
+    },
+    {
+      "id": "animated-rectangles",
+      "title": "Animated Rectangles",
+      "category": "geometric-designs",
+      "description": "Dynamic rotating 3D rectangle layers with animation sequences",
+      "technologies": ["CSS 3D Animation", "Transform", "Keyframes"],
+      "path": "demos/geometric-designs/animated-rectangles.html",
+      "featured": false,
+      "createDate": "2024-01-21"
+    },
+    {
+      "id": "symmetrical-conic",
+      "title": "Symmetrical Conic",
+      "category": "gradient-effects",
+      "description": "Symmetrical conic gradient with radial light effects",
+      "technologies": ["CSS Conic Gradient", "Symmetrical Design"],
+      "path": "demos/gradient-effects/symmetrical-conic.html",
+      "featured": false,
+      "createDate": "2024-01-30"
+    },
+    {
+      "id": "dynamic-poster",
+      "title": "Dynamic Poster",
+      "category": "gradient-effects",
+      "description": "Dynamic poster design with grid-based gradient compositions",
+      "technologies": ["CSS Grid", "Linear Gradient", "JavaScript"],
+      "path": "demos/gradient-effects/dynamic-poster.html",
+      "featured": false,
+      "createDate": "2024-01-28"
+    },
+    {
+      "id": "conic-gradient",
+      "title": "Conic Gradient",
+      "category": "gradient-effects",
+      "description": "Conic gradient light beam effects simulating projected light",
+      "technologies": ["CSS Conic Gradient", "Color Theory"],
+      "path": "demos/gradient-effects/conic-gradient.html",
+      "featured": true,
+      "createDate": "2024-01-26"
+    },
+    {
+      "id": "svg-gradient-v2",
+      "title": "SVG Gradient V2",
+      "category": "gradient-effects",
+      "description": "Advanced SVG gradient effects with enhanced visual complexity",
+      "technologies": ["SVG", "Gradient", "Vector Graphics"],
+      "path": "demos/gradient-effects/svg-gradient-v2.html",
+      "featured": false,
+      "createDate": "2024-01-24"
+    },
+    {
+      "id": "svg-gradient",
+      "title": "SVG Gradient",
+      "category": "gradient-effects",
+      "description": "Fundamental SVG gradient techniques and applications",
+      "technologies": ["SVG", "Linear Gradient"],
+      "path": "demos/gradient-effects/svg-gradient.html",
+      "featured": false,
+      "createDate": "2024-01-22"
+    }
+  ]
+} 

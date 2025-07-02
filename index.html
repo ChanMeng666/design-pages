@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore innovative digital design experiments by Chan Meng, featuring 3D effects, geometric patterns, and visual experiments.">
+    <meta name="keywords" content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects">
+    <meta name="author" content="Chan Meng">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Chan Meng - Digital Design Portfolio">
+    <meta property="og:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, and visual experiments.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chanmeng.github.io/design-pages">
+    <meta property="og:image" content="https://chanmeng.github.io/design-pages/assets/images/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Chan Meng - Digital Design Portfolio">
+    <meta name="twitter:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, and visual experiments.">
+    <meta name="twitter:image" content="https://chanmeng.github.io/design-pages/assets/images/twitter-card.jpg">
+    
+    <title>Chan Meng - Digital Design Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Montserrat:wght@600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="data/works.json" as="fetch" crossorigin>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <div class="logo">
+                    <span>Chan</span>Meng
+                </div>
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                        <li><a href="about.html" class="nav-link">About</a></li>
+                    </ul>
+                    <button class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                        ☰
+                    </button>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <h1 class="hero-title">Digital Design Experiments</h1>
+                <p class="hero-subtitle">
+                    Explore innovative visual effects and interactive experiences through CSS animations, 3D transforms, and experimental designs
+                </p>
+                <div class="hero-cta">
+                    <a href="gallery.html" class="btn btn-primary">View Gallery</a>
+                    <a href="about.html" class="btn btn-secondary">About Me</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Design Categories</h2>
+                    <p class="section-subtitle">
+                        Discover different types of visual experiments and design explorations
+                    </p>
+                </div>
+                
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Categories will be loaded by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Works Section -->
+        <section class="featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Works</h2>
+                    <p class="section-subtitle">
+                        Selected highlights from my design portfolio
+                    </p>
+                </div>
+                
+                <div class="works-grid" id="featuredWorks">
+                    <!-- Featured works will be loaded by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalWorks">14</div>
+                        <div class="stat-label">Design Experiments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Featured Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">CSS & JavaScript</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Chan Meng</h3>
+                    <p>Digital designer passionate about creating innovative visual experiences through code.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="gallery.html">Gallery</a></p>
+                    <p><a href="about.html">About</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><a href="mailto:hello@chanmeng.design">hello@chanmeng.design</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Chan Meng. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Load and display categories and featured works
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await App.fetchJSON('data/works.json');
+                if (data) {
+                    renderCategories(data.categories, data.works);
+                    renderFeaturedWorks(data.works.filter(work => work.featured));
+                }
+            } catch (error) {
+                App.handleError(error, 'loading homepage data');
+            }
+        });
+
+        function renderCategories(categories, works) {
+            const grid = document.getElementById('categoriesGrid');
+            if (!grid) return;
+
+            const categoryOrder = ['3d-effects', 'experimental', 'geometric-designs', 'gradient-effects'];
+            
+            grid.innerHTML = categoryOrder.map(categoryId => {
+                const category = categories[categoryId];
+                const workCount = works.filter(work => work.category === categoryId).length;
+                
+                return `
+                    <div class="category-card" data-category="${categoryId}">
+                        <div class="category-count">${workCount}</div>
+                        <span class="category-icon">${category.icon}</span>
+                        <h3 class="category-name">${category.name}</h3>
+                        <p class="category-description">${category.description}</p>
+                    </div>
+                `;
+            }).join('');
+
+            // Re-setup category card click handlers
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.dataset.category;
+                    window.location.href = `gallery.html?category=${category}`;
+                });
+            });
+        }
+
+        function renderFeaturedWorks(featuredWorks) {
+            const grid = document.getElementById('featuredWorks');
+            if (!grid) return;
+
+            // Create featured works grid styles if not exists
+            if (!document.querySelector('.featured-grid-styles')) {
+                const style = document.createElement('style');
+                style.className = 'featured-grid-styles';
+                style.textContent = `
+                    .featured-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                        gap: var(--space-6);
+                        margin-top: var(--space-8);
+                    }
+                    .featured-work {
+                        background: var(--card-bg);
+                        border: 1px solid var(--border-color);
+                        border-radius: var(--radius-xl);
+                        padding: var(--space-6);
+                        transition: all var(--transition-base);
+                        cursor: pointer;
+                    }
+                    .featured-work:hover {
+                        transform: translateY(-4px);
+                        box-shadow: var(--shadow-xl);
+                        border-color: var(--accent-blue);
+                    }
+                    .featured-work-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        margin-bottom: var(--space-4);
+                    }
+                    .featured-work-title {
+                        font-size: var(--text-xl);
+                        font-weight: var(--font-bold);
+                        color: var(--text-primary);
+                        margin: 0;
+                    }
+                    .featured-work-category {
+                        font-size: var(--text-xs);
+                        padding: var(--space-1) var(--space-3);
+                        border-radius: var(--radius-full);
+                        font-weight: var(--font-medium);
+                    }
+                    .featured-work-description {
+                        color: var(--text-secondary);
+                        margin-bottom: var(--space-4);
+                        line-height: 1.6;
+                    }
+                    .featured-work-tech {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: var(--space-2);
+                    }
+                    .tech-tag {
+                        font-size: var(--text-xs);
+                        padding: var(--space-1) var(--space-2);
+                        background: var(--hover-bg);
+                        color: var(--text-secondary);
+                        border-radius: var(--radius);
+                        border: 1px solid var(--border-color);
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            const categoryColors = {
+                '3d-effects': '#00ffff',
+                'experimental': '#ff6b9d',
+                'geometric-designs': '#4ecdc4',
+                'gradient-effects': '#ffa726'
+            };
+
+            grid.innerHTML = featuredWorks.map(work => {
+                const categoryColor = categoryColors[work.category] || '#666';
+                return `
+                    <div class="featured-work" data-work-id="${work.id}">
+                        <div class="featured-work-header">
+                            <h3 class="featured-work-title">${work.title}</h3>
+                            <span class="featured-work-category" style="background: ${categoryColor}20; color: ${categoryColor}; border: 1px solid ${categoryColor}40;">
+                                ${work.category.replace('-', ' ')}
+                            </span>
+                        </div>
+                        <p class="featured-work-description">${work.description}</p>
+                        <div class="featured-work-tech">
+                            ${work.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add click handlers for featured works
+            document.querySelectorAll('.featured-work').forEach(work => {
+                work.addEventListener('click', () => {
+                    const workId = work.dataset.workId;
+                    window.location.href = `gallery.html?work=${workId}`;
+                });
+            });
+        }
+    </script>
+</body>
+</html> 
