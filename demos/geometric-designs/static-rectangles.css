@@ -1,0 +1,75 @@
+:root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #120608;
+    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+/* 场景：调整了perspective来增强透视感 */
+.scene {
+    position: relative;
+    perspective: 1000px; /* <--- 修改点：减小数值，增强透视效果 */
+}
+
+/* 包裹器：调整了旋转角度，更贴合原图视角 */
+.wrapper {
+    width: 350px;
+    height: 500px;
+    position: relative;
+    transform-style: preserve-3d;
+    /* <--- 修改点：调整了X和Y轴的旋转角度 */
+    transform: rotateX(20deg) rotateY(42deg);
+}
+.rectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(227, 28, 93, 0.08);
+    box-sizing: border-box;
+}
+.glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(227, 28, 93, 0.1);
+    border-radius: 50%;
+}
+.title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(-130px);
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    white-space: nowrap;
+}
+.credit {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    line-height: 1.4;
+    color: #ccc;
+}
+.credit .plus {
+    font-size: 1.5rem;
+}

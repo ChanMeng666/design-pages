@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 11 - AK007 Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cube-perspective {
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .cube-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            transform-style: preserve-3d;
+            transform: rotateX(-15deg) rotateY(25deg);
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cube-front {
+            background: linear-gradient(135deg, #374151 0%, #000000 100%);
+            transform: translateZ(160px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .cube-right {
+            background: linear-gradient(to bottom, #4b5563 0%, #374151 100%);
+            transform: rotateY(90deg) translateZ(160px);
+        }
+        
+        .cube-top {
+            background: linear-gradient(to right, #6b7280 0%, #374151 100%);
+            transform: rotateX(90deg) translateZ(160px);
+        }
+        
+        .cube-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+        
+        .cube-subtitle {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 32px;
+        }
+        
+        .cube-credits {
+            font-size: 12px;
+            text-align: left;
+            line-height: 1.2;
+        }
+        
+        .text-top-left {
+            position: absolute;
+            top: 64px;
+            left: 32px;
+            color: black;
+        }
+        
+        .text-line {
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.1;
+        }
+        
+        .text-top-right {
+            position: absolute;
+            top: 64px;
+            right: 33.333%;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .text-bottom-right {
+            position: absolute;
+            bottom: 64px;
+            right: 64px;
+            color: black;
+            text-align: right;
+            font-size: 14px;
+        }
+        
+        .navigation {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            font-size: 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 3D Isometric Cube -->
+        <div class="cube-perspective">
+            <div class="cube-container">
+                <!-- Front face -->
+                <div class="cube-face cube-front">
+                    <div class="cube-title">AK007</div>
+                    <div class="cube-subtitle">DESIGN</div>
+                    <div class="cube-credits">
+                        <div>THE ABOVE</div>
+                        <div>CONTENT</div>
+                        <div>WAS CREATED</div>
+                        <div>BY AK007</div>
+                    </div>
+                </div>
+
+                <!-- Right face -->
+                <div class="cube-face cube-right"></div>
+
+                <!-- Top face -->
+                <div class="cube-face cube-top"></div>
+            </div>
+        </div>
+
+        <!-- Text positioning -->
+        <div class="text-top-left">
+            <div class="text-line">SIMPLE</div>
+            <div class="text-line">DESIGN</div>
+        </div>
+
+        <div class="text-top-right">极简效果就出现了</div>
+
+        <div class="text-bottom-right">
+            <div>GRAPHICAL</div>
+            <div>CHANGES</div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="#" class="nav-button">P1</a>
+            <a href="#" class="nav-button">P2</a>
+            <a href="#" class="nav-button">P3</a>
+            <a href="#" class="nav-button">P4</a>
+            <a href="#" class="nav-button">P5</a>
+            <a href="#" class="nav-button">P6</a>
+            <a href="#" class="nav-button">P7</a>
+            <a href="#" class="nav-button">P8</a>
+            <a href="#" class="nav-button">P9</a>
+            <a href="#" class="nav-button">P10</a>
+            <a href="#" class="nav-button">P12</a>
+            <a href="#" class="nav-button">P13</a>
+        </div>
+    </div>
+</body>
+</html> 

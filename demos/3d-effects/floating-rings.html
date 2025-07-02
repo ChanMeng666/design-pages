@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空间与节奏变化之美 - Three.js 实现</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // 1. 初始化场景、相机和渲染器
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // 调整相机位置，以获得类似截图的透视角度
+        camera.position.set(-15, 10, 40);
+
+        const canvas = document.querySelector('#c');
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        // 设置一个非常深的蓝色作为背景
+        renderer.setClearColor(0x000515);
+
+        // 2. 创建几何体（一系列圆环）
+        const ringsGroup = new THREE.Group();
+        const torusGeometry = new THREE.TorusGeometry(1, 0.05, 16, 100); // 半径1, 管粗0.05
+        const torusMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // 亮青色
+
+        const ringCount = 60;
+        for (let i = 0; i < ringCount; i++) {
+            const mesh = new THREE.Mesh(torusGeometry, torusMaterial);
+            
+            // 使用二次函数来控制半径和位置，形成节奏感
+            const scale = 5 + i * i * 0.03;
+            const zPos = -i * i * 0.1;
+
+            mesh.scale.set(scale * 1.5, scale, 1); // X轴拉伸，形成椭圆
+            mesh.position.z = zPos;
+            
+            ringsGroup.add(mesh);
+        }
+        scene.add(ringsGroup);
+
+        // 3. 添加光源 (用于增强辉光效果)
+        const pointLight = new THREE.PointLight(0x00ffaa, 5, 100); // 强烈的绿色光源
+        pointLight.position.set(-20, 15, 20); // 放置在左上角
+        scene.add(pointLight);
+
+        // 添加一个微弱的环境光，让暗部不至于死黑
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+
+        // 4. 设置后期处理 - 辉光效果 (Bloom)
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            1.2, // strength: 辉光强度
+            0.5, // radius: 辉光半径
+            0.1  // threshold: 辉光触发阈值
+        );
+        composer.addPass(bloomPass);
+
+        // 5. 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // 让模型组缓慢旋转，增加动感
+            ringsGroup.rotation.z += 0.002;
+            ringsGroup.rotation.x += 0.0005;
+
+            // 使用 composer 进行渲染
+            composer.render();
+        }
+
+        // 6. 响应窗口大小变化
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(width, height);
+            composer.setSize(width, height);
+        });
+        
+        // 启动动画
+        animate();
+    </script>
+</body>
+</html>

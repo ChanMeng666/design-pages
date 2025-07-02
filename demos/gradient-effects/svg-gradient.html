@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>最终版 v3：高对比度与融合效果</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1D1D1D; /* 深色背景 */
+  }
+
+  svg {
+    width: 80%;
+    max-width: 350px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="topCircleGradient_v3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#250013" /> 
+      <stop offset="25%"  stop-color="#6D003C" /> 
+      <stop offset="50%"  stop-color="#DD1669" /> 
+      <stop offset="100%" stop-color="#FFF86B" /> 
+    </linearGradient>
+
+    <linearGradient id="bottomCircleGradient_v3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#FFF86B" /> 
+      <stop offset="50%"  stop-color="#DD1669" />
+      <stop offset="75%"  stop-color="#6D003C" />
+      <stop offset="100%" stop-color="#250013" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="100" cy="100" r="100" fill="url(#topCircleGradient_v3)" />
+  <circle cx="100" cy="300" r="100" fill="url(#bottomCircleGradient_v3)" />
+
+  <text x="35" y="80" font-size="16" fill="white" font-weight="600">
+    <tspan>THIS</tspan>
+    <tspan x="35" dy="1.3em">CONTENT</tspan>
+    <tspan x="35" dy="1.3em">WAS DESIGNED</tspan>
+    <tspan x="35" dy="1.3em">BY AK007</tspan>
+  </text>
+
+</svg>
+
+</body>
+</html>

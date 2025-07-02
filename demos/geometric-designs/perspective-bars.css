@@ -1,0 +1,89 @@
+/* style.css */
+body {
+    background-color: #f0f0f0; /* 接近原图的浅灰色背景 */
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.poster {
+    position: relative;
+    width: 800px; /* 根据需要调整海报尺寸 */
+    padding: 50px;
+}
+
+/* 主效果容器：设置透视 */
+.bars-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 关键：设置透视距离，数值越大透视效果越弱 */
+    perspective: 800px;
+}
+
+/* 单个横条的基础样式 */
+.bar {
+    width: 90%; /* 基础宽度 */
+    height: 12px; /* 基础高度 */
+    margin: -2px 0; /* 让横条之间有轻微重叠，-2px 是一个参考值 */
+    /* 关键：设置变换的原点在中心 */
+    transform-origin: center center;
+    /* 关键：应用X轴旋转，具体角度由JS动态设置 */
+    /* transform: rotateX(60deg); */
+    transition: transform 0.3s ease-out; /* 添加一个鼠标悬浮的过渡效果 */
+}
+
+/* 鼠标悬浮在容器上时，所有bar回到正对状态 */
+.bars-container:hover .bar {
+    transform: rotateX(0deg);
+}
+
+
+/* --- 文字样式 --- */
+.top-left-text, .top-right-text {
+    position: absolute;
+    top: 50px;
+    font-weight: bold;
+    color: #333;
+}
+
+.top-left-text {
+    left: 50px;
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.top-left-text .plus {
+    font-size: 32px;
+    margin-top: 10px;
+    display: block;
+}
+
+.top-right-text {
+    right: 50px;
+    text-align: right;
+}
+
+.top-right-text .chinese-text {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'SimHei', 'Microsoft YaHei', sans-serif;
+}
+
+.top-right-text .english-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.top-right-text .number {
+    font-size: 80px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+}

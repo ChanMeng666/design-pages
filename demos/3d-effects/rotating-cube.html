@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK007 Design - 3D Cube Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-text {
+            position: absolute;
+            top: 80px;
+            left: 80px;
+            z-index: 10;
+        }
+
+        .simple-design {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .chinese-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .footer-text {
+            position: absolute;
+            bottom: 80px;
+            right: 80px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            letter-spacing: 1px;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        .cube-container {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .cube {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-15deg) rotateY(25deg) rotateZ(5deg);
+            animation: float 6s ease-in-out infinite;
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .cube:hover {
+            animation-play-state: paused;
+        }
+
+        /* 六个面的旋转状态 */
+        .cube.show-front { 
+            transform: rotateX(-15deg) rotateY(25deg) rotateZ(5deg); 
+        }
+        .cube.show-back { 
+            transform: rotateX(-15deg) rotateY(-155deg) rotateZ(5deg); 
+        }
+        .cube.show-right { 
+            transform: rotateX(-15deg) rotateY(-65deg) rotateZ(5deg); 
+        }
+        .cube.show-left { 
+            transform: rotateX(-15deg) rotateY(115deg) rotateZ(5deg); 
+        }
+        .cube.show-top { 
+            transform: rotateX(-105deg) rotateY(25deg) rotateZ(5deg); 
+        }
+        .cube.show-bottom { 
+            transform: rotateX(75deg) rotateY(25deg) rotateZ(5deg); 
+        }
+
+        /* 禁用浮动动画当有show-*类时 */
+        .cube[class*="show-"] {
+            animation: none;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .front {
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            transform: translateZ(150px);
+            color: white;
+            font-size: 42px;
+            letter-spacing: 2px;
+        }
+
+        .back {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            transform: translateZ(-150px) rotateY(180deg);
+            color: white;
+            font-size: 28px;
+        }
+
+        .right {
+            background: linear-gradient(135deg, #404040 0%, #2c2c2c 100%);
+            transform: rotateY(90deg) translateZ(150px);
+            color: white;
+            font-size: 24px;
+        }
+
+        .left {
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            transform: rotateY(-90deg) translateZ(150px);
+            color: white;
+            font-size: 24px;
+        }
+
+        .top {
+            background: linear-gradient(135deg, #505050 0%, #404040 100%);
+            transform: rotateX(90deg) translateZ(150px);
+            color: white;
+            font-size: 24px;
+        }
+
+        .bottom {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            transform: rotateX(-90deg) translateZ(150px);
+            color: white;
+            font-size: 24px;
+        }
+
+        .main-text {
+            font-size: 48px;
+            line-height: 0.9;
+        }
+
+        .sub-text {
+            font-size: 12px;
+            margin-top: 10px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: rotateX(-15deg) rotateY(25deg) rotateZ(5deg) translateY(0px);
+            }
+            50% {
+                transform: rotateX(-15deg) rotateY(25deg) rotateZ(5deg) translateY(-10px);
+            }
+        }
+
+        .shadow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: shadowFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes shadowFloat {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.05);
+                opacity: 0.2;
+            }
+        }
+
+        /* 控制按钮样式 */
+        .controls {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 1px;
+            min-width: 150px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+            font-size: 10px;
+        }
+
+        .dropdown-container.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #333;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .dropdown-container.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* 向上展开的样式 */
+        .dropdown-container.dropup .dropdown-menu {
+            top: auto;
+            bottom: 100%;
+            border-top: 2px solid #333;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            transform: translateY(10px);
+        }
+
+        .dropdown-container.dropup.active .dropdown-menu {
+            transform: translateY(0);
+        }
+
+        /* 自定义滚动条 */
+        .dropdown-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dropdown-menu::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+        }
+
+        .dropdown-menu::-webkit-scrollbar-thumb {
+            background: rgba(51, 51, 51, 0.3);
+            border-radius: 3px;
+        }
+
+        .dropdown-menu::-webkit-scrollbar-thumb:hover {
+            background: rgba(51, 51, 51, 0.5);
+        }
+
+        .control-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(51, 51, 51, 0.1);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-align: left;
+            display: block;
+        }
+
+        .control-btn:last-child {
+            border-bottom: none;
+        }
+
+        .control-btn:hover {
+            background: rgba(51, 51, 51, 0.1);
+            color: #333;
+        }
+
+        .control-btn.active {
+            background: #333;
+            color: white;
+        }
+
+        .control-btn.active:hover {
+            background: #333;
+            color: white;
+        }
+
+        /* 自动旋转指示器 */
+        .auto-rotate-indicator {
+            position: absolute;
+            top: 120px;
+            right: 80px;
+            font-size: 12px;
+            color: #666;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .auto-rotate-indicator.show {
+            opacity: 1;
+        }
+
+        .auto-rotate-indicator::before {
+            content: "🔄";
+            margin-right: 8px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .cube {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .cube-face {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .front {
+                transform: translateZ(100px);
+                font-size: 28px;
+            }
+            
+            .back {
+                transform: translateZ(-100px) rotateY(180deg);
+            }
+            
+            .right {
+                transform: rotateY(90deg) translateZ(100px);
+            }
+            
+            .left {
+                transform: rotateY(-90deg) translateZ(100px);
+            }
+            
+            .top {
+                transform: rotateX(90deg) translateZ(100px);
+            }
+            
+            .bottom {
+                transform: rotateX(-90deg) translateZ(100px);
+            }
+            
+            .main-text {
+                font-size: 32px;
+            }
+            
+            .header-text {
+                top: 40px;
+                left: 40px;
+            }
+            
+            .footer-text {
+                bottom: 40px;
+                right: 40px;
+            }
+            
+            .controls {
+                bottom: 80px;
+            }
+            
+            .dropdown-toggle {
+                padding: 10px 16px;
+                font-size: 11px;
+                min-width: 130px;
+            }
+            
+            .control-btn {
+                padding: 10px 16px;
+                font-size: 11px;
+            }
+            
+            .dropdown-container.active .dropdown-menu {
+                max-height: 180px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .controls {
+                bottom: 60px;
+            }
+            
+            .dropdown-toggle {
+                padding: 8px 12px;
+                font-size: 10px;
+                min-width: 110px;
+                letter-spacing: 0.5px;
+            }
+            
+            .control-btn {
+                padding: 8px 12px;
+                font-size: 10px;
+                letter-spacing: 0.5px;
+            }
+            
+            .header-text {
+                top: 20px;
+                left: 20px;
+            }
+            
+            .simple-design {
+                font-size: 12px;
+            }
+            
+            .chinese-text {
+                font-size: 20px;
+            }
+            
+            .footer-text {
+                bottom: 20px;
+                right: 20px;
+                font-size: 11px;
+            }
+            
+            .dropdown-container.active .dropdown-menu {
+                max-height: 150px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .dropdown-toggle {
+                padding: 6px 10px;
+                font-size: 9px;
+                min-width: 100px;
+            }
+            
+            .control-btn {
+                padding: 6px 10px;
+                font-size: 9px;
+            }
+            
+            .dropdown-container.active .dropdown-menu {
+                max-height: 120px;
+            }
+            
+            .controls {
+                bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-text">
+            <div class="simple-design">SIMPLE</div>
+            <div class="simple-design">DESIGN</div>
+            <div class="chinese-text">极简效果就出现了</div>
+        </div>
+        
+        <div class="cube-container">
+            <div class="shadow"></div>
+            <div class="cube">
+                <div class="cube-face front">
+                    <div>
+                        <div class="main-text">AK007</div>
+                        <div class="main-text">DESIGN</div>
+                        <div class="sub-text">THE ABOVE</div>
+                        <div class="sub-text">CONTENT</div>
+                        <div class="sub-text">WAS CREATED</div>
+                        <div class="sub-text">BY AK007</div>
+                    </div>
+                </div>
+                <div class="cube-face back">
+                    <div>
+                        <div style="font-size: 36px; margin-bottom: 10px;">BACK</div>
+                        <div style="font-size: 16px; opacity: 0.8;">DESIGN<br>STUDIO</div>
+                    </div>
+                </div>
+                <div class="cube-face right">
+                    <div>
+                        <div style="font-size: 36px; margin-bottom: 10px;">RIGHT</div>
+                        <div style="font-size: 16px; opacity: 0.8;">CREATIVE<br>SOLUTIONS</div>
+                    </div>
+                </div>
+                <div class="cube-face left">
+                    <div>
+                        <div style="font-size: 36px; margin-bottom: 10px;">LEFT</div>
+                        <div style="font-size: 16px; opacity: 0.8;">MINIMAL<br>APPROACH</div>
+                    </div>
+                </div>
+                <div class="cube-face top">
+                    <div>
+                        <div style="font-size: 36px; margin-bottom: 10px;">TOP</div>
+                        <div style="font-size: 16px; opacity: 0.8;">INNOVATION</div>
+                    </div>
+                </div>
+                <div class="cube-face bottom">
+                    <div>
+                        <div style="font-size: 36px; margin-bottom: 10px;">BOTTOM</div>
+                        <div style="font-size: 16px; opacity: 0.8;">FOUNDATION</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="dropdown-container">
+                <button class="dropdown-toggle" id="controlsToggle">
+                    <span class="current-face">FRONT</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button class="control-btn active" data-face="front">FRONT</button>
+                    <button class="control-btn" data-face="back">BACK</button>
+                    <button class="control-btn" data-face="right">RIGHT</button>
+                    <button class="control-btn" data-face="left">LEFT</button>
+                    <button class="control-btn" data-face="top">TOP</button>
+                    <button class="control-btn" data-face="bottom">BOTTOM</button>
+                    <button class="control-btn" data-face="auto">AUTO ROTATE</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auto-rotate-indicator">
+            Auto Rotating
+        </div>
+        
+        <div class="footer-text">
+            GRAPHICAL<br>CHANGES
+        </div>
+    </div>
+
+    <script>
+        console.log('JavaScript loaded'); // 调试用
+        
+        const cube = document.querySelector('.cube');
+        const controls = document.querySelectorAll('.control-btn');
+        const autoIndicator = document.querySelector('.auto-rotate-indicator');
+        const dropdownContainer = document.querySelector('.dropdown-container');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const currentFaceSpan = document.querySelector('.current-face');
+        let autoRotateInterval;
+        let currentFaceIndex = 0;
+        const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+
+        console.log('Elements found:', {
+            cube: !!cube,
+            controls: controls.length,
+            autoIndicator: !!autoIndicator,
+            dropdownContainer: !!dropdownContainer,
+            dropdownToggle: !!dropdownToggle
+        });
+
+        // 检测并设置下拉菜单方向
+        function setDropdownDirection() {
+            if (!dropdownContainer) return;
+            
+            const rect = dropdownToggle.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            
+            // 根据屏幕尺寸确定预期菜单高度
+            let menuHeight = 200;
+            if (viewportWidth <= 360) {
+                menuHeight = 120;
+            } else if (viewportWidth <= 480) {
+                menuHeight = 150;
+            } else if (viewportWidth <= 768) {
+                menuHeight = 180;
+            }
+            
+            console.log('Space detection:', {
+                spaceBelow,
+                spaceAbove,
+                menuHeight,
+                viewportHeight,
+                viewportWidth
+            });
+            
+            // 添加安全边距
+            const safeMargin = 20;
+            
+            // 如果下方空间不足且上方空间更大，则向上展开
+            if (spaceBelow < (menuHeight + safeMargin) && spaceAbove > spaceBelow) {
+                dropdownContainer.classList.add('dropup');
+                console.log('Using dropup');
+            } else {
+                dropdownContainer.classList.remove('dropup');
+                console.log('Using dropdown');
+            }
+        }
+
+        // 下拉菜单控制
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // 在切换之前检测方向
+            if (!dropdownContainer.classList.contains('active')) {
+                setDropdownDirection();
+            }
+            
+            dropdownContainer.classList.toggle('active');
+            console.log('Dropdown toggled:', dropdownContainer.classList.contains('active'));
+        });
+
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', (e) => {
+            if (!dropdownContainer.contains(e.target)) {
+                dropdownContainer.classList.remove('active');
+            }
+        });
+
+        // 窗口大小改变时重新检测方向
+        window.addEventListener('resize', () => {
+            if (dropdownContainer.classList.contains('active')) {
+                setDropdownDirection();
+            }
+        });
+
+        // 滚动时重新检测方向
+        window.addEventListener('scroll', () => {
+            if (dropdownContainer.classList.contains('active')) {
+                setDropdownDirection();
+            }
+        });
+
+        // 手动控制函数
+        function showFace(face) {
+            console.log('Showing face:', face);
+            
+            // 清除自动旋转
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+                autoIndicator.classList.remove('show');
+            }
+
+            // 移除所有面的类
+            faces.forEach(f => {
+                cube.classList.remove(`show-${f}`);
+            });
+            
+            // 添加当前面的类
+            cube.classList.add(`show-${face}`);
+            console.log('Cube classes:', cube.className);
+
+            // 更新按钮状态
+            controls.forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-face="${face}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // 更新下拉按钮显示的当前面
+            if (face === 'auto') {
+                currentFaceSpan.textContent = 'AUTO ROTATE';
+            } else {
+                currentFaceSpan.textContent = face.toUpperCase();
+            }
+
+            // 关闭下拉菜单
+            dropdownContainer.classList.remove('active');
+
+            // 更新当前面索引
+            currentFaceIndex = faces.indexOf(face);
+        }
+
+        // 自动旋转函数
+        function startAutoRotate() {
+            console.log('Starting auto rotate');
+            autoIndicator.classList.add('show');
+            
+            autoRotateInterval = setInterval(() => {
+                currentFaceIndex = (currentFaceIndex + 1) % faces.length;
+                const nextFace = faces[currentFaceIndex];
+                console.log('Auto rotating to:', nextFace);
+                
+                // 移除所有面的类
+                faces.forEach(f => cube.classList.remove(`show-${f}`));
+                
+                // 添加当前面的类
+                cube.classList.add(`show-${nextFace}`);
+                
+                // 更新下拉按钮显示的当前面
+                currentFaceSpan.textContent = nextFace.toUpperCase();
+                
+            }, 2500);
+        }
+
+        // 事件监听器
+        controls.forEach((btn, index) => {
+            console.log('Setting up button:', btn.dataset.face);
+            btn.addEventListener('click', (e) => {
+                console.log('Button clicked:', btn.dataset.face);
+                const face = btn.dataset.face;
+                
+                if (face === 'auto') {
+                    if (autoRotateInterval) {
+                        clearInterval(autoRotateInterval);
+                        autoRotateInterval = null;
+                        autoIndicator.classList.remove('show');
+                        btn.classList.remove('active');
+                        console.log('Auto rotate stopped');
+                    } else {
+                        controls.forEach(c => c.classList.remove('active'));
+                        btn.classList.add('active');
+                        startAutoRotate();
+                    }
+                } else {
+                    showFace(face);
+                }
+            });
+        });
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            console.log('Key pressed:', e.key);
+            switch(e.key) {
+                case '1': showFace('front'); break;
+                case '2': showFace('back'); break;
+                case '3': showFace('right'); break;
+                case '4': showFace('left'); break;
+                case '5': showFace('top'); break;
+                case '6': showFace('bottom'); break;
+                case ' ':
+                    e.preventDefault();
+                    if (autoRotateInterval) {
+                        clearInterval(autoRotateInterval);
+                        autoRotateInterval = null;
+                        autoIndicator.classList.remove('show');
+                        controls.forEach(c => c.classList.remove('active'));
+                    }
+                    currentFaceIndex = (currentFaceIndex + 1) % faces.length;
+                    showFace(faces[currentFaceIndex]);
+                    break;
+                case 'a':
+                case 'A':
+                    const autoBtn = document.querySelector('[data-face="auto"]');
+                    if (autoBtn) autoBtn.click();
+                    break;
+            }
+        });
+
+        // 鼠标滚轮控制
+        cube.addEventListener('wheel', (e) => {
+            console.log('Wheel event:', e.deltaY);
+            e.preventDefault();
+            
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+                autoIndicator.classList.remove('show');
+                controls.forEach(c => c.classList.remove('active'));
+            }
+
+            if (e.deltaY > 0) {
+                currentFaceIndex = (currentFaceIndex + 1) % faces.length;
+            } else {
+                currentFaceIndex = (currentFaceIndex - 1 + faces.length) % faces.length;
+            }
+            
+            showFace(faces[currentFaceIndex]);
+        });
+
+        // 触摸滑动支持
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        cube.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        cube.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (autoRotateInterval) {
+                    clearInterval(autoRotateInterval);
+                    autoRotateInterval = null;
+                    autoIndicator.classList.remove('show');
+                    controls.forEach(c => c.classList.remove('active'));
+                }
+                
+                if (diffX > 0) {
+                    currentFaceIndex = (currentFaceIndex + 1) % faces.length;
+                } else {
+                    currentFaceIndex = (currentFaceIndex - 1 + faces.length) % faces.length;
+                }
+                showFace(faces[currentFaceIndex]);
+            }
+        });
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            showFace('front');
+        });
+        
+        // 如果DOM已经加载完成，立即初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('DOM loaded, initializing...');
+                showFace('front');
+            });
+        } else {
+            console.log('DOM already loaded, initializing...');
+            showFace('front');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* style.css (Final Conic Gradient Version) */
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #000; /* A black background to ensure no edge gaps */
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* 上半部分：光晕效果 */
+.top-half {
+    height: 50vh;
+    background: conic-gradient(
+        /* * 'from 270deg': 将渐变的起始点(0度)设置为正上方。
+         * 'at 50% 100%': 将渐变的"顶点"放在此元素的底部中心。
+         */
+        from 270deg at 50% 100%,
+
+        /* * 从顶点(现在是270deg)开始，向两侧(180deg和360deg)平滑过渡。
+         * 我们定义了从亮青色(#60DFFF)到白色再回到亮青色的渐变。
+         * 这会创建一个从底部中心向上和向外辐射的扇形光晕。
+         */
+        #60DFFF,
+        white,
+        #60DFFF
+    );
+}
+
+/* 下半部分：镜像光晕效果 */
+.bottom-half {
+    height: 50vh;
+    position: relative; /* For positioning the text content */
+    background: conic-gradient(
+        /* * 'from 270deg': 保持与上半部分相同的起始角度（正上方）。
+         * 'at 50% 0%': 将渐变的"顶点"放在此元素的顶部中心，形成真正的上下镜像。
+         */
+        from 270deg at 50% 0%,
+
+        /* * 这是上半部分的真正镜像效果。
+         * 使用相同的亮青色(#60DFFF)到白色再回到亮青色的渐变。
+         * 使用相同的渐变角度，只改变中心位置，这会创建一个从顶部中心向下辐射的扇形光晕，
+         * 与上方的光晕形成完美的垂直镜像对称。
+         */
+        #60DFFF,
+        white,
+        #60DFFF
+    );
+}
+
+/* 文本样式 */
+.text-content {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.6;
+    letter-spacing: 1px;
+}

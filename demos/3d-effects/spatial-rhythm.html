@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空间与节奏变化之美 - 精细优化版</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // 1. 初始化场景、相机和渲染器
+        const scene = new THREE.Scene();
+        const FOG_COLOR = 0x000310;
+        scene.background = new THREE.Color(FOG_COLOR);
+        // [优化] 添加指数雾，实现远处物体自然融入背景的深度感
+        scene.fog = new THREE.FogExp2(FOG_COLOR, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // [优化] 调整相机位置和朝向，实现更强的侧俯视透视角度
+        camera.position.set(-45, 25, 35);
+        camera.lookAt(new THREE.Vector3(0, 0, -50));
+
+        const canvas = document.querySelector('#c');
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // 2. 创建几何体
+        const ringsGroup = new THREE.Group();
+        // [优化] 圆环更细，为更密集的排列做准备
+        const torusGeometry = new THREE.TorusGeometry(1, 0.025, 16, 100); 
+        // [优化] 使用MeshStandardMaterial以响应光照和雾效
+        const torusMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x00ffff, // 青色
+            emissive: 0x00ffff, // 自发光颜色
+            emissiveIntensity: 0.5 // 自发光强度
+        });
+
+        // [优化] 增加圆环数量，使其更密集
+        const ringCount = 150; 
+        for (let i = 0; i < ringCount; i++) {
+            const mesh = new THREE.Mesh(torusGeometry, torusMaterial);
+            
+            // 调整函数以适应更密集的排列
+            const scale = 8 + i * i * 0.02;
+            const zPos = -i * i * 0.05;
+
+            mesh.scale.set(scale * 1.5, scale, 1);
+            mesh.position.z = zPos;
+            
+            // [优化] 增加螺旋效果
+            mesh.rotation.z = i * -0.04;
+            
+            ringsGroup.add(mesh);
+        }
+        scene.add(ringsGroup);
+
+        // 3. 添加光源
+        // [优化] 将光源置于隧道入口处，照亮前景，形成明暗对比
+        const pointLight = new THREE.PointLight(0x00ffaa, 200, 200); // 绿色光源
+        pointLight.position.set(0, 0, 15);
+        scene.add(pointLight);
+
+        // 4. 设置后期处理 - 辉光效果
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            0.8, // [优化] 调整辉光强度
+            0.6, // [优化] 调整辉光半径
+            0.2  // [优化] 调整辉光阈值
+        );
+        composer.addPass(bloomPass);
+
+        // 5. 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // 让模型组缓慢旋转，增加动感
+            ringsGroup.rotation.z += 0.001;
+
+            composer.render();
+        }
+
+        // 6. 响应窗口大小变化
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(width, height);
+            composer.setSize(width, height);
+        });
+        
+        animate();
+    </script>
+</body>
+</html>

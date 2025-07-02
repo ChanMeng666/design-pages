@@ -1,0 +1,70 @@
+/* 基本页面设置 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* 背景设置为黑色 */
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* 防止滚动 */
+}
+
+/* 海报网格容器 */
+.poster-grid {
+    display: grid;
+    /* 创建一个 6x8 的网格，每个单元格平分可用空间 */
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100vw; /* 视口宽度 */
+    height: 100vh; /* 视口高度 */
+    position: relative; /* 作为文本定位的参照物 */
+}
+
+/* 网格单元格默认样式 */
+.cell {
+    /* 默认是透明的，会显示父容器的黑色背景 */
+}
+
+/* ---- 关键的渐变样式 ---- */
+
+/* 渐变：从左到右 (红 -> 黑) */
+.gradient-right {
+    background: linear-gradient(to right, #ff0000, #000000);
+}
+
+/* 渐变：从上到下 (红 -> 黑) */
+.gradient-down {
+    background: linear-gradient(to bottom, #ff0000, #000000);
+}
+
+/* 渐变：从右到左 (红 -> 黑) */
+.gradient-left {
+    background: linear-gradient(to left, #ff0000, #000000);
+}
+
+/* 渐变：从下到上 (红 -> 黑) */
+.gradient-up {
+    background: linear-gradient(to top, #ff0000, #000000);
+}
+
+
+/* 覆盖的文本样式 */
+.text-overlay {
+    position: absolute; /* 绝对定位，脱离文档流 */
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 精确居中 */
+    color: white;
+    text-align: center;
+}
+
+.text-overlay h1 {
+    font-size: 4rem; /* 字体大一点 */
+    margin: 0;
+    line-height: 1.2;
+}
+
+.text-overlay p {
+    font-size: 3rem;
+    margin: 10px 0 0;
+}

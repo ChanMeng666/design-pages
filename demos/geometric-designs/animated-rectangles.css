@@ -1,0 +1,64 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1a0000; /* 深红色背景 */
+    overflow: hidden;
+}
+
+/* 1. 创建3D场景容器 */
+.container {
+    perspective: 800px; /* 设置透视距离，数值越大透视效果越弱 */
+}
+
+/* 2. 矩形包裹器，用于整体旋转 */
+.rectangle-wrapper {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d; /* 让子元素保持3D变换 */
+    /* 模仿截图中的倾斜视角 */
+    transform: rotateX(60deg) rotateY(0deg) rotateZ(-30deg);
+    animation: rotate-animation 20s infinite linear;
+}
+
+/* 3. 单个矩形的样式 */
+.rectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 105, 180, 0.1); /* 粉红色，低透明度 */
+    border: 1px solid rgba(255, 105, 180, 0.3); /* 轻微的边框增加轮廓感 */
+    box-sizing: border-box;
+}
+
+/* 4. 规律复制和位移 - 手动为每个矩形设置Z轴位移 */
+.rectangle:nth-child(1) { transform: translateZ(0px); }
+.rectangle:nth-child(2) { transform: translateZ(-20px); }
+.rectangle:nth-child(3) { transform: translateZ(-40px); }
+.rectangle:nth-child(4) { transform: translateZ(-60px); }
+.rectangle:nth-child(5) { transform: translateZ(-80px); }
+.rectangle:nth-child(6) { transform: translateZ(-100px); }
+.rectangle:nth-child(7) { transform: translateZ(-120px); }
+.rectangle:nth-child(8) { transform: translateZ(-140px); }
+.rectangle:nth-child(9) { transform: translateZ(-160px); }
+.rectangle:nth-child(10) { transform: translateZ(-180px); }
+.rectangle:nth-child(11) { transform: translateZ(-200px); }
+.rectangle:nth-child(12) { transform: translateZ(-220px); }
+.rectangle:nth-child(13) { transform: translateZ(-240px); }
+.rectangle:nth-child(14) { transform: translateZ(-260px); }
+.rectangle:nth-child(15) { transform: translateZ(-280px); }
+
+
+/* (可选) 增加一个缓慢旋转的动画，让效果更迷幻 */
+@keyframes rotate-animation {
+    from {
+        transform: rotateX(60deg) rotateY(0deg) rotateZ(-30deg);
+    }
+    to {
+        transform: rotateX(60deg) rotateY(360deg) rotateZ(-30deg);
+    }
+}
