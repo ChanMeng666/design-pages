@@ -50,7 +50,7 @@
             animation-play-state: paused;
         }
 
-        /* 六个面的旋转状态 */
+        /* Rotation states for six faces */
         .cube.show-front { 
             transform: rotateX(-15deg) rotateY(25deg) rotateZ(5deg); 
         }
@@ -70,7 +70,7 @@
             transform: rotateX(75deg) rotateY(25deg) rotateZ(5deg); 
         }
 
-        /* 禁用浮动动画当有show-*类时 */
+        /* Disable floating animation when show-* classes are present */
         .cube[class*="show-"] {
             animation: none;
         }
@@ -149,7 +149,7 @@
             }
         }
 
-        /* 控制按钮样式 */
+        /* Control button styles */
         .controls {
             position: absolute;
             bottom: 120px;
@@ -224,7 +224,7 @@
             overflow-y: auto;
         }
 
-        /* 向上展开的样式 */
+        /* Upward expansion styles */
         .dropdown-container.dropup .dropdown-menu {
             top: auto;
             bottom: 100%;
@@ -238,7 +238,7 @@
             transform: translateY(0);
         }
 
-        /* 自定义滚动条 */
+        /* Custom scrollbar */
         .dropdown-menu::-webkit-scrollbar {
             width: 6px;
         }
@@ -292,7 +292,7 @@
             color: white;
         }
 
-        /* 自动旋转指示器 */
+        /* Auto rotation indicator */
         .auto-rotate-indicator {
             position: absolute;
             top: 120px;
@@ -319,7 +319,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 响应式设计 */
+        /* Responsive design */
         @media (max-width: 768px) {
             .cube {
                 width: 200px;
@@ -489,7 +489,7 @@
             'bottom': '🔥 BOTTOM'
         };
 
-        // 检测并设置下拉菜单方向
+        // Detect and set dropdown menu direction
         function setDropdownDirection() {
             if (!dropdownContainer) return;
             
@@ -499,7 +499,7 @@
             const spaceBelow = viewportHeight - rect.bottom;
             const spaceAbove = rect.top;
             
-            // 根据屏幕尺寸确定预期菜单高度
+            // Determine expected menu height based on screen size
             let menuHeight = 200;
             if (viewportWidth <= 360) {
                 menuHeight = 120;
@@ -509,10 +509,10 @@
                 menuHeight = 180;
             }
             
-            // 添加安全边距
+            // Add safety margin
             const safeMargin = 20;
             
-            // 如果下方空间不足且上方空间更大，则向上展开
+            // If space below is insufficient and space above is larger, expand upward
             if (spaceBelow < (menuHeight + safeMargin) && spaceAbove > spaceBelow) {
                 dropdownContainer.classList.add('dropup');
             } else {
@@ -520,11 +520,11 @@
             }
         }
 
-        // 下拉菜单控制
+        // Dropdown menu control
         dropdownToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            // 在切换之前检测方向
+            // Detect direction before toggling
             if (!dropdownContainer.classList.contains('active')) {
                 setDropdownDirection();
             }
@@ -532,66 +532,66 @@
             dropdownContainer.classList.toggle('active');
         });
 
-        // 点击外部关闭下拉菜单
+        // Click outside to close dropdown menu
         document.addEventListener('click', (e) => {
             if (!dropdownContainer.contains(e.target)) {
                 dropdownContainer.classList.remove('active');
             }
         });
 
-        // 窗口大小改变时重新检测方向
+        // Re-detect direction when window size changes
         window.addEventListener('resize', () => {
             if (dropdownContainer.classList.contains('active')) {
                 setDropdownDirection();
             }
         });
 
-        // 滚动时重新检测方向
+        // Re-detect direction when scrolling
         window.addEventListener('scroll', () => {
             if (dropdownContainer.classList.contains('active')) {
                 setDropdownDirection();
             }
         });
 
-        // 手动控制函数
+        // Manual control function
         function showFace(face) {
-            // 清除自动旋转
+            // Clear auto rotation
             if (autoRotateInterval) {
                 clearInterval(autoRotateInterval);
                 autoRotateInterval = null;
                 autoIndicator.classList.remove('show');
             }
 
-            // 移除所有面的类
+            // Remove all face classes
             faces.forEach(f => {
                 cube.classList.remove(`show-${f}`);
             });
             
-            // 添加当前面的类
+            // Add current face class
             cube.classList.add(`show-${face}`);
 
-            // 更新按钮状态
+            // Update button state
             controls.forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.querySelector(`[data-face="${face}"]`);
             if (activeBtn) {
                 activeBtn.classList.add('active');
             }
 
-            // 更新下拉按钮显示的当前面
+            // Update current face display in dropdown button
             if (face === 'auto') {
                 currentFaceSpan.textContent = '🔄 AUTO ROTATE';
             } else {
                 currentFaceSpan.textContent = faceEmojis[face];
             }
 
-            // 关闭下拉菜单
+            // Close dropdown menu
             dropdownContainer.classList.remove('active');
 
-            // 更新当前面索引
+            // Update current face index
             currentFaceIndex = faces.indexOf(face);
         }
 
-        // 自动旋转函数
+        // Auto rotation function
         function startAutoRotate() {
             autoIndicator.classList.add('show');
             
@@ -599,19 +599,19 @@
                 currentFaceIndex = (currentFaceIndex + 1) % faces.length;
                 const nextFace = faces[currentFaceIndex];
                 
-                // 移除所有面的类
+                // Remove all face classes
                 faces.forEach(f => cube.classList.remove(`show-${f}`));
                 
-                // 添加当前面的类
+                // Add current face class
                 cube.classList.add(`show-${nextFace}`);
                 
-                // 更新下拉按钮显示的当前面
+                // Update current face display in dropdown button
                 currentFaceSpan.textContent = faceEmojis[nextFace];
                 
             }, 2500);
         }
 
-        // 事件监听器
+        // Event listeners
         controls.forEach((btn, index) => {
             btn.addEventListener('click', (e) => {
                 const face = btn.dataset.face;
@@ -633,7 +633,7 @@
             });
         });
 
-        // 键盘控制
+        // Keyboard control
         document.addEventListener('keydown', (e) => {
             switch(e.key) {
                 case '1': showFace('front'); break;
@@ -661,7 +661,7 @@
             }
         });
 
-        // 鼠标滚轮控制
+        // Mouse wheel control
         cube.addEventListener('wheel', (e) => {
             e.preventDefault();
             
@@ -681,7 +681,7 @@
             showFace(faces[currentFaceIndex]);
         });
 
-        // 触摸滑动支持
+        // Touch swipe support
         let touchStartX = 0;
         let touchStartY = 0;
 
@@ -713,7 +713,7 @@
             }
         });
 
-        // 页面加载完成后初始化
+        // Initialize after page load completion
         showFace('front');
     </script>
 </body>

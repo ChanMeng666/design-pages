@@ -1,65 +1,65 @@
-/* 基本页面设置 */
+/* Basic page setup */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: #000; /* 背景设置为黑色 */
+    background-color: #000; /* Background set to black */
     font-family: Arial, sans-serif;
-    overflow: hidden; /* 防止滚动 */
+    overflow: hidden; /* Prevent scrolling */
 }
 
-/* 海报网格容器 */
+/* Poster grid container */
 .poster-grid {
     display: grid;
-    /* 创建一个 6x8 的网格，每个单元格平分可用空间 */
+    /* Create a 6x8 grid, each cell divides the available space equally */
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    width: 100vw; /* 视口宽度 */
-    height: 100vh; /* 视口高度 */
-    position: relative; /* 作为文本定位的参照物 */
+    width: 100vw; /* Viewport width */
+    height: 100vh; /* Viewport height */
+    position: relative; /* As reference for text positioning */
 }
 
-/* 网格单元格默认样式 */
+/* Grid cell default styles */
 .cell {
-    /* 默认是透明的，会显示父容器的黑色背景 */
+    /* Default is transparent, will show the parent container's black background */
 }
 
-/* ---- 关键的渐变样式 ---- */
+/* ---- Key gradient styles ---- */
 
-/* 渐变：从左到右 (红 -> 黑) */
+/* Gradient: left to right (red -> black) */
 .gradient-right {
     background: linear-gradient(to right, #ff0000, #000000);
 }
 
-/* 渐变：从上到下 (红 -> 黑) */
+/* Gradient: top to bottom (red -> black) */
 .gradient-down {
     background: linear-gradient(to bottom, #ff0000, #000000);
 }
 
-/* 渐变：从右到左 (红 -> 黑) */
+/* Gradient: right to left (red -> black) */
 .gradient-left {
     background: linear-gradient(to left, #ff0000, #000000);
 }
 
-/* 渐变：从下到上 (红 -> 黑) */
+/* Gradient: bottom to top (red -> black) */
 .gradient-up {
     background: linear-gradient(to top, #ff0000, #000000);
 }
 
 
-/* 覆盖的文本样式 */
+/* Overlay text styles */
 .text-overlay {
-    position: absolute; /* 绝对定位，脱离文档流 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 精确居中 */
+    position: absolute; /* Absolute positioning, removed from document flow */
+    top: 50%; /* Vertical center */
+    left: 50%; /* Horizontal center */
+    transform: translate(-50%, -50%); /* Precise centering */
     color: white;
     text-align: center;
 }
 
 .text-overlay h1 {
-    font-size: 4rem; /* 字体大一点 */
+    font-size: 4rem; /* Make font size larger */
     margin: 0;
     line-height: 1.2;
 }

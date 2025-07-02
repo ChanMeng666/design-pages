@@ -33,74 +33,74 @@
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-        // 1. 初始化场景、相机和渲染器
+        // 1. Initialize scene, camera and renderer
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        // 调整相机位置，以获得类似截图的透视角度
+        // Adjust camera position to achieve perspective angle similar to screenshot
         camera.position.set(-15, 10, 40);
 
         const canvas = document.querySelector('#c');
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-        // 设置一个非常深的蓝色作为背景
+        // Set a very deep blue as background
         renderer.setClearColor(0x000515);
 
-        // 2. 创建几何体（一系列圆环）
+        // 2. Create geometry (a series of rings)
         const ringsGroup = new THREE.Group();
-        const torusGeometry = new THREE.TorusGeometry(1, 0.05, 16, 100); // 半径1, 管粗0.05
-        const torusMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // 亮青色
+        const torusGeometry = new THREE.TorusGeometry(1, 0.05, 16, 100); // radius 1, tube thickness 0.05
+        const torusMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // bright cyan
 
         const ringCount = 60;
         for (let i = 0; i < ringCount; i++) {
             const mesh = new THREE.Mesh(torusGeometry, torusMaterial);
             
-            // 使用二次函数来控制半径和位置，形成节奏感
+            // Use quadratic function to control radius and position for rhythmic effect
             const scale = 5 + i * i * 0.03;
             const zPos = -i * i * 0.1;
 
-            mesh.scale.set(scale * 1.5, scale, 1); // X轴拉伸，形成椭圆
+            mesh.scale.set(scale * 1.5, scale, 1); // X-axis stretch to form ellipse
             mesh.position.z = zPos;
             
             ringsGroup.add(mesh);
         }
         scene.add(ringsGroup);
 
-        // 3. 添加光源 (用于增强辉光效果)
-        const pointLight = new THREE.PointLight(0x00ffaa, 5, 100); // 强烈的绿色光源
-        pointLight.position.set(-20, 15, 20); // 放置在左上角
+        // 3. Add light source (for enhancing bloom effect)
+        const pointLight = new THREE.PointLight(0x00ffaa, 5, 100); // intense green light source
+        pointLight.position.set(-20, 15, 20); // positioned at upper left
         scene.add(pointLight);
 
-        // 添加一个微弱的环境光，让暗部不至于死黑
+        // Add weak ambient light to prevent dark areas from being completely black
         const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
         scene.add(ambientLight);
 
-        // 4. 设置后期处理 - 辉光效果 (Bloom)
+        // 4. Setup post-processing - bloom effect
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
 
         const bloomPass = new UnrealBloomPass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
-            1.2, // strength: 辉光强度
-            0.5, // radius: 辉光半径
-            0.1  // threshold: 辉光触发阈值
+            1.2, // strength: bloom intensity
+            0.5, // radius: bloom radius
+            0.1  // threshold: bloom trigger threshold
         );
         composer.addPass(bloomPass);
 
-        // 5. 动画循环
+        // 5. Animation loop
         function animate() {
             requestAnimationFrame(animate);
 
-            // 让模型组缓慢旋转，增加动感
+            // Make model group rotate slowly for dynamic effect
             ringsGroup.rotation.z += 0.002;
             ringsGroup.rotation.x += 0.0005;
 
-            // 使用 composer 进行渲染
+            // Use composer for rendering
             composer.render();
         }
 
-        // 6. 响应窗口大小变化
+        // 6. Handle window resize
         window.addEventListener('resize', () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
@@ -112,7 +112,7 @@
             composer.setSize(width, height);
         });
         
-        // 启动动画
+        // Start animation
         animate();
     </script>
 </body>

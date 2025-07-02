@@ -65,12 +65,12 @@
             left: 50%;
             transform: translateX(-50%);
             background: radial-gradient(circle at 40% 60%, 
-                #8B5CF6 0%,     /* 深紫色中心 */
-                #A855F7 15%,    /* 紫色 */
-                #EC4899 35%,    /* 亮粉色 */
-                #F97316 60%,    /* 橙色 */
-                #FCD34D 85%,    /* 黄色 */
-                #FEF3C7 100%);  /* 淡黄色边缘 */
+                #8B5CF6 0%,     /* Deep purple center */
+                #A855F7 15%,    /* Purple */
+                #EC4899 35%,    /* Bright pink */
+                #F97316 60%,    /* Orange */
+                #FCD34D 85%,    /* Yellow */
+                #FEF3C7 100%);  /* Light yellow edge */
             animation-delay: 0s;
         }
 
@@ -79,16 +79,16 @@
             left: 50%;
             transform: translateX(-50%);
             background: radial-gradient(circle at 60% 40%, 
-                #FCD34D 0%,     /* 黄色中心 */
-                #F59E0B 15%,    /* 橙黄色 */
-                #F97316 30%,    /* 橙色 */
-                #EC4899 55%,    /* 粉色 */
-                #C026D3 75%,    /* 深粉色 */
-                #8B5CF6 100%);  /* 紫色边缘 */
+                #FCD34D 0%,     /* Yellow center */
+                #F59E0B 15%,    /* Orange-yellow */
+                #F97316 30%,    /* Orange */
+                #EC4899 55%,    /* Pink */
+                #C026D3 75%,    /* Deep pink */
+                #8B5CF6 100%);  /* Purple edge */
             animation-delay: -3s;
         }
 
-        /* 添加光晕效果 */
+        /* Add glow effect */
         .circle::before {
             content: '';
             position: absolute;
@@ -103,7 +103,7 @@
             z-index: -1;
         }
 
-        /* 添加内部高光效果 */
+        /* Add inner highlight effect */
         .circle::after {
             content: '';
             position: absolute;
@@ -125,7 +125,7 @@
             }
         }
 
-        /* 响应式设计 */
+        /* Responsive design */
         @media (max-width: 768px) {
             .text-overlay {
                 font-size: 1.8rem;
@@ -143,7 +143,7 @@
             }
         }
 
-        /* 增强的背景纹理 */
+        /* Enhanced background texture */
         body::before {
             content: '';
             position: fixed;

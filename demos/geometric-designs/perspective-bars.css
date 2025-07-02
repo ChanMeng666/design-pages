@@ -1,6 +1,6 @@
 /* style.css */
 body {
-    background-color: #f0f0f0; /* 接近原图的浅灰色背景 */
+    background-color: #f0f0f0; /* Light gray background close to the original image */
     font-family: 'Helvetica', 'Arial', sans-serif;
     display: flex;
     justify-content: center;
@@ -11,39 +11,39 @@ body {
 
 .poster {
     position: relative;
-    width: 800px; /* 根据需要调整海报尺寸 */
+    width: 800px; /* Adjust poster size as needed */
     padding: 50px;
 }
 
-/* 主效果容器：设置透视 */
+/* Main effect container: Set perspective */
 .bars-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* 关键：设置透视距离，数值越大透视效果越弱 */
+    /* Key: Set perspective distance, larger values create weaker perspective effect */
     perspective: 800px;
 }
 
-/* 单个横条的基础样式 */
+/* Base styles for individual bars */
 .bar {
-    width: 90%; /* 基础宽度 */
-    height: 12px; /* 基础高度 */
-    margin: -2px 0; /* 让横条之间有轻微重叠，-2px 是一个参考值 */
-    /* 关键：设置变换的原点在中心 */
+    width: 90%; /* Base width */
+    height: 12px; /* Base height */
+    margin: -2px 0; /* Allow slight overlap between bars, -2px is a reference value */
+    /* Key: Set transform origin at center */
     transform-origin: center center;
-    /* 关键：应用X轴旋转，具体角度由JS动态设置 */
+    /* Key: Apply X-axis rotation, specific angle set dynamically by JS */
     /* transform: rotateX(60deg); */
-    transition: transform 0.3s ease-out; /* 添加一个鼠标悬浮的过渡效果 */
+    transition: transform 0.3s ease-out; /* Add transition effect for mouse hover */
 }
 
-/* 鼠标悬浮在容器上时，所有bar回到正对状态 */
+/* When hovering over container, all bars return to straight position */
 .bars-container:hover .bar {
     transform: rotateX(0deg);
 }
 
 
-/* --- 文字样式 --- */
+/* --- Text styles --- */
 .top-left-text, .top-right-text {
     position: absolute;
     top: 50px;

@@ -17,19 +17,19 @@ body {
     overflow: hidden;
 }
 
-/* 场景：调整了perspective来增强透视感 */
+/* Scene: Adjusted perspective to enhance perspective effect */
 .scene {
     position: relative;
-    perspective: 1000px; /* <--- 修改点：减小数值，增强透视效果 */
+    perspective: 1000px; /* <--- Modification point: Reduce value to enhance perspective effect */
 }
 
-/* 包裹器：调整了旋转角度，更贴合原图视角 */
+/* Wrapper: Adjusted rotation angle for better match with original image perspective */
 .wrapper {
     width: 350px;
     height: 500px;
     position: relative;
     transform-style: preserve-3d;
-    /* <--- 修改点：调整了X和Y轴的旋转角度 */
+    /* <--- Modification point: Adjusted X and Y axis rotation angles */
     transform: rotateX(20deg) rotateY(42deg);
 }
 .rectangle {

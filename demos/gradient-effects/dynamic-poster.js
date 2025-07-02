@@ -1,24 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const gridContainer = document.getElementById('posterGrid');
-    const columns = 6;
-    const rows = 8;
-    const totalCells = columns * rows;
+document.addEventListener('DOMContentLoaded', function() {
+    const posterGrid = document.querySelector('.poster-grid');
 
-    // 定义所有可能的渐变样式
+    // Define all possible gradient styles
     const gradientClasses = ['gradient-right', 'gradient-down', 'gradient-left', 'gradient-up'];
 
-    for (let i = 0; i < totalCells; i++) {
+    // Create 48 cells (6 columns × 8 rows)
+    for (let i = 0; i < 48; i++) {
         const cell = document.createElement('div');
-        cell.classList.add('cell');
-
-        // 通过一个随机阈值，决定这个单元格是否有渐变效果
-        // Math.random() > 0.7 表示大约有 30% 的概率添加渐变
+        cell.className = 'cell';
+        
+        // Through a random threshold, decide whether this cell has gradient effect
+        // Math.random() > 0.7 means approximately 30% probability of adding gradient
         if (Math.random() > 0.7) {
-            // 从渐变样式数组中随机选一个
+            // Randomly select one from the gradient styles array
             const randomGradient = gradientClasses[Math.floor(Math.random() * gradientClasses.length)];
             cell.classList.add(randomGradient);
         }
-
-        gridContainer.appendChild(cell);
+        
+        posterGrid.appendChild(cell);
     }
 });
