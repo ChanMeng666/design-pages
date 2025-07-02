@@ -191,7 +191,7 @@ class Gallery {
     const categorySelect = document.getElementById('categorySelect');
     if (categorySelect && Object.keys(this.categories).length > 0) {
       categorySelect.innerHTML = `
-        <option value="all">所有分类 (${this.works.length})</option>
+        <option value="all">All Categories (${this.works.length})</option>
         ${Object.entries(this.categories).map(([key, category]) => {
           const count = this.works.filter(work => work.category === key).length;
           return `<option value="${key}">${category.name} (${count})</option>`;
