@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK007 Design - 3D Cube Effect</title>
+    <title></title>
     <style>
         * {
             margin: 0;
@@ -28,40 +28,6 @@
             justify-content: center;
             align-items: center;
             position: relative;
-        }
-
-        .header-text {
-            position: absolute;
-            top: 80px;
-            left: 80px;
-            z-index: 10;
-        }
-
-        .simple-design {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .chinese-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 1px;
-        }
-
-        .footer-text {
-            position: absolute;
-            bottom: 80px;
-            right: 80px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #666;
-            letter-spacing: 1px;
-            text-align: right;
-            line-height: 1.5;
         }
 
         .cube-container {
@@ -116,8 +82,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Arial Black', sans-serif;
-            font-weight: 900;
+            font-size: 80px;
             text-align: center;
             line-height: 1.2;
         }
@@ -125,56 +90,31 @@
         .front {
             background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
             transform: translateZ(150px);
-            color: white;
-            font-size: 42px;
-            letter-spacing: 2px;
         }
 
         .back {
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
             transform: translateZ(-150px) rotateY(180deg);
-            color: white;
-            font-size: 28px;
         }
 
         .right {
             background: linear-gradient(135deg, #404040 0%, #2c2c2c 100%);
             transform: rotateY(90deg) translateZ(150px);
-            color: white;
-            font-size: 24px;
         }
 
         .left {
             background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
             transform: rotateY(-90deg) translateZ(150px);
-            color: white;
-            font-size: 24px;
         }
 
         .top {
             background: linear-gradient(135deg, #505050 0%, #404040 100%);
             transform: rotateX(90deg) translateZ(150px);
-            color: white;
-            font-size: 24px;
         }
 
         .bottom {
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
             transform: rotateX(-90deg) translateZ(150px);
-            color: white;
-            font-size: 24px;
-        }
-
-        .main-text {
-            font-size: 48px;
-            line-height: 0.9;
-        }
-
-        .sub-text {
-            font-size: 12px;
-            margin-top: 10px;
-            opacity: 0.8;
-            letter-spacing: 1px;
         }
 
         @keyframes float {
@@ -389,11 +329,11 @@
             .cube-face {
                 width: 200px;
                 height: 200px;
+                font-size: 60px;
             }
             
             .front {
                 transform: translateZ(100px);
-                font-size: 28px;
             }
             
             .back {
@@ -414,20 +354,6 @@
             
             .bottom {
                 transform: rotateX(-90deg) translateZ(100px);
-            }
-            
-            .main-text {
-                font-size: 32px;
-            }
-            
-            .header-text {
-                top: 40px;
-                left: 40px;
-            }
-            
-            .footer-text {
-                bottom: 40px;
-                right: 40px;
             }
             
             .controls {
@@ -468,25 +394,6 @@
                 letter-spacing: 0.5px;
             }
             
-            .header-text {
-                top: 20px;
-                left: 20px;
-            }
-            
-            .simple-design {
-                font-size: 12px;
-            }
-            
-            .chinese-text {
-                font-size: 20px;
-            }
-            
-            .footer-text {
-                bottom: 20px;
-                right: 20px;
-                font-size: 11px;
-            }
-            
             .dropdown-container.active .dropdown-menu {
                 max-height: 150px;
             }
@@ -516,54 +423,26 @@
 </head>
 <body>
     <div class="container">
-        <div class="header-text">
-            <div class="simple-design">SIMPLE</div>
-            <div class="simple-design">DESIGN</div>
-            <div class="chinese-text">极简效果就出现了</div>
-        </div>
-        
         <div class="cube-container">
             <div class="shadow"></div>
             <div class="cube">
                 <div class="cube-face front">
-                    <div>
-                        <div class="main-text">AK007</div>
-                        <div class="main-text">DESIGN</div>
-                        <div class="sub-text">THE ABOVE</div>
-                        <div class="sub-text">CONTENT</div>
-                        <div class="sub-text">WAS CREATED</div>
-                        <div class="sub-text">BY AK007</div>
-                    </div>
+                    🎨
                 </div>
                 <div class="cube-face back">
-                    <div>
-                        <div style="font-size: 36px; margin-bottom: 10px;">BACK</div>
-                        <div style="font-size: 16px; opacity: 0.8;">DESIGN<br>STUDIO</div>
-                    </div>
+                    🚀
                 </div>
                 <div class="cube-face right">
-                    <div>
-                        <div style="font-size: 36px; margin-bottom: 10px;">RIGHT</div>
-                        <div style="font-size: 16px; opacity: 0.8;">CREATIVE<br>SOLUTIONS</div>
-                    </div>
+                    ⭐
                 </div>
                 <div class="cube-face left">
-                    <div>
-                        <div style="font-size: 36px; margin-bottom: 10px;">LEFT</div>
-                        <div style="font-size: 16px; opacity: 0.8;">MINIMAL<br>APPROACH</div>
-                    </div>
+                    🌙
                 </div>
                 <div class="cube-face top">
-                    <div>
-                        <div style="font-size: 36px; margin-bottom: 10px;">TOP</div>
-                        <div style="font-size: 16px; opacity: 0.8;">INNOVATION</div>
-                    </div>
+                    ☀️
                 </div>
                 <div class="cube-face bottom">
-                    <div>
-                        <div style="font-size: 36px; margin-bottom: 10px;">BOTTOM</div>
-                        <div style="font-size: 16px; opacity: 0.8;">FOUNDATION</div>
-                    </div>
+                    🔥
                 </div>
             </div>
         </div>
@@ -571,17 +450,17 @@
         <div class="controls">
             <div class="dropdown-container">
                 <button class="dropdown-toggle" id="controlsToggle">
-                    <span class="current-face">FRONT</span>
+                    <span class="current-face">🎨 FRONT</span>
                     <span class="dropdown-arrow">▼</span>
                 </button>
                 <div class="dropdown-menu">
-                    <button class="control-btn active" data-face="front">FRONT</button>
-                    <button class="control-btn" data-face="back">BACK</button>
-                    <button class="control-btn" data-face="right">RIGHT</button>
-                    <button class="control-btn" data-face="left">LEFT</button>
-                    <button class="control-btn" data-face="top">TOP</button>
-                    <button class="control-btn" data-face="bottom">BOTTOM</button>
-                    <button class="control-btn" data-face="auto">AUTO ROTATE</button>
+                    <button class="control-btn active" data-face="front">🎨 FRONT</button>
+                    <button class="control-btn" data-face="back">🚀 BACK</button>
+                    <button class="control-btn" data-face="right">⭐ RIGHT</button>
+                    <button class="control-btn" data-face="left">🌙 LEFT</button>
+                    <button class="control-btn" data-face="top">☀️ TOP</button>
+                    <button class="control-btn" data-face="bottom">🔥 BOTTOM</button>
+                    <button class="control-btn" data-face="auto">🔄 AUTO ROTATE</button>
                 </div>
             </div>
         </div>
@@ -589,15 +468,9 @@
         <div class="auto-rotate-indicator">
             Auto Rotating
         </div>
-        
-        <div class="footer-text">
-            GRAPHICAL<br>CHANGES
-        </div>
     </div>
 
     <script>
-        console.log('JavaScript loaded'); // 调试用
-        
         const cube = document.querySelector('.cube');
         const controls = document.querySelectorAll('.control-btn');
         const autoIndicator = document.querySelector('.auto-rotate-indicator');
@@ -607,14 +480,14 @@
         let autoRotateInterval;
         let currentFaceIndex = 0;
         const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
-
-        console.log('Elements found:', {
-            cube: !!cube,
-            controls: controls.length,
-            autoIndicator: !!autoIndicator,
-            dropdownContainer: !!dropdownContainer,
-            dropdownToggle: !!dropdownToggle
-        });
+        const faceEmojis = {
+            'front': '🎨 FRONT',
+            'back': '🚀 BACK',
+            'right': '⭐ RIGHT',
+            'left': '🌙 LEFT',
+            'top': '☀️ TOP',
+            'bottom': '🔥 BOTTOM'
+        };
 
         // 检测并设置下拉菜单方向
         function setDropdownDirection() {
@@ -636,24 +509,14 @@
                 menuHeight = 180;
             }
             
-            console.log('Space detection:', {
-                spaceBelow,
-                spaceAbove,
-                menuHeight,
-                viewportHeight,
-                viewportWidth
-            });
-            
             // 添加安全边距
             const safeMargin = 20;
             
             // 如果下方空间不足且上方空间更大，则向上展开
             if (spaceBelow < (menuHeight + safeMargin) && spaceAbove > spaceBelow) {
                 dropdownContainer.classList.add('dropup');
-                console.log('Using dropup');
             } else {
                 dropdownContainer.classList.remove('dropup');
-                console.log('Using dropdown');
             }
         }
 
@@ -667,7 +530,6 @@
             }
             
             dropdownContainer.classList.toggle('active');
-            console.log('Dropdown toggled:', dropdownContainer.classList.contains('active'));
         });
 
         // 点击外部关闭下拉菜单
@@ -693,8 +555,6 @@
 
         // 手动控制函数
         function showFace(face) {
-            console.log('Showing face:', face);
-            
             // 清除自动旋转
             if (autoRotateInterval) {
                 clearInterval(autoRotateInterval);
@@ -709,7 +569,6 @@
             
             // 添加当前面的类
             cube.classList.add(`show-${face}`);
-            console.log('Cube classes:', cube.className);
 
             // 更新按钮状态
             controls.forEach(btn => btn.classList.remove('active'));
@@ -720,9 +579,9 @@
 
             // 更新下拉按钮显示的当前面
             if (face === 'auto') {
-                currentFaceSpan.textContent = 'AUTO ROTATE';
+                currentFaceSpan.textContent = '🔄 AUTO ROTATE';
             } else {
-                currentFaceSpan.textContent = face.toUpperCase();
+                currentFaceSpan.textContent = faceEmojis[face];
             }
 
             // 关闭下拉菜单
@@ -734,13 +593,11 @@
 
         // 自动旋转函数
         function startAutoRotate() {
-            console.log('Starting auto rotate');
             autoIndicator.classList.add('show');
             
             autoRotateInterval = setInterval(() => {
                 currentFaceIndex = (currentFaceIndex + 1) % faces.length;
                 const nextFace = faces[currentFaceIndex];
-                console.log('Auto rotating to:', nextFace);
                 
                 // 移除所有面的类
                 faces.forEach(f => cube.classList.remove(`show-${f}`));
@@ -749,16 +606,14 @@
                 cube.classList.add(`show-${nextFace}`);
                 
                 // 更新下拉按钮显示的当前面
-                currentFaceSpan.textContent = nextFace.toUpperCase();
+                currentFaceSpan.textContent = faceEmojis[nextFace];
                 
             }, 2500);
         }
 
         // 事件监听器
         controls.forEach((btn, index) => {
-            console.log('Setting up button:', btn.dataset.face);
             btn.addEventListener('click', (e) => {
-                console.log('Button clicked:', btn.dataset.face);
                 const face = btn.dataset.face;
                 
                 if (face === 'auto') {
@@ -767,7 +622,6 @@
                         autoRotateInterval = null;
                         autoIndicator.classList.remove('show');
                         btn.classList.remove('active');
-                        console.log('Auto rotate stopped');
                     } else {
                         controls.forEach(c => c.classList.remove('active'));
                         btn.classList.add('active');
@@ -781,7 +635,6 @@
 
         // 键盘控制
         document.addEventListener('keydown', (e) => {
-            console.log('Key pressed:', e.key);
             switch(e.key) {
                 case '1': showFace('front'); break;
                 case '2': showFace('back'); break;
@@ -810,7 +663,6 @@
 
         // 鼠标滚轮控制
         cube.addEventListener('wheel', (e) => {
-            console.log('Wheel event:', e.deltaY);
             e.preventDefault();
             
             if (autoRotateInterval) {
@@ -862,21 +714,7 @@
         });
 
         // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM loaded, initializing...');
-            showFace('front');
-        });
-        
-        // 如果DOM已经加载完成，立即初始化
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('DOM loaded, initializing...');
-                showFace('front');
-            });
-        } else {
-            console.log('DOM already loaded, initializing...');
-            showFace('front');
-        }
+        showFace('front');
     </script>
 </body>
 </html>
