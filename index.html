@@ -190,11 +190,11 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:hello@chanmeng.design">hello@chanmeng.design</a></p>
+                    <p><a href="mailto:chanmeng.dev@gmail.com">chanmeng.dev@gmail.com</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Chan Meng. All rights reserved.</p>
+                <p>&copy; <span id="currentYear"></span> Chan Meng. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -214,16 +214,21 @@
         "@type": "Person",
         "name": "Chan Meng"
       },
-      "url": "https://chanmeng.github.io/design-pages",
-      "dateCreated": "2024-01-01",
+      "url": "https://chanmeng666.github.io/design-pages/",
+      "dateCreated": "2025-07-02",
       "genre": "Web Design",
       "inLanguage": "en-US"
     }
     </script>
 
     <script>
-        // Hide loading state once gallery is initialized
+        // Set current year in footer
         document.addEventListener('DOMContentLoaded', () => {
+            const currentYearElement = document.getElementById('currentYear');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+            
             const loadingState = document.getElementById('loadingState');
             
             // Check if gallery is loaded

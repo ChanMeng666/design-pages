@@ -215,12 +215,14 @@ class Gallery {
     // Setup work card click handlers
     grid.querySelectorAll('.work-card').forEach(card => {
       card.addEventListener('click', (e) => {
-        // Don't trigger if clicking on action buttons
-        if (e.target.closest('.work-actions')) return;
+        // Don't trigger if clicking on action buttons or iframe
+        if (e.target.closest('.work-actions') || e.target.closest('.work-preview-iframe')) return;
         
         const workId = card.dataset.workId;
         const work = this.works.find(w => w.id === workId);
-        if (work) this.openModal(work);
+        if (work) {
+          window.open(work.path, '_blank');
+        }
       });
     });
 
@@ -232,12 +234,24 @@ class Gallery {
         const workId = e.target.closest('.work-card').dataset.workId;
         const work = this.works.find(w => w.id === workId);
         
-        if (action === 'preview') {
-          this.openModal(work);
-        } else if (action === 'open') {
+        if (action === 'open') {
           window.open(work.path, '_blank');
         }
       });
+    });
+
+    // Setup iframe interaction prevention for smooth card hover
+    grid.querySelectorAll('.work-preview-iframe').forEach(iframe => {
+      iframe.addEventListener('mouseenter', (e) => {
+        e.target.style.pointerEvents = 'none';
+      });
+      
+      const card = iframe.closest('.work-card');
+      if (card) {
+        card.addEventListener('mouseleave', () => {
+          iframe.style.pointerEvents = 'auto';
+        });
+      }
     });
   }
 
@@ -248,7 +262,19 @@ class Gallery {
     return `
       <div class="work-card ${isListView ? 'list-view' : ''}" data-work-id="${work.id}">
         <div class="work-preview ${isListView ? 'list-view' : ''}">
-          <div class="work-preview-placeholder">${category?.icon || '🎨'}</div>
+          <iframe 
+            class="work-preview-iframe" 
+            src="${work.path}" 
+            title="${work.title} Preview"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
+          <div class="work-preview-overlay">
+            <div class="category-badge">
+              <span class="category-icon">${category?.icon || '🎨'}</span>
+              <span class="category-text">${category?.name || work.category}</span>
+            </div>
+          </div>
         </div>
         <div class="work-card-content ${isListView ? 'list-view' : ''}">
           <div class="work-card-header">
@@ -263,10 +289,7 @@ class Gallery {
           </div>
         </div>
         <div class="work-actions ${isListView ? 'list-view' : ''}">
-          <button class="action-btn primary" data-action="preview">
-            👁️ Preview
-          </button>
-          <button class="action-btn" data-action="open">
+          <button class="action-btn primary" data-action="open">
             🔗 Open
           </button>
         </div>
