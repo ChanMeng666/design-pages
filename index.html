@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore innovative digital design experiments by Chan Meng, featuring 3D effects, geometric patterns, and visual experiments.">
-    <meta name="keywords" content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects">
+    <meta name="description" content="Chan Meng Digital Design Portfolio - Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
+    <meta name="keywords" content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects, Chan Meng portfolio">
     <meta name="author" content="Chan Meng">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Chan Meng - Digital Design Portfolio">
-    <meta property="og:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, and visual experiments.">
+    <meta property="og:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chanmeng.github.io/design-pages">
     <meta property="og:image" content="https://chanmeng.github.io/design-pages/assets/images/og-image.jpg">
@@ -17,40 +17,41 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Chan Meng - Digital Design Portfolio">
-    <meta name="twitter:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, and visual experiments.">
+    <meta name="twitter:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
     <meta name="twitter:image" content="https://chanmeng.github.io/design-pages/assets/images/twitter-card.jpg">
     
     <title>Chan Meng - Digital Design Portfolio</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Montserrat:wght@600;700;900&display=swap" rel="stylesheet">
     
-    <!-- Styles -->
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/gallery.css">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="data/works.json" as="fetch" crossorigin>
 </head>
-<body>
+<body class="dark-theme">
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-container">
                 <div class="logo">
-                    <span>Chan</span>Meng
+                    <a href="index.html"><span>Chan</span>Meng</a>
                 </div>
+                
                 <nav class="nav">
                     <ul class="nav-links">
-                        <li><a href="#home" class="nav-link active">Home</a></li>
-                        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
-                        <li><a href="about.html" class="nav-link">About</a></li>
+                        <li><a href="index.html" class="nav-link active">Portfolio</a></li>
                     </ul>
+                    
                     <button class="theme-toggle" aria-label="Toggle theme">
                         <span class="theme-icon">🌙</span>
                     </button>
@@ -59,90 +60,125 @@
                     </button>
                 </nav>
             </div>
+            
+            <!-- Mobile Navigation -->
+            <nav class="mobile-nav">
+                <ul class="mobile-nav-links">
+                    <li><a href="index.html" class="nav-link">Portfolio</a></li>
+                </ul>
+            </nav>
         </div>
-        
-        <!-- Mobile Navigation -->
-        <nav class="mobile-nav">
-            <ul class="mobile-nav-links">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- Main Content -->
     <main class="main">
-        <!-- Hero Section -->
-        <section class="hero" id="home">
+        <!-- Gallery Header -->
+        <section class="gallery-header">
             <div class="container">
-                <h1 class="hero-title">Digital Design Experiments</h1>
-                <p class="hero-subtitle">
-                    Explore innovative visual effects and interactive experiences through CSS animations, 3D transforms, and experimental designs
+                <h1 class="gallery-title">Digital Design Portfolio</h1>
+                <p class="gallery-subtitle">
+                    Explore innovative digital design experiments and interactive visual experiences
                 </p>
-                <div class="hero-cta">
-                    <a href="gallery.html" class="btn btn-primary">View Gallery</a>
-                    <a href="about.html" class="btn btn-secondary">About Me</a>
+            </div>
+        </section>
+
+        <!-- Gallery Controls -->
+        <section class="gallery-controls">
+            <div class="container">
+                <div class="controls-container">
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="Search designs..."
+                            aria-label="Search designs"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <!-- Filter Controls -->
+                    <div class="filter-controls">
+                        <select id="categorySelect" class="filter-select" aria-label="Filter by category">
+                            <option value="all">All Categories</option>
+                            <option value="3d-effects">3D Effects</option>
+                            <option value="experimental">Experimental</option>
+                            <option value="geometric-designs">Geometric Designs</option>
+                            <option value="gradient-effects">Gradient Effects</option>
+                        </select>
+
+                        <select id="sortSelect" class="filter-select" aria-label="Sort works">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="title">By Title</option>
+                            <option value="category">By Category</option>
+                        </select>
+
+                        <!-- View Toggle -->
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                                🔲
+                            </button>
+                            <button class="view-btn" data-view="list" aria-label="List view">
+                                📋
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Categories Section -->
-        <section class="categories-section">
+        <!-- Gallery Content -->
+        <section class="gallery-content">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Design Categories</h2>
-                    <p class="section-subtitle">
-                        Discover different types of visual experiments and design explorations
-                    </p>
+                <!-- Loading State -->
+                <div id="loadingState" class="loading">
+                    <div class="loading-spinner"></div>
+                    <span>Loading designs...</span>
                 </div>
-                
-                <div class="categories-grid" id="categoriesGrid">
-                    <!-- Categories will be loaded by JavaScript -->
-                </div>
-            </div>
-        </section>
 
-        <!-- Featured Works Section -->
-        <section class="featured-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Featured Works</h2>
-                    <p class="section-subtitle">
-                        Selected highlights from my design portfolio
-                    </p>
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">🔍</div>
+                    <h3 class="empty-title">No designs found</h3>
+                    <p class="empty-description">Try adjusting your search or filter criteria</p>
                 </div>
-                
-                <div class="works-grid" id="featuredWorks">
-                    <!-- Featured works will be loaded by JavaScript -->
-                </div>
-            </div>
-        </section>
 
-        <!-- Stats Section -->
-        <section class="stats-section">
-            <div class="container">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number" id="totalWorks">14</div>
-                        <div class="stat-label">Design Experiments</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">4</div>
-                        <div class="stat-label">Categories</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">6</div>
-                        <div class="stat-label">Featured Projects</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">CSS & JavaScript</div>
-                    </div>
+                <!-- Works Grid -->
+                <div id="worksGrid" class="works-grid grid-view">
+                    <!-- Works will be loaded dynamically -->
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Work Preview Modal -->
+    <div id="workModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Design Preview</h2>
+                <button class="modal-close" aria-label="Close modal">✕</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="modalIframe" class="modal-iframe" src="" title="Work preview"></iframe>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-info">
+                    <!-- Work information will be loaded dynamically -->
+                </div>
+                <div class="modal-actions">
+                    <button class="action-btn" onclick="window.open(document.getElementById('modalIframe').src, '_blank')">
+                        🔗 Open in New Window
+                    </button>
+                    <button class="action-btn primary" onclick="gallery.closeModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -151,11 +187,6 @@
                 <div class="footer-section">
                     <h3>Chan Meng</h3>
                     <p>Digital designer passionate about creating innovative visual experiences through code.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <p><a href="gallery.html">Gallery</a></p>
-                    <p><a href="about.html">About</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
@@ -170,150 +201,112 @@
 
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/gallery.js"></script>
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Chan Meng Digital Design Portfolio",
+      "description": "Digital design experiments featuring 3D effects, geometric designs, gradient effects, and experimental artworks.",
+      "author": {
+        "@type": "Person",
+        "name": "Chan Meng"
+      },
+      "url": "https://chanmeng.github.io/design-pages",
+      "dateCreated": "2024-01-01",
+      "genre": "Web Design",
+      "inLanguage": "en-US"
+    }
+    </script>
+
     <script>
-        // Load and display categories and featured works
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const data = await App.fetchJSON('data/works.json');
-                if (data) {
-                    renderCategories(data.categories, data.works);
-                    renderFeaturedWorks(data.works.filter(work => work.featured));
+        // Hide loading state once gallery is initialized
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingState = document.getElementById('loadingState');
+            
+            // Check if gallery is loaded
+            const checkGalleryReady = () => {
+                if (window.gallery && window.gallery.works.length > 0) {
+                    if (loadingState) {
+                        loadingState.style.display = 'none';
+                    }
+                } else {
+                    setTimeout(checkGalleryReady, 100);
                 }
-            } catch (error) {
-                App.handleError(error, 'loading homepage data');
+            };
+            
+            checkGalleryReady();
+        });
+
+        // Analytics and performance tracking
+        if (typeof gtag !== 'undefined') {
+            // Track gallery page view
+            gtag('event', 'page_view', {
+                page_title: 'Portfolio',
+                page_location: window.location.href
+            });
+            
+            // Track search usage
+            document.getElementById('searchInput')?.addEventListener('input', App.debounce((e) => {
+                if (e.target.value.length > 2) {
+                    gtag('event', 'search', {
+                        search_term: e.target.value
+                    });
+                }
+            }, 1000));
+            
+            // Track filter usage
+            document.getElementById('categorySelect')?.addEventListener('change', (e) => {
+                gtag('event', 'filter_used', {
+                    filter_type: 'category',
+                    filter_value: e.target.value
+                });
+            });
+        }
+
+        // Accessibility improvements
+        document.addEventListener('keydown', (e) => {
+            // Navigate through works with arrow keys
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                const works = document.querySelectorAll('.work-card');
+                const currentFocus = document.activeElement;
+                const currentIndex = Array.from(works).indexOf(currentFocus);
+                
+                if (currentIndex !== -1) {
+                    e.preventDefault();
+                    const nextIndex = e.key === 'ArrowDown' 
+                        ? Math.min(currentIndex + 1, works.length - 1)
+                        : Math.max(currentIndex - 1, 0);
+                    works[nextIndex].focus();
+                }
+            }
+            
+            // Open work with Enter/Space
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('work-card')) {
+                e.preventDefault();
+                e.target.click();
             }
         });
 
-        function renderCategories(categories, works) {
-            const grid = document.getElementById('categoriesGrid');
-            if (!grid) return;
-
-            const categoryOrder = ['3d-effects', 'experimental', 'geometric-designs', 'gradient-effects'];
+        // Make work cards focusable
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new MutationObserver(() => {
+                document.querySelectorAll('.work-card').forEach(card => {
+                    if (!card.hasAttribute('tabindex')) {
+                        card.setAttribute('tabindex', '0');
+                        card.setAttribute('role', 'button');
+                        card.setAttribute('aria-label', `Preview ${card.querySelector('.work-title')?.textContent || 'work'}`);
+                    }
+                });
+            });
             
-            grid.innerHTML = categoryOrder.map(categoryId => {
-                const category = categories[categoryId];
-                const workCount = works.filter(work => work.category === categoryId).length;
-                
-                return `
-                    <div class="category-card" data-category="${categoryId}">
-                        <div class="category-count">${workCount}</div>
-                        <span class="category-icon">${category.icon}</span>
-                        <h3 class="category-name">${category.name}</h3>
-                        <p class="category-description">${category.description}</p>
-                    </div>
-                `;
-            }).join('');
-
-            // Re-setup category card click handlers
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const category = card.dataset.category;
-                    window.location.href = `gallery.html?category=${category}`;
-                });
+            observer.observe(document.getElementById('worksGrid') || document.body, {
+                childList: true,
+                subtree: true
             });
-        }
-
-        function renderFeaturedWorks(featuredWorks) {
-            const grid = document.getElementById('featuredWorks');
-            if (!grid) return;
-
-            // Create featured works grid styles if not exists
-            if (!document.querySelector('.featured-grid-styles')) {
-                const style = document.createElement('style');
-                style.className = 'featured-grid-styles';
-                style.textContent = `
-                    .featured-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                        gap: var(--space-6);
-                        margin-top: var(--space-8);
-                    }
-                    .featured-work {
-                        background: var(--card-bg);
-                        border: 1px solid var(--border-color);
-                        border-radius: var(--radius-xl);
-                        padding: var(--space-6);
-                        transition: all var(--transition-base);
-                        cursor: pointer;
-                    }
-                    .featured-work:hover {
-                        transform: translateY(-4px);
-                        box-shadow: var(--shadow-xl);
-                        border-color: var(--accent-blue);
-                    }
-                    .featured-work-header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: flex-start;
-                        margin-bottom: var(--space-4);
-                    }
-                    .featured-work-title {
-                        font-size: var(--text-xl);
-                        font-weight: var(--font-bold);
-                        color: var(--text-primary);
-                        margin: 0;
-                    }
-                    .featured-work-category {
-                        font-size: var(--text-xs);
-                        padding: var(--space-1) var(--space-3);
-                        border-radius: var(--radius-full);
-                        font-weight: var(--font-medium);
-                    }
-                    .featured-work-description {
-                        color: var(--text-secondary);
-                        margin-bottom: var(--space-4);
-                        line-height: 1.6;
-                    }
-                    .featured-work-tech {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: var(--space-2);
-                    }
-                    .tech-tag {
-                        font-size: var(--text-xs);
-                        padding: var(--space-1) var(--space-2);
-                        background: var(--hover-bg);
-                        color: var(--text-secondary);
-                        border-radius: var(--radius);
-                        border: 1px solid var(--border-color);
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            const categoryColors = {
-                '3d-effects': '#00ffff',
-                'experimental': '#ff6b9d',
-                'geometric-designs': '#4ecdc4',
-                'gradient-effects': '#ffa726'
-            };
-
-            grid.innerHTML = featuredWorks.map(work => {
-                const categoryColor = categoryColors[work.category] || '#666';
-                return `
-                    <div class="featured-work" data-work-id="${work.id}">
-                        <div class="featured-work-header">
-                            <h3 class="featured-work-title">${work.title}</h3>
-                            <span class="featured-work-category" style="background: ${categoryColor}20; color: ${categoryColor}; border: 1px solid ${categoryColor}40;">
-                                ${work.category.replace('-', ' ')}
-                            </span>
-                        </div>
-                        <p class="featured-work-description">${work.description}</p>
-                        <div class="featured-work-tech">
-                            ${work.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            // Add click handlers for featured works
-            document.querySelectorAll('.featured-work').forEach(work => {
-                work.addEventListener('click', () => {
-                    const workId = work.dataset.workId;
-                    window.location.href = `gallery.html?work=${workId}`;
-                });
-            });
-        }
+        });
     </script>
 </body>
 </html> 

@@ -264,10 +264,10 @@ class Gallery {
         </div>
         <div class="work-actions ${isListView ? 'list-view' : ''}">
           <button class="action-btn primary" data-action="preview">
-            👁️ 预览
+            👁️ Preview
           </button>
           <button class="action-btn" data-action="open">
-            🔗 打开
+            🔗 Open
           </button>
         </div>
       </div>
