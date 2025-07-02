@@ -1,5 +1,5 @@
 /**
- * Gallery JavaScript - 画廊功能实现
+ * Gallery JavaScript - Gallery functionality implementation
  */
 
 class Gallery {
@@ -278,14 +278,14 @@ class Gallery {
     container.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🔍</div>
-        <h3 class="empty-title">没有找到匹配的作品</h3>
+        <h3 class="empty-title">No matching works found</h3>
         <p class="empty-description">
           ${this.searchQuery ? 
-            `没有找到包含 "${this.searchQuery}" 的作品` : 
-            '没有符合当前筛选条件的作品'}
+            `No works found containing "${this.searchQuery}"` : 
+            'No works match the current filter criteria'}
         </p>
         <button class="btn btn-primary" onclick="gallery.clearFilters()">
-          清除筛选
+          Clear Filters
         </button>
       </div>
     `;
@@ -322,13 +322,13 @@ class Gallery {
     
     modalInfo.innerHTML = `
       <div style="margin-bottom: 1rem;">
-        <strong>分类:</strong> ${this.categories[work.category]?.name || work.category}
+        <strong>Category:</strong> ${this.categories[work.category]?.name || work.category}
       </div>
       <div style="margin-bottom: 1rem;">
-        <strong>技术栈:</strong> ${work.technologies.join(', ')}
+        <strong>Technologies:</strong> ${work.technologies.join(', ')}
       </div>
       <div>
-        <strong>描述:</strong> ${work.description}
+        <strong>Description:</strong> ${work.description}
       </div>
     `;
 
@@ -402,10 +402,10 @@ class Gallery {
       grid.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon">⚠️</div>
-          <h3 class="empty-title">加载失败</h3>
+          <h3 class="empty-title">Load Failed</h3>
           <p class="empty-description">${message}</p>
           <button class="btn btn-primary" onclick="location.reload()">
-            重新加载
+            Reload
           </button>
         </div>
       `;
@@ -471,7 +471,7 @@ const GalleryUtils = {
   // Format date
   formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-CN', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
