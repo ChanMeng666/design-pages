@@ -3,6 +3,12 @@
   --primary-bg: #0a0a0a;
   --secondary-bg: #1a1a1a;
   --card-bg: #2a2a2a;
+  
+  /* Glassmorphism Colors - Enhanced Transparency */
+  --glass-bg: rgba(26, 26, 26, 0.5);
+  --glass-card-bg: rgba(42, 42, 42, 0.4);
+  --glass-header-bg: rgba(10, 10, 10, 0.6);
+  --glass-footer-bg: rgba(26, 26, 26, 0.6);
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   --text-muted: #666666;
@@ -146,6 +152,12 @@
   --text-muted: #9ca3af;
   --border-color: #e2e8f0;
   --hover-bg: #f7fafc;
+  
+  /* Glassmorphism Colors for Light Theme - Enhanced Transparency */
+  --glass-bg: rgba(248, 249, 250, 0.5);
+  --glass-card-bg: rgba(255, 255, 255, 0.4);
+  --glass-header-bg: rgba(255, 255, 255, 0.6);
+  --glass-footer-bg: rgba(248, 249, 250, 0.6);
 }
 
 /* Dark theme class override */
@@ -158,6 +170,12 @@
   --text-muted: #666666;
   --border-color: #333333;
   --hover-bg: #333333;
+  
+  /* Glassmorphism Colors for Dark Theme - Enhanced Transparency */
+  --glass-bg: rgba(26, 26, 26, 0.5);
+  --glass-card-bg: rgba(42, 42, 42, 0.4);
+  --glass-header-bg: rgba(10, 10, 10, 0.6);
+  --glass-footer-bg: rgba(26, 26, 26, 0.6);
 }
 
 /* Keyframes */

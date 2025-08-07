@@ -128,6 +128,28 @@ a:hover {
   animation: slideIn 0.5s ease-out;
 }
 
+/* Lottie Background Animation */
+.lottie-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.lottie-player {
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(2.4);
+  opacity: 0.3;
+}
+
 /* Header */
 .header {
   position: fixed;
@@ -135,11 +157,12 @@ a:hover {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: var(--primary-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--glass-header-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: var(--z-fixed);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
@@ -203,8 +226,10 @@ a:hover {
 
 /* Theme Toggle */
 .theme-toggle {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   padding: var(--space-2);
   border-radius: var(--radius-lg);
@@ -218,8 +243,9 @@ a:hover {
 }
 
 .theme-toggle:hover {
-  background: var(--hover-bg);
+  background: rgba(255, 255, 255, 0.03);
   border-color: var(--accent-blue);
+  box-shadow: 0 4px 16px rgba(0, 255, 255, 0.2);
 }
 
 /* Mobile Menu */
@@ -239,9 +265,12 @@ a:hover {
   top: var(--header-height);
   left: 0;
   right: 0;
-  background: var(--primary-bg);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--glass-header-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: var(--z-dropdown);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-nav-links {
@@ -323,20 +352,25 @@ a:hover {
 }
 
 .btn-secondary {
-  background: var(--card-bg);
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .btn-secondary:hover {
-  background: var(--hover-bg);
+  background: rgba(255, 255, 255, 0.03);
   border-color: var(--accent-blue);
+  box-shadow: 0 4px 16px rgba(0, 255, 255, 0.2);
 }
 
 .btn-ghost {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   color: var(--text-secondary);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .btn-ghost:hover {
@@ -353,8 +387,10 @@ a:hover {
 }
 
 .category-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   text-align: center;
@@ -362,6 +398,7 @@ a:hover {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .category-card::before {
@@ -382,8 +419,8 @@ a:hover {
 
 .category-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-  border-color: transparent;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 255, 255, 0.1);
+  border-color: var(--accent-blue);
 }
 
 .category-icon {
@@ -441,9 +478,12 @@ a:hover {
 /* Stats Section */
 .stats-section {
   padding: var(--space-20) 0;
-  background: var(--secondary-bg);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .stats-grid {
@@ -477,10 +517,13 @@ a:hover {
 
 /* Footer */
 .footer {
-  background: var(--secondary-bg);
-  border-top: 1px solid var(--border-color);
+  background: var(--glass-footer-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding: var(--space-16) 0 var(--space-8);
   margin-top: var(--space-24);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .footer-content {
@@ -629,6 +672,12 @@ a:hover {
 
   .hero {
     padding: calc(var(--header-height) + var(--space-12)) 0 var(--space-12);
+  }
+
+  /* Adjust Lottie background for mobile */
+  .lottie-player {
+    transform: translate(-50%, -50%) scale(4.4);
+    opacity: 0.25;
   }
 
   .hero-title {
