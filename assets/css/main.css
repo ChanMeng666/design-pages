@@ -521,39 +521,173 @@ a:hover {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: var(--space-16) 0 var(--space-8);
+  padding: var(--space-20) 0 var(--space-8);
   margin-top: var(--space-24);
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .footer-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-8);
-  margin-bottom: var(--space-8);
+  grid-template-columns: 1fr 300px 280px;
+  gap: var(--space-12);
+  margin-bottom: var(--space-12);
+  align-items: start;
 }
 
-.footer-section h3 {
+/* Brand Section */
+.brand-section {
+  max-width: 420px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   margin-bottom: var(--space-4);
-  font-size: var(--text-lg);
 }
 
-.footer-section p,
-.footer-section a {
+.logo-image {
+  width: 48px;
+  height: 48px;
+  transition: all var(--transition-fast);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-name {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.logo-tagline {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.brand-description {
   color: var(--text-secondary);
   font-size: var(--text-sm);
+  line-height: 1.6;
+  margin: 0;
 }
 
-.footer-section a:hover {
+/* Contact Section */
+.contact-section h3 {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  padding: var(--space-2) 0;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-md);
+}
+
+.contact-link:hover {
   color: var(--accent-blue);
+  transform: translateX(4px);
+  padding-left: var(--space-2);
+  background: rgba(0, 255, 255, 0.05);
 }
 
-.footer-bottom {
+.contact-icon {
+  font-size: var(--text-base);
+  width: 20px;
   text-align: center;
+  opacity: 0.8;
+}
+
+/* Services Section */
+.services-section h3 {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+}
+
+.services-description {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--gradient-primary);
+  color: white;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4);
+  color: white;
+}
+
+.cta-icon {
+  font-size: var(--text-sm);
+}
+
+/* Footer Bottom */
+.footer-bottom {
   padding-top: var(--space-8);
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.copyright {
   color: var(--text-muted);
   font-size: var(--text-sm);
+  margin: 0;
+}
+
+.project-info {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.highlight {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: var(--font-medium);
 }
 
 /* Responsive Design */
@@ -575,6 +709,18 @@ a:hover {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-8);
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+  }
+
+  .services-section {
+    grid-column: 1 / -1;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 
@@ -636,7 +782,26 @@ a:hover {
   .footer-content {
     grid-template-columns: 1fr;
     gap: var(--space-8);
+  }
+
+  .footer-logo {
+    justify-content: center;
+  }
+
+  .brand-section,
+  .contact-section,
+  .services-section {
     text-align: center;
+  }
+
+  .contact-links {
+    align-items: center;
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-2);
   }
 
   .container {
