@@ -50,6 +50,19 @@ Explore the **FUTURE** of creative web development and visual storytelling.
   <p><em>Featured Designs - 3D Rotating Cube and Perspective Bar Effects</em></p>
 </div>
 
+### 📸 Screenshots
+
+<div align="center">
+  <img src="./assets/images/screenshots/screencapture-chanmeng666-github-io-design-pages-2025-09-06-15_56_25.png" alt="Design Pages Screenshot 1" width="800"/>
+  <p><em>Main Portfolio View - Interactive Design Gallery</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/images/screenshots/screencapture-chanmeng666-github-io-design-pages-2025-09-06-15_56_59.png" alt="Design Pages Screenshot 2" width="800"/>
+  <img src="./assets/images/screenshots/屏幕截图 2025-09-06 155741.png" alt="Design Pages Screenshot 3" width="400"/>
+  <p><em>Design Experiments Showcase - Gallery and Individual Designs</em></p>
+</div>
+
 <details>
 <summary><kbd>🎨 More Design Samples</kbd></summary>
 
@@ -101,6 +114,7 @@ Explore the **FUTURE** of creative web development and visual storytelling.
 
 - [🎨 Design PagesInteractive Digital Design Portfolio \& Visual Experiments](#-design-pagesinteractive-digital-design-portfolio--visual-experiments)
   - [📸 Project Gallery](#-project-gallery)
+    - [📸 Screenshots](#-screenshots)
   - [🎬 Interactive Demo](#-interactive-demo)
       - [TOC](#toc)
       - [](#)
