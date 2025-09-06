@@ -170,6 +170,7 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  min-height: var(--header-height);
 }
 
 .logo {
@@ -178,6 +179,9 @@ a:hover {
   font-weight: var(--font-black);
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .logo span {
@@ -199,6 +203,8 @@ a:hover {
   align-items: center;
   gap: var(--space-6);
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-link {
@@ -206,6 +212,10 @@ a:hover {
   font-weight: var(--font-medium);
   transition: color var(--transition-fast);
   position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  line-height: 1;
 }
 
 .nav-link:hover,
@@ -231,7 +241,7 @@ a:hover {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
-  padding: var(--space-2);
+  padding: 0;
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -240,6 +250,7 @@ a:hover {
   justify-content: center;
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
@@ -257,6 +268,12 @@ a:hover {
   font-size: var(--text-xl);
   cursor: pointer;
   padding: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
 }
 
 .mobile-nav {
@@ -284,8 +301,10 @@ a:hover {
 
 .mobile-nav-links .nav-link {
   font-size: var(--text-lg);
-  display: block;
+  display: flex;
+  align-items: center;
   padding: var(--space-3) 0;
+  line-height: 1.2;
 }
 
 /* Main Content */
@@ -731,7 +750,7 @@ a:hover {
   }
 
   .mobile-menu-toggle {
-    display: block;
+    display: flex;
   }
 
   .mobile-nav.open {
