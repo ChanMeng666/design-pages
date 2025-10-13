@@ -87,6 +87,16 @@
       "createDate": "2024-01-18"
     },
     {
+      "id": "dancing-cat-in-flowers",
+      "title": "Dancing Cat in Flowers",
+      "category": "experimental",
+      "description": "Adorable Canvas animation featuring a dancing cat in a flower garden with interactive speech bubbles",
+      "technologies": ["Canvas API", "2D Graphics", "Animation", "JavaScript"],
+      "path": "demos/experimental/dancing-cat-in-flowers.html",
+      "featured": true,
+      "createDate": "2025-10-13"
+    },
+    {
       "id": "static-rectangles",
       "title": "Static Rectangles",
       "category": "geometric-designs",
