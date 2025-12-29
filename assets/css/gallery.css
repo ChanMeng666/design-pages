@@ -155,15 +155,9 @@ body {
    BRAND CARD - Logo & Name
    ============================================ */
 .gallery-card.brand-card {
-  background: linear-gradient(
-    135deg,
-    var(--accent-primary, #FED700) 0%,
-    var(--accent-secondary, #007BEF) 50%,
-    var(--accent-tertiary, #16ABFA) 100%
-  );
+  background: transparent;
   cursor: pointer;
-  border: 2px solid var(--accent-primary, #FED700);
-  box-shadow: 0 0 30px rgba(254, 215, 0, 0.3);
+  border: none;
 }
 
 .brand-card .card-inner {
@@ -171,17 +165,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24em;
-  background: rgba(0, 0, 0, 0.92);
-  margin: 3em;
-  border-radius: 12em;
+  padding: 20em;
 }
 
 .brand-logo {
-  width: 80em;
-  height: 80em;
-  margin-bottom: 16em;
-  color: var(--accent-primary, #FED700);
+  width: 100em;
+  height: 100em;
+  margin-bottom: 14em;
 }
 
 .brand-logo img,
@@ -189,39 +179,36 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border-radius: 25em;
 }
 
 .brand-name {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 32em;
-  letter-spacing: 0.15em;
-  color: #ffffff;
+  font-size: 26em;
+  letter-spacing: 0.12em;
+  color: var(--accent-primary, #FED700);
   text-align: center;
-  text-shadow: 0 0 20px rgba(254, 215, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .brand-tagline {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11em;
+  font-size: 10em;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--accent-primary, #FED700);
-  margin-top: 10em;
+  letter-spacing: 0.15em;
+  color: var(--accent-tertiary, #16ABFA);
+  margin-top: 8em;
   font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 /* ============================================
    CONTACT CARD
    ============================================ */
 .gallery-card.contact-card {
-  background: linear-gradient(
-    135deg,
-    #16ABFA 0%,
-    #007BEF 100%
-  );
+  background: transparent;
   cursor: pointer;
-  border: 2px solid var(--accent-tertiary, #16ABFA);
-  box-shadow: 0 0 25px rgba(22, 171, 250, 0.3);
+  border: none;
 }
 
 .contact-card .card-inner {
@@ -229,16 +216,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24em;
-  background: rgba(0, 0, 0, 0.88);
-  margin: 3em;
-  border-radius: 12em;
+  padding: 20em;
+}
+
+.contact-logo {
+  width: 70em;
+  height: 70em;
+  margin-bottom: 14em;
+}
+
+.contact-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18em;
 }
 
 .contact-icon {
-  width: 52em;
-  height: 52em;
-  margin-bottom: 16em;
+  width: 40em;
+  height: 40em;
+  margin-bottom: 12em;
   color: var(--accent-tertiary, #16ABFA);
 }
 
@@ -252,22 +249,23 @@ body {
 
 .contact-label {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11em;
+  font-size: 10em;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: var(--accent-tertiary, #16ABFA);
-  margin-bottom: 10em;
+  margin-bottom: 8em;
   font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .contact-value {
   font-family: var(--font-primary, 'DM Sans', sans-serif);
-  font-size: 13em;
-  color: #ffffff;
+  font-size: 12em;
+  color: var(--accent-primary, #FED700);
   text-align: center;
   word-break: break-all;
   font-weight: 600;
-  text-shadow: 0 0 10px rgba(22, 171, 250, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .contact-card:hover .contact-icon {
@@ -278,15 +276,9 @@ body {
    TITLE CARD - Display Text
    ============================================ */
 .gallery-card.title-card {
-  background: linear-gradient(
-    135deg,
-    rgba(254, 215, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0.95) 50%,
-    rgba(254, 215, 0, 0.15) 100%
-  );
-  border: 2px solid rgba(254, 215, 0, 0.4);
+  background: transparent;
+  border: none;
   pointer-events: none;
-  box-shadow: 0 0 40px rgba(254, 215, 0, 0.15);
 }
 
 .title-card .card-inner {
@@ -297,29 +289,42 @@ body {
   padding: 20em;
 }
 
+.title-logo {
+  width: 80em;
+  height: 80em;
+  margin-bottom: 14em;
+}
+
+.title-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20em;
+}
+
 .gallery-card.title-card:hover .card-inner {
   transform: none;
 }
 
 .title-text {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 38em;
-  letter-spacing: 0.12em;
+  font-size: 32em;
+  letter-spacing: 0.1em;
   color: var(--accent-primary, #FED700);
   text-align: center;
   line-height: 1.1;
-  text-shadow: 0 0 30px rgba(254, 215, 0, 0.6);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .title-text-sub {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 12em;
+  font-size: 10em;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: #ffffff;
-  margin-top: 14em;
+  letter-spacing: 0.2em;
+  color: var(--accent-tertiary, #16ABFA);
+  margin-top: 10em;
   font-weight: 500;
-  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 /* ============================================
@@ -413,14 +418,9 @@ body {
    GITHUB CARD
    ============================================ */
 .gallery-card.github-card {
-  background: linear-gradient(
-    135deg,
-    #2d333b 0%,
-    #0d1117 100%
-  );
+  background: transparent;
   cursor: pointer;
-  border: 2px solid #30363d;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+  border: none;
 }
 
 .github-card .card-inner {
@@ -428,13 +428,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24em;
+  padding: 20em;
+}
+
+.github-logo {
+  width: 70em;
+  height: 70em;
+  margin-bottom: 14em;
+}
+
+.github-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18em;
 }
 
 .github-icon {
-  width: 60em;
-  height: 60em;
-  margin-bottom: 16em;
+  width: 50em;
+  height: 50em;
+  margin-bottom: 12em;
   color: #ffffff;
 }
 
@@ -446,26 +459,23 @@ body {
 
 .github-text {
   font-family: var(--font-primary, 'DM Sans', sans-serif);
-  font-size: 14em;
+  font-size: 12em;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--accent-primary, #FED700);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .github-username {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 12em;
-  color: #58a6ff;
-  margin-top: 8em;
+  font-size: 11em;
+  color: var(--accent-tertiary, #16ABFA);
+  margin-top: 6em;
   font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .github-card:hover .github-icon {
   color: var(--accent-primary, #FED700);
-}
-
-.github-card:hover {
-  border-color: #58a6ff;
-  box-shadow: 0 0 25px rgba(88, 166, 255, 0.25);
 }
 
 /* ============================================
