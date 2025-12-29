@@ -143,23 +143,9 @@ const Gallery = {
       type: 'contact',
       data: {
         label: 'Email',
-        value: 'chanmeng666@outlook.com',
-        href: 'mailto:chanmeng666@outlook.com'
+        value: 'chanmeng.dev@gmail.com',
+        href: 'mailto:chanmeng.dev@gmail.com'
       }
-    });
-
-    // Add category cards
-    Object.entries(this.categories).forEach(([slug, category]) => {
-      const count = this.works.filter(w => w.category === slug).length;
-      this.allCards.push({
-        type: 'category',
-        data: {
-          slug: slug,
-          name: category.name,
-          color: category.color,
-          count: count
-        }
-      });
     });
   },
 
@@ -252,11 +238,6 @@ const Gallery = {
         el.innerHTML = this.renderContactCard(card.data);
         el.dataset.href = card.data.href;
         break;
-
-      case 'category':
-        el.innerHTML = this.renderCategoryCard(card.data);
-        el.classList.add(`cat-${card.data.slug}`);
-        break;
     }
 
     return el;
@@ -344,26 +325,6 @@ const Gallery = {
         </div>
         <div class="contact-label">${data.label}</div>
         <div class="contact-value">${data.value}</div>
-      </div>
-    `;
-  },
-
-  /**
-   * Render category card HTML
-   */
-  renderCategoryCard(data) {
-    return `
-      <div class="card-inner">
-        <div class="category-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        </div>
-        <div class="category-name">${data.name}</div>
-        <div class="category-count">${data.count} works</div>
       </div>
     `;
   },

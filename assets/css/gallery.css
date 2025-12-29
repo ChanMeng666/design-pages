@@ -86,8 +86,9 @@ body {
   overflow: hidden;
 }
 
+/* Hover effect - subtle border glow instead of scale */
 .gallery-card:hover .card-inner {
-  transform: scale(1.2);
+  /* Scale removed to prevent text overflow */
 }
 
 /* ============================================
@@ -515,14 +516,6 @@ body {
 
 /* Touch device adjustments */
 @media (hover: none) and (pointer: coarse) {
-  .gallery-card:hover .card-inner {
-    transform: none;
-  }
-
-  .gallery-card:active .card-inner {
-    transform: scale(1.05);
-  }
-
   .work-card-overlay {
     opacity: 1;
     transform: translateY(0);
@@ -533,10 +526,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .card-inner {
     transition: none;
-  }
-
-  .gallery-card:hover .card-inner {
-    transform: none;
   }
 
   .loading-spinner {
