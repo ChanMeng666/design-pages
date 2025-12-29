@@ -162,6 +162,8 @@ body {
     var(--accent-tertiary, #16ABFA) 100%
   );
   cursor: pointer;
+  border: 2px solid var(--accent-primary, #FED700);
+  box-shadow: 0 0 30px rgba(254, 215, 0, 0.3);
 }
 
 .brand-card .card-inner {
@@ -170,16 +172,16 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24em;
-  background: rgba(0, 0, 0, 0.85);
-  margin: 2em;
-  border-radius: 13em;
+  background: rgba(0, 0, 0, 0.92);
+  margin: 3em;
+  border-radius: 12em;
 }
 
 .brand-logo {
   width: 80em;
   height: 80em;
   margin-bottom: 16em;
-  fill: var(--accent-primary, #FED700);
+  color: var(--accent-primary, #FED700);
 }
 
 .brand-logo img,
@@ -191,27 +193,35 @@ body {
 
 .brand-name {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 28em;
+  font-size: 32em;
   letter-spacing: 0.15em;
   color: #ffffff;
   text-align: center;
+  text-shadow: 0 0 20px rgba(254, 215, 0, 0.5);
 }
 
 .brand-tagline {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10em;
+  font-size: 11em;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--accent-primary, #FED700);
-  margin-top: 8em;
+  margin-top: 10em;
+  font-weight: 500;
 }
 
 /* ============================================
    CONTACT CARD
    ============================================ */
 .gallery-card.contact-card {
-  background: var(--secondary-bg, #0a0a0a);
+  background: linear-gradient(
+    135deg,
+    #16ABFA 0%,
+    #007BEF 100%
+  );
   cursor: pointer;
+  border: 2px solid var(--accent-tertiary, #16ABFA);
+  box-shadow: 0 0 25px rgba(22, 171, 250, 0.3);
 }
 
 .contact-card .card-inner {
@@ -220,11 +230,14 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24em;
+  background: rgba(0, 0, 0, 0.88);
+  margin: 3em;
+  border-radius: 12em;
 }
 
 .contact-icon {
-  width: 48em;
-  height: 48em;
+  width: 52em;
+  height: 52em;
   margin-bottom: 16em;
   color: var(--accent-tertiary, #16ABFA);
 }
@@ -239,19 +252,22 @@ body {
 
 .contact-label {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10em;
+  font-size: 11em;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--text-muted, #666666);
-  margin-bottom: 8em;
+  color: var(--accent-tertiary, #16ABFA);
+  margin-bottom: 10em;
+  font-weight: 500;
 }
 
 .contact-value {
   font-family: var(--font-primary, 'DM Sans', sans-serif);
-  font-size: 14em;
+  font-size: 13em;
   color: #ffffff;
   text-align: center;
   word-break: break-all;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(22, 171, 250, 0.4);
 }
 
 .contact-card:hover .contact-icon {
@@ -262,9 +278,15 @@ body {
    TITLE CARD - Display Text
    ============================================ */
 .gallery-card.title-card {
-  background: transparent;
-  border: none;
+  background: linear-gradient(
+    135deg,
+    rgba(254, 215, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.95) 50%,
+    rgba(254, 215, 0, 0.15) 100%
+  );
+  border: 2px solid rgba(254, 215, 0, 0.4);
   pointer-events: none;
+  box-shadow: 0 0 40px rgba(254, 215, 0, 0.15);
 }
 
 .title-card .card-inner {
@@ -272,7 +294,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16em;
+  padding: 20em;
 }
 
 .gallery-card.title-card:hover .card-inner {
@@ -281,20 +303,23 @@ body {
 
 .title-text {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 36em;
-  letter-spacing: 0.1em;
+  font-size: 38em;
+  letter-spacing: 0.12em;
   color: var(--accent-primary, #FED700);
   text-align: center;
   line-height: 1.1;
+  text-shadow: 0 0 30px rgba(254, 215, 0, 0.6);
 }
 
 .title-text-sub {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11em;
+  font-size: 12em;
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  color: var(--text-muted, #666666);
-  margin-top: 12em;
+  color: #ffffff;
+  margin-top: 14em;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 /* ============================================
@@ -388,8 +413,14 @@ body {
    GITHUB CARD
    ============================================ */
 .gallery-card.github-card {
-  background: #0d1117;
+  background: linear-gradient(
+    135deg,
+    #2d333b 0%,
+    #0d1117 100%
+  );
   cursor: pointer;
+  border: 2px solid #30363d;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
 }
 
 .github-card .card-inner {
@@ -401,8 +432,8 @@ body {
 }
 
 .github-icon {
-  width: 56em;
-  height: 56em;
+  width: 60em;
+  height: 60em;
   margin-bottom: 16em;
   color: #ffffff;
 }
@@ -422,13 +453,19 @@ body {
 
 .github-username {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11em;
-  color: var(--text-muted, #8b949e);
-  margin-top: 6em;
+  font-size: 12em;
+  color: #58a6ff;
+  margin-top: 8em;
+  font-weight: 500;
 }
 
 .github-card:hover .github-icon {
   color: var(--accent-primary, #FED700);
+}
+
+.github-card:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 0 25px rgba(88, 166, 255, 0.25);
 }
 
 /* ============================================
