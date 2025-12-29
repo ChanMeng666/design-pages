@@ -97,6 +97,16 @@
       "createDate": "2025-10-13"
     },
     {
+      "id": "horizontal-scroll-ticker",
+      "title": "Horizontal Scroll Ticker",
+      "category": "experimental",
+      "description": "GSAP ScrollTrigger horizontal scroll animation with flowing text and inline SVG visuals creating a ticker tape experience",
+      "technologies": ["GSAP", "ScrollTrigger", "SVG", "CSS Animation"],
+      "path": "demos/experimental/horizontal-scroll-ticker.html",
+      "featured": true,
+      "createDate": "2025-12-29"
+    },
+    {
       "id": "static-rectangles",
       "title": "Static Rectangles",
       "category": "geometric-designs",

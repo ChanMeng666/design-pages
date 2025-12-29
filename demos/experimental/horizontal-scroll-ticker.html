@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Scroll Ticker - GSAP ScrollTrigger</title>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #0a0a0f;
+            --color-text: #ffffff;
+            --color-accent: #ff3366;
+            --color-accent-2: #00d4ff;
+            --color-accent-3: #ffd700;
+            --color-muted: rgba(255, 255, 255, 0.4);
+        }
+
+        html, body {
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+
+        /* Intro Section */
+        .intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .intro h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--color-muted);
+            max-width: 400px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-hint span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--color-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-accent);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
+        }
+
+        /* Horizontal Scroll Container */
+        .horizontal-scroll-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .horizontal-track {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 0 10vw;
+            will-change: transform;
+        }
+
+        /* Text and Visual Elements */
+        .word {
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 500;
+            white-space: nowrap;
+            padding: 0 0.15em;
+            transition: color 0.3s ease;
+        }
+
+        .word.highlight {
+            color: var(--color-accent);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .word.highlight-2 {
+            color: var(--color-accent-2);
+            font-weight: 700;
+        }
+
+        .word.highlight-3 {
+            color: var(--color-accent-3);
+            font-weight: 700;
+        }
+
+        /* Inline Visual Elements */
+        .visual-element {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+            flex-shrink: 0;
+        }
+
+        .visual-element svg {
+            height: clamp(3rem, 8vw, 6rem);
+            width: auto;
+        }
+
+        /* Decorative Curves */
+        .curve-connector {
+            stroke: var(--color-accent);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .curve-connector-2 {
+            stroke: var(--color-accent-2);
+        }
+
+        .curve-connector-3 {
+            stroke: var(--color-accent-3);
+        }
+
+        /* Icons */
+        .icon-bottle {
+            fill: var(--color-accent);
+        }
+
+        .icon-sparkle {
+            fill: var(--color-accent-3);
+        }
+
+        .icon-heart {
+            fill: var(--color-accent);
+        }
+
+        .icon-drops {
+            fill: var(--color-accent-2);
+        }
+
+        /* Outro Section */
+        .outro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(180deg, var(--color-bg) 0%, #1a1a2e 100%);
+        }
+
+        .outro h2 {
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .outro h2 span {
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2), var(--color-accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-button {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 51, 102, 0.4);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2), var(--color-accent-3));
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+        }
+
+        /* Ambient Background */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            background: var(--color-accent);
+            top: -200px;
+            left: -200px;
+        }
+
+        .glow-2 {
+            background: var(--color-accent-2);
+            bottom: -200px;
+            right: -200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Ambient Background -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Intro Section -->
+    <section class="intro">
+        <h1>The Real Magic</h1>
+        <p>Scroll down to experience a continuous journey of refreshment</p>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Horizontal Scroll Section -->
+    <section class="horizontal-scroll-wrapper">
+        <div class="horizontal-track">
+            <!-- The flowing sentence with inline visuals -->
+
+            <span class="word">In</span>
+            <span class="word">every</span>
+
+            <!-- Bottle Icon -->
+            <span class="visual-element">
+                <svg viewBox="0 0 60 120" class="icon-bottle">
+                    <path d="M25 10h10v15h5l5 20v60c0 5-3 10-10 10H25c-7 0-10-5-10-10V45l5-20h5V10z"/>
+                    <ellipse cx="30" cy="10" rx="8" ry="4" fill="currentColor"/>
+                    <path d="M22 50c0-3 3-5 8-5s8 2 8 5" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
+                </svg>
+            </span>
+
+            <span class="word highlight">bottle,</span>
+
+            <!-- Curve Connector -->
+            <span class="visual-element">
+                <svg viewBox="0 0 100 60" width="80">
+                    <path class="curve-connector" d="M0 30 Q25 0, 50 30 T100 30"/>
+                </svg>
+            </span>
+
+            <span class="word">discover</span>
+            <span class="word">the</span>
+            <span class="word">undeniable</span>
+
+            <!-- Sparkle Icon -->
+            <span class="visual-element">
+                <svg viewBox="0 0 60 60" class="icon-sparkle">
+                    <path d="M30 0L33 25L58 30L33 35L30 60L27 35L2 30L27 25Z"/>
+                    <circle cx="45" cy="15" r="4"/>
+                    <circle cx="15" cy="45" r="3"/>
+                </svg>
+            </span>
+
+            <span class="word highlight-3">Real</span>
+            <span class="word highlight-3">Magic</span>
+
+            <!-- Wave Curve -->
+            <span class="visual-element">
+                <svg viewBox="0 0 120 60" width="100">
+                    <path class="curve-connector curve-connector-3" d="M0 30 C20 10, 40 50, 60 30 S100 10, 120 30"/>
+                </svg>
+            </span>
+
+            <span class="word">of</span>
+            <span class="word">sharing</span>
+
+            <!-- Heart Icon -->
+            <span class="visual-element">
+                <svg viewBox="0 0 60 60" class="icon-heart">
+                    <path d="M30 55 C10 40, 0 25, 10 15 C20 5, 30 15, 30 20 C30 15, 40 5, 50 15 C60 25, 50 40, 30 55Z"/>
+                </svg>
+            </span>
+
+            <span class="word">pure</span>
+
+            <!-- Drops Icon -->
+            <span class="visual-element">
+                <svg viewBox="0 0 80 60" class="icon-drops">
+                    <ellipse cx="20" cy="45" rx="12" ry="15"/>
+                    <ellipse cx="45" cy="40" rx="10" ry="12"/>
+                    <ellipse cx="65" cy="45" rx="8" ry="10"/>
+                    <path d="M20 10 L20 30 M45 5 L45 28 M65 12 L65 35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </span>
+
+            <span class="word highlight-2">Refreshment</span>
+
+            <!-- Spiral Curve -->
+            <span class="visual-element">
+                <svg viewBox="0 0 80 60" width="70">
+                    <path class="curve-connector curve-connector-2" d="M10 50 Q20 10, 40 30 T70 10"/>
+                </svg>
+            </span>
+
+            <span class="word">that</span>
+            <span class="word">brings</span>
+            <span class="word">us</span>
+
+            <!-- Connection Lines -->
+            <span class="visual-element">
+                <svg viewBox="0 0 100 60" width="80">
+                    <circle cx="20" cy="30" r="8" fill="var(--color-accent)"/>
+                    <circle cx="80" cy="30" r="8" fill="var(--color-accent-2)"/>
+                    <line x1="28" y1="30" x2="72" y2="30" stroke="var(--color-accent-3)" stroke-width="3" stroke-dasharray="5,5"/>
+                </svg>
+            </span>
+
+            <span class="word highlight">Together.</span>
+
+            <!-- Final Flourish -->
+            <span class="visual-element">
+                <svg viewBox="0 0 100 60" width="120">
+                    <path class="curve-connector" d="M0 30 Q30 0, 50 30 Q70 60, 100 30"/>
+                    <circle cx="50" cy="30" r="6" fill="var(--color-accent-3)"/>
+                </svg>
+            </span>
+        </div>
+    </section>
+
+    <!-- Outro Section -->
+    <section class="outro">
+        <h2><span>Real Magic</span></h2>
+        <button class="cta-button">Experience More</button>
+    </section>
+
+    <script>
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Get elements
+        const horizontalTrack = document.querySelector('.horizontal-track');
+        const wrapper = document.querySelector('.horizontal-scroll-wrapper');
+        const progressBar = document.querySelector('.progress-bar');
+
+        // Calculate the total scroll width
+        const getScrollWidth = () => {
+            return horizontalTrack.scrollWidth - window.innerWidth;
+        };
+
+        // Main horizontal scroll animation
+        const horizontalScroll = gsap.to(horizontalTrack, {
+            x: () => -getScrollWidth(),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: wrapper,
+                start: 'top top',
+                end: () => `+=${getScrollWidth()}`,
+                pin: true,
+                scrub: 1,
+                invalidateOnRefresh: true,
+                anticipatePin: 1,
+                onUpdate: (self) => {
+                    // Update progress bar
+                    gsap.to(progressBar, {
+                        scaleX: self.progress,
+                        duration: 0.1,
+                        ease: 'none'
+                    });
+                }
+            }
+        });
+
+        // Animate words as they come into view
+        const words = document.querySelectorAll('.word');
+        words.forEach((word, index) => {
+            gsap.fromTo(word,
+                {
+                    opacity: 0.3,
+                    scale: 0.95
+                },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                    scrollTrigger: {
+                        trigger: word,
+                        containerAnimation: horizontalScroll,
+                        start: 'left 80%',
+                        end: 'left 20%',
+                        scrub: true
+                    }
+                }
+            );
+        });
+
+        // Animate visual elements with rotation
+        const visuals = document.querySelectorAll('.visual-element');
+        visuals.forEach((visual, index) => {
+            gsap.fromTo(visual,
+                {
+                    opacity: 0,
+                    scale: 0.5,
+                    rotation: -15
+                },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: visual,
+                        containerAnimation: horizontalScroll,
+                        start: 'left 85%',
+                        end: 'left 50%',
+                        scrub: true
+                    }
+                }
+            );
+        });
+
+        // Ambient glow follow effect
+        const glows = document.querySelectorAll('.ambient-glow');
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        gsap.ticker.add(() => {
+            gsap.to(glows[0], {
+                x: mouseX * 0.05,
+                y: mouseY * 0.05,
+                duration: 2,
+                ease: 'power2.out'
+            });
+            gsap.to(glows[1], {
+                x: -mouseX * 0.03,
+                y: -mouseY * 0.03,
+                duration: 2,
+                ease: 'power2.out'
+            });
+        });
+
+        // Intro fade out on scroll
+        gsap.to('.intro', {
+            opacity: 0,
+            y: -50,
+            scrollTrigger: {
+                trigger: '.intro',
+                start: 'bottom bottom',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        // Outro fade in
+        gsap.from('.outro h2', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '.outro',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        gsap.from('.cta-button', {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            delay: 0.3,
+            scrollTrigger: {
+                trigger: '.outro',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            ScrollTrigger.refresh();
+        });
+    </script>
+</body>
+</html>
