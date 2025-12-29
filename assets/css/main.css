@@ -193,8 +193,12 @@ a:hover {
 .logo-icon {
   width: 36px;
   height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  flex-shrink: 0;
   border-radius: 8px;
   transition: transform var(--transition-normal);
+  object-fit: contain;
 }
 
 .logo:hover .logo-icon {

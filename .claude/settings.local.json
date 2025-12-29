@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(branding\\): add brand logo to favicon, header and footer\n\n- Add design-pages-logo.svg as favicon and apple-touch-icon\n- Display logo in header navigation alongside site title\n- Update footer brand section with new logo\n- Add hover animations for logo icons\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
+    ]
+  }
+}
