@@ -3,7 +3,7 @@
 # 🎨 Design Pages<br/><h3>Interactive Digital Design Portfolio & Visual Experiments</h3>
 
 A cutting-edge digital design portfolio showcasing innovative CSS animations, 3D effects, geometric patterns, and experimental visual experiences.<br/>
-Features interactive galleries, responsive design, and modern web technologies.<br/>
+Features a full-screen infinite scrolling gallery with GSAP-powered interactions and 16 unique design experiments.<br/>
 Explore the **FUTURE** of creative web development and visual storytelling.
 
 [Live Demo][demo-link] · [Documentation][docs] · [View Gallery][gallery-link] · [Issues][github-issues-link]
@@ -41,7 +41,7 @@ Explore the **FUTURE** of creative web development and visual storytelling.
 
 <div align="center">
   <img src="./assets/images/gallery-overview.png" alt="Digital Design Gallery Overview" width="800"/>
-  <p><em>Interactive Gallery Dashboard - Browse 14+ unique design experiments</em></p>
+  <p><em>Full-Screen Infinite Scrolling Gallery - Explore 16 unique design experiments</em></p>
 </div>
 
 <div align="center">
@@ -170,9 +170,9 @@ Whether you're a designer seeking inspiration, a developer learning advanced CSS
 > - Modern browser with CSS3 support required
 > - Best experienced on desktop for full interactive features
 > - Mobile-responsive design included
-> - No external dependencies required
+> - Minimal dependencies (only GSAP 3.12.2 for animations)
 
-| [![][demo-shield-badge]][demo-link] | Experience all 14+ design experiments with live previews and interactions. |
+| [![][demo-shield-badge]][demo-link] | Experience all 16 design experiments with live previews and interactions. |
 | :---------------------------------- | :------------------------------------------------------------------------- |
 
 > [!TIP]
@@ -241,13 +241,13 @@ Explore the full spectrum of CSS gradient capabilities with our experimental gra
 
 Beyond the core design experiments, this portfolio includes:
 
-- [x] 🔍 **Smart Gallery**: Search and filter through design categories
-- [x] 🎨 **Live Preview**: Modal-based preview system for each design
+- [x] 🔍 **Infinite Gallery**: Full-screen scrolling with 4 horizontal rows
+- [x] 🎨 **Live Preview**: Iframe-based live preview on each card
 - [x] 🌓 **Theme Support**: Dark/light mode with smooth transitions
 - [x] 📱 **Responsive Design**: Optimized for all device sizes
 - [x] ⚡ **Performance**: Optimized CSS animations and transitions
 - [x] 🎯 **Accessibility**: ARIA labels and keyboard navigation
-- [x] 🔧 **No Dependencies**: Pure HTML, CSS, and JavaScript
+- [x] 🔧 **Minimal Dependencies**: Pure HTML, CSS, JavaScript + GSAP
 - [x] 📊 **Analytics Ready**: Built-in performance monitoring
 
 > ✨ New design experiments are continuously added to explore emerging web technologies.
@@ -276,12 +276,12 @@ Beyond the core design experiments, this portfolio includes:
         <br>JavaScript ES6+
       </td>
       <td align="center" width="96">
-        <img src="https://cdn.simpleicons.org/git" width="48" height="48" alt="Git" />
-        <br>Git
+        <img src="https://cdn.simpleicons.org/greensock" width="48" height="48" alt="GSAP" />
+        <br>GSAP 3.12
       </td>
       <td align="center" width="96">
-        <img src="https://cdn.simpleicons.org/vercel" width="48" height="48" alt="Vercel" />
-        <br>Vercel
+        <img src="https://cdn.simpleicons.org/github" width="48" height="48" alt="GitHub Pages" />
+        <br>GitHub Pages
       </td>
     </tr>
   </table>
@@ -291,8 +291,8 @@ Beyond the core design experiments, this portfolio includes:
 - **HTML5**: Semantic markup and accessibility features
 - **CSS3**: Advanced selectors, transforms, animations, gradients
 - **JavaScript ES6+**: Modern JavaScript for interactivity
+- **GSAP 3.12.2**: Professional-grade animation library
 - **CSS Custom Properties**: Dynamic theming system
-- **CSS Grid & Flexbox**: Responsive layout systems
 
 **Advanced CSS Features:**
 - **3D Transforms**: `transform-style: preserve-3d`, perspective
@@ -303,12 +303,12 @@ Beyond the core design experiments, this portfolio includes:
 
 **Development Tools:**
 - **Version Control**: Git for source control
-- **Deployment**: Vercel for hosting and CI/CD
+- **Deployment**: GitHub Pages for static hosting
 - **Performance**: Lighthouse optimization
 - **Accessibility**: ARIA compliance and semantic HTML
 
 > [!TIP]
-> This project uses zero external frameworks, showcasing the power of vanilla web technologies and modern CSS capabilities.
+> This project uses minimal dependencies (only GSAP for animations), showcasing the power of vanilla web technologies and modern CSS capabilities.
 
 ## 🏗️ Architecture
 
@@ -347,22 +347,23 @@ graph TB
         B --> C[Component Styles]
         C --> D[Layout System]
     end
-    
+
     subgraph "Interactive Layer"
         E[JavaScript Core] --> F[Gallery System]
-        F --> G[Modal Preview]
-        G --> H[Theme Toggle]
+        F --> G[Infinite Scroll]
+        G --> H[Drag Interaction]
+        H --> I[GSAP Animation]
     end
-    
+
     subgraph "Content Layer"
-        I[JSON Data] --> J[Dynamic Gallery]
-        J --> K[Category Filtering]
-        K --> L[Search System]
+        J[JSON Data] --> K[Dynamic Gallery]
+        K --> L[Work Cards]
+        K --> M[Special Cards]
     end
-    
+
     A --> E
-    I --> F
-    D --> J
+    J --> F
+    D --> K
 ```
 
 ### Component Architecture
@@ -373,11 +374,35 @@ graph TB
 </div>
 
 **Core Components:**
-- **Gallery System**: Dynamic portfolio grid with filtering
-- **Modal Preview**: Full-screen design preview system
+- **Gallery System**: Full-screen infinite scrolling with 4 horizontal rows
+- **Card System**: Work cards with iframe previews + special cards (brand, github, contact)
 - **Theme Engine**: Dark/light mode with CSS custom properties
-- **Navigation**: Responsive header with mobile menu
-- **Search & Filter**: Real-time content filtering
+- **GSAP Animation**: Timeline-based hero animation and drag interactions
+- **Card Click Handlers**: Type-specific actions (open demo, mailto, github profile)
+
+### Gallery Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Gallery
+    participant GSAP
+    participant DOM
+
+    User->>Gallery: Page Load
+    Gallery->>Gallery: loadData() from works.json
+    Gallery->>Gallery: createAllCards()
+    Gallery->>Gallery: distributeCards() into 4 rows
+    Gallery->>DOM: render()
+    Gallery->>GSAP: setupDrag()
+
+    User->>Gallery: Drag gesture
+    Gallery->>GSAP: move(deltaX, deltaY)
+    GSAP->>DOM: Update card positions with wrap
+
+    User->>Gallery: Click Work Card
+    Gallery->>User: Open demo in new tab
+```
 
 ## ⚡️ Performance
 
@@ -392,8 +417,8 @@ graph TB
 - ⚡ **98+ Lighthouse Score** across all categories
 - 🚀 **< 1s** Initial page load time
 - 💨 **60fps** Smooth animations and transitions
-- 📦 **Zero Dependencies** No external libraries
-- 🔄 **Lazy Loading** Optimized resource loading
+- 📦 **Single Dependency** Only GSAP for animations
+- 🔄 **Lazy Loading** Optimized iframe and resource loading
 
 **Optimization Techniques:**
 - 🎯 **CSS Optimization**: Minimal, efficient CSS architecture
@@ -515,16 +540,16 @@ npm run build
 
 **Browsing Designs:**
 
-1. **Explore Categories** - Filter by design type (3D, Geometric, Gradients, Experimental)
-2. **Search Designs** - Use the search bar to find specific effects
-3. **Preview Mode** - Click any design card for full-screen preview
-4. **View Controls** - Switch between grid and list views
+1. **Infinite Scroll** - Drag horizontally or vertically to explore the gallery
+2. **Live Previews** - Each card shows an iframe preview of the design
+3. **Click to Open** - Click any work card to open the demo in a new tab
+4. **Special Cards** - Interact with brand, GitHub, and contact cards
 
 #### Gallery Interface
 
 <div align="center">
   <img src="./assets/images/gallery-interface.png" alt="Gallery Interface" width="800"/>
-  <p><em>Interactive Gallery with Search, Filtering, and Preview</em></p>
+  <p><em>Full-Screen Infinite Gallery with Live Previews</em></p>
 </div>
 
 **Quick Actions:**
@@ -536,8 +561,8 @@ window.open('demos/3d-effects/rotating-cube.html', '_blank');
 // Toggle theme programmatically
 document.body.classList.toggle('light-theme');
 
-// Filter by category
-gallery.filterByCategory('3d-effects');
+// Access gallery object
+window.Gallery.resize();  // Recalculate card positions
 ```
 
 ### Adding New Designs
@@ -589,7 +614,7 @@ gallery.filterByCategory('3d-effects');
 | **3D Effects** | 4 designs | Three-dimensional visual experiences | CSS 3D Transform, Perspective |
 | **Geometric Designs** | 3 designs | Mathematical patterns and shapes | CSS Grid, Transform, Animation |
 | **Gradient Effects** | 5 designs | Color transitions and visual experiments | Linear/Conic Gradients, SVG |
-| **Experimental** | 2 designs | Cutting-edge design explorations | Advanced CSS, Filter Effects |
+| **Experimental** | 4 designs | Cutting-edge design explorations | Canvas API, GSAP ScrollTrigger |
 
 ### Featured Design Highlights
 

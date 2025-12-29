@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Gallery Page -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- LLM Instructions -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/llms.txt</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Works Data -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/data/works.json</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 3D Effects Category -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/3d-effects/rotating-cube.html</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/3d-effects/isometric-cube.html</loc>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/3d-effects/spatial-rhythm.html</loc>
+    <lastmod>2024-01-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/3d-effects/floating-rings.html</loc>
+    <lastmod>2024-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Geometric Designs Category -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/geometric-designs/static-rectangles.html</loc>
+    <lastmod>2024-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/geometric-designs/perspective-bars.html</loc>
+    <lastmod>2024-01-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/geometric-designs/animated-rectangles.html</loc>
+    <lastmod>2024-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Gradient Effects Category -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/gradient-effects/conic-gradient.html</loc>
+    <lastmod>2024-01-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/gradient-effects/dynamic-poster.html</loc>
+    <lastmod>2024-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/gradient-effects/symmetrical-conic.html</loc>
+    <lastmod>2024-01-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient-v2.html</loc>
+    <lastmod>2024-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient.html</loc>
+    <lastmod>2024-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Experimental Category -->
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/experimental/visual-rhythm.html</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/experimental/composition-study.html</loc>
+    <lastmod>2024-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/experimental/dancing-cat-in-flowers.html</loc>
+    <lastmod>2025-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chanmeng666.github.io/design-pages/demos/experimental/horizontal-scroll-ticker.html</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>

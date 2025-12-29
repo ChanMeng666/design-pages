@@ -1,0 +1,58 @@
+# Design Pages - AI Crawler Directives
+# https://chanmeng666.github.io/design-pages
+# Last updated: 2025-12-29
+
+# Default rules for all crawlers
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# AI Search Engine Crawlers - Explicitly Allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Traditional Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# LLM-specific instructions available at:
+# https://chanmeng666.github.io/design-pages/llms.txt
+
+# Sitemap location
+Sitemap: https://chanmeng666.github.io/design-pages/sitemap.xml

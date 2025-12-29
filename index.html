@@ -7,11 +7,23 @@
     <meta name="keywords" content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects, Chan Meng portfolio">
     <meta name="author" content="Chan Meng">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/">
+
     <!-- Open Graph -->
     <meta property="og:title" content="Chan Meng - Digital Design Portfolio">
     <meta property="og:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://chanmeng666.github.io/design-pages">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/">
+    <meta property="og:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
+    <meta property="og:site_name" content="Design Pages">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Chan Meng - Digital Design Portfolio">
+    <meta name="twitter:description" content="Explore 16 innovative digital design experiments featuring 3D effects, geometric patterns, and gradient effects.">
+    <meta name="twitter:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
 
     <title>Chan Meng - Digital Design Portfolio</title>
 
@@ -30,6 +42,45 @@
 
     <!-- Preload critical resources -->
     <link rel="preload" href="data/works.json" as="fetch" crossorigin>
+
+    <!-- LLM Instructions (inline) -->
+    <script type="text/llms.txt">
+## Design Pages - Digital Design Portfolio
+
+This is the main portfolio page by Chan Meng featuring a full-screen infinite scrolling gallery with 16 interactive CSS/JavaScript design experiments.
+
+### Content Overview
+- **Total Works**: 16 design experiments
+- **Categories**: 3D Effects (4), Geometric Designs (3), Gradient Effects (5), Experimental (4)
+- **Featured Works**: 7 highlighted designs
+- **Technologies**: HTML5, CSS3, JavaScript ES6+, GSAP 3.12.2
+
+### Gallery Navigation
+- Drag horizontally or vertically to explore the infinite scrolling gallery
+- Click any work card to open the demo in a new tab
+- Special cards include: brand info, GitHub profile link, contact email
+
+### Key Resources
+- Works Metadata: /data/works.json (all 16 works with descriptions and technologies)
+- LLM Guide: /llms.txt (comprehensive site documentation for AI)
+- Sitemap: /sitemap.xml
+
+### Featured Demos (Recommended)
+1. 3D Rotating Cube - CSS 3D Transform showcase
+2. Perspective Bars - Color interpolation effects
+3. Conic Gradient - CSS gradient light beams
+4. Dancing Cat in Flowers - Canvas API animation
+5. Horizontal Scroll Ticker - GSAP ScrollTrigger demo
+
+### Citation Format
+"Design Pages by Chan Meng - A digital design portfolio featuring 16 interactive CSS/JavaScript experiments."
+URL: https://chanmeng666.github.io/design-pages
+
+### Author
+Chan Meng | GitHub: https://github.com/ChanMeng666 | Email: chanmeng.dev@gmail.com
+
+For comprehensive documentation, see /llms.txt
+    </script>
 </head>
 <body>
     <!-- Full-Screen Infinite Scrolling Gallery -->
@@ -50,17 +101,74 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "CreativeWork",
-      "name": "Chan Meng Digital Design Portfolio",
-      "description": "Digital design experiments featuring 3D effects, geometric designs, gradient effects, and experimental artworks.",
-      "author": {
-        "@type": "Person",
-        "name": "Chan Meng"
-      },
-      "url": "https://chanmeng666.github.io/design-pages/",
-      "dateCreated": "2025-07-02",
-      "genre": "Web Design",
-      "inLanguage": "en-US"
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": "https://chanmeng666.github.io/design-pages/#collection",
+          "name": "Design Pages - Digital Design Portfolio",
+          "description": "A portfolio featuring 16 interactive CSS/JavaScript design experiments across 3D effects, geometric designs, gradient effects, and experimental categories.",
+          "url": "https://chanmeng666.github.io/design-pages/",
+          "author": {
+            "@id": "https://chanmeng666.github.io/design-pages/#author"
+          },
+          "dateCreated": "2024-01-01",
+          "dateModified": "2025-12-29",
+          "inLanguage": "en-US",
+          "license": "https://opensource.org/licenses/MIT",
+          "numberOfItems": 16,
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": 16,
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "3D Rotating Cube", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/rotating-cube.html"},
+              {"@type": "ListItem", "position": 2, "name": "Isometric Cube", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/isometric-cube.html"},
+              {"@type": "ListItem", "position": 3, "name": "Spatial Rhythm", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/spatial-rhythm.html"},
+              {"@type": "ListItem", "position": 4, "name": "Floating Rings", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/floating-rings.html"},
+              {"@type": "ListItem", "position": 5, "name": "Static Rectangles", "url": "https://chanmeng666.github.io/design-pages/demos/geometric-designs/static-rectangles.html"},
+              {"@type": "ListItem", "position": 6, "name": "Perspective Bars", "url": "https://chanmeng666.github.io/design-pages/demos/geometric-designs/perspective-bars.html"},
+              {"@type": "ListItem", "position": 7, "name": "Animated Rectangles", "url": "https://chanmeng666.github.io/design-pages/demos/geometric-designs/animated-rectangles.html"},
+              {"@type": "ListItem", "position": 8, "name": "Conic Gradient", "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/conic-gradient.html"},
+              {"@type": "ListItem", "position": 9, "name": "Dynamic Poster", "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/dynamic-poster.html"},
+              {"@type": "ListItem", "position": 10, "name": "Symmetrical Conic", "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/symmetrical-conic.html"},
+              {"@type": "ListItem", "position": 11, "name": "SVG Gradient V2", "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient-v2.html"},
+              {"@type": "ListItem", "position": 12, "name": "SVG Gradient", "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient.html"},
+              {"@type": "ListItem", "position": 13, "name": "Visual Rhythm", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/visual-rhythm.html"},
+              {"@type": "ListItem", "position": 14, "name": "Composition Study", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/composition-study.html"},
+              {"@type": "ListItem", "position": 15, "name": "Dancing Cat in Flowers", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/dancing-cat-in-flowers.html"},
+              {"@type": "ListItem", "position": 16, "name": "Horizontal Scroll Ticker", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/horizontal-scroll-ticker.html"}
+            ]
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://chanmeng666.github.io/design-pages/#author",
+          "name": "Chan Meng",
+          "url": "https://github.com/ChanMeng666",
+          "sameAs": [
+            "https://github.com/ChanMeng666",
+            "https://linkedin.com/in/chanmeng666"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://chanmeng666.github.io/design-pages/#website",
+          "name": "Design Pages",
+          "url": "https://chanmeng666.github.io/design-pages/",
+          "author": {"@id": "https://chanmeng666.github.io/design-pages/#author"},
+          "description": "Digital design portfolio featuring 16 interactive CSS/JavaScript experiments"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Design Pages",
+              "item": "https://chanmeng666.github.io/design-pages/"
+            }
+          ]
+        }
+      ]
     }
     </script>
 </body>
