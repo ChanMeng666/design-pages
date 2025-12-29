@@ -275,6 +275,7 @@ const Gallery = {
         </div>
         <div class="brand-name">${data.name}</div>
         <div class="brand-tagline">${data.tagline}</div>
+        <div class="click-hint">Click to Visit</div>
       </div>
     `;
   },
@@ -305,6 +306,7 @@ const Gallery = {
         </div>
         <div class="github-text">View on GitHub</div>
         <div class="github-username">@${data.username}</div>
+        <div class="click-hint">Click to Visit</div>
       </div>
     `;
   },
@@ -320,6 +322,7 @@ const Gallery = {
         </div>
         <div class="contact-label">${data.label}</div>
         <div class="contact-value">${data.value}</div>
+        <div class="click-hint">Click to Email</div>
       </div>
     `;
   },

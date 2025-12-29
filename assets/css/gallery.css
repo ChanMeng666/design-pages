@@ -165,13 +165,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20em;
+  padding: 16em;
 }
 
 .brand-logo {
-  width: 100em;
-  height: 100em;
-  margin-bottom: 14em;
+  width: 120em;
+  height: 120em;
+  margin-bottom: 12em;
 }
 
 .brand-logo img,
@@ -179,27 +179,43 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 25em;
+  border-radius: 30em;
 }
 
 .brand-name {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 26em;
-  letter-spacing: 0.12em;
-  color: var(--accent-primary, #FED700);
+  font-size: 28em;
+  letter-spacing: 0.1em;
+  color: #000000;
   text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .brand-tagline {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10em;
+  font-size: 11em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #000000;
+  margin-top: 6em;
+  font-weight: 500;
+}
+
+.click-hint {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 9em;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--accent-tertiary, #16ABFA);
-  margin-top: 8em;
-  font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  color: #000000;
+  margin-top: 10em;
+  padding: 4em 10em;
+  border: 1px solid #000000;
+  border-radius: 4em;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-card:hover .click-hint {
+  opacity: 1;
 }
 
 /* ============================================
@@ -216,60 +232,39 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20em;
+  padding: 16em;
 }
 
 .contact-logo {
-  width: 70em;
-  height: 70em;
-  margin-bottom: 14em;
+  width: 120em;
+  height: 120em;
+  margin-bottom: 12em;
 }
 
 .contact-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 18em;
-}
-
-.contact-icon {
-  width: 40em;
-  height: 40em;
-  margin-bottom: 12em;
-  color: var(--accent-tertiary, #16ABFA);
-}
-
-.contact-icon svg {
-  width: 100%;
-  height: 100%;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  fill: none;
+  border-radius: 30em;
 }
 
 .contact-label {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10em;
+  font-size: 11em;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--accent-tertiary, #16ABFA);
-  margin-bottom: 8em;
+  letter-spacing: 0.1em;
+  color: #000000;
+  margin-bottom: 6em;
   font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .contact-value {
   font-family: var(--font-primary, 'DM Sans', sans-serif);
-  font-size: 12em;
-  color: var(--accent-primary, #FED700);
+  font-size: 13em;
+  color: #000000;
   text-align: center;
   word-break: break-all;
   font-weight: 600;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.contact-card:hover .contact-icon {
-  color: var(--accent-primary, #FED700);
 }
 
 /* ============================================
@@ -286,20 +281,20 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20em;
+  padding: 16em;
 }
 
 .title-logo {
-  width: 80em;
-  height: 80em;
-  margin-bottom: 14em;
+  width: 120em;
+  height: 120em;
+  margin-bottom: 12em;
 }
 
 .title-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 20em;
+  border-radius: 30em;
 }
 
 .gallery-card.title-card:hover .card-inner {
@@ -308,23 +303,21 @@ body {
 
 .title-text {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 32em;
-  letter-spacing: 0.1em;
-  color: var(--accent-primary, #FED700);
+  font-size: 28em;
+  letter-spacing: 0.08em;
+  color: #000000;
   text-align: center;
   line-height: 1.1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .title-text-sub {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10em;
+  font-size: 11em;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--accent-tertiary, #16ABFA);
-  margin-top: 10em;
+  letter-spacing: 0.1em;
+  color: #000000;
+  margin-top: 6em;
   font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 /* ============================================
@@ -428,54 +421,35 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20em;
+  padding: 16em;
 }
 
 .github-logo {
-  width: 70em;
-  height: 70em;
-  margin-bottom: 14em;
+  width: 120em;
+  height: 120em;
+  margin-bottom: 12em;
 }
 
 .github-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 18em;
-}
-
-.github-icon {
-  width: 50em;
-  height: 50em;
-  margin-bottom: 12em;
-  color: #ffffff;
-}
-
-.github-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
+  border-radius: 30em;
 }
 
 .github-text {
   font-family: var(--font-primary, 'DM Sans', sans-serif);
-  font-size: 12em;
+  font-size: 14em;
   font-weight: 600;
-  color: var(--accent-primary, #FED700);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  color: #000000;
 }
 
 .github-username {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 11em;
-  color: var(--accent-tertiary, #16ABFA);
+  color: #000000;
   margin-top: 6em;
   font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.github-card:hover .github-icon {
-  color: var(--accent-primary, #FED700);
 }
 
 /* ============================================
