@@ -3,26 +3,26 @@
     "3d-effects": {
       "name": "3D Effects",
       "description": "Immersive three-dimensional visual experiences",
-      "color": "#00ffff",
-      "icon": "🎲"
+      "color": "#007BEF",
+      "icon": ""
     },
     "experimental": {
       "name": "Experimental",
       "description": "Cutting-edge design explorations",
-      "color": "#ff6b9d",
-      "icon": "🧪"
+      "color": "#FED700",
+      "icon": ""
     },
     "geometric-designs": {
       "name": "Geometric Designs",
       "description": "Mathematical beauty in digital form",
-      "color": "#4ecdc4",
-      "icon": "📐"
+      "color": "#16ABFA",
+      "icon": ""
     },
     "gradient-effects": {
       "name": "Gradient Effects",
       "description": "Color transitions and visual experiments",
-      "color": "#ffa726",
-      "icon": "🌈"
+      "color": "#F7F08A",
+      "icon": ""
     }
   },
   "works": [

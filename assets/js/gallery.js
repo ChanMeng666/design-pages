@@ -1,523 +1,572 @@
 /**
- * Gallery JavaScript - Gallery functionality implementation
+ * Full-Screen Infinite Scrolling Gallery
+ * Inspired by JIEJOE's infinite scrolling design
+ *
+ * Features:
+ * - GSAP-powered drag scrolling with infinite loop
+ * - Multiple card types (work, brand, contact, title, github)
+ * - Row-based layout with 4 horizontal rows
+ * - Hover scale effects
+ * - Click to open demos in new tab
  */
 
-class Gallery {
-  constructor() {
-    this.works = [];
-    this.filteredWorks = [];
-    this.categories = {};
-    this.currentView = 'grid';
-    this.currentCategory = 'all';
-    this.currentSort = 'newest';
-    this.searchQuery = '';
-    
-    this.init();
-  }
+const Gallery = {
+  // DOM Elements
+  container: null,
+  loadingOverlay: null,
 
+  // Data
+  works: [],
+  categories: {},
+  allCards: [],
+
+  // Layout
+  rows: [[], [], [], []],
+  rowElements: [],
+  cardData: [],
+
+  // Dimensions
+  containerWidth: 0,
+  containerHeight: 0,
+  cardWidth: 0,
+  cardHeight: 0,
+  standardWidth: 1440,
+  scaleNum: 1,
+
+  // Interaction
+  isDragging: false,
+  mouseX: 0,
+  mouseY: 0,
+  startX: 0,
+  startY: 0,
+
+  /**
+   * Initialize the gallery
+   */
   async init() {
-    try {
-      await this.loadData();
-      this.setupEventListeners();
-      this.parseUrlParams();
-      this.render();
-    } catch (error) {
-      console.error('Gallery initialization error:', error);
-      this.showError('Failed to load gallery data');
-    }
-  }
+    this.container = document.querySelector('.gallery-container');
+    this.loadingOverlay = document.getElementById('loadingState');
 
-  async loadData() {
-    const data = await App.fetchJSON('data/works.json');
-    if (!data) {
-      throw new Error('Failed to load works data');
-    }
-    
-    this.works = data.works;
-    this.categories = data.categories;
-    this.filteredWorks = [...this.works];
-  }
-
-  setupEventListeners() {
-    // Search input
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-      searchInput.addEventListener('input', App.debounce((e) => {
-        this.searchQuery = e.target.value.toLowerCase();
-        this.applyFilters();
-      }, 300));
-    }
-
-    // Category filter
-    const categorySelect = document.getElementById('categorySelect');
-    if (categorySelect) {
-      categorySelect.addEventListener('change', (e) => {
-        this.currentCategory = e.target.value;
-        this.applyFilters();
-      });
-    }
-
-    // Sort filter
-    const sortSelect = document.getElementById('sortSelect');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', (e) => {
-        this.currentSort = e.target.value;
-        this.applyFilters();
-      });
-    }
-
-    // View toggle
-    const viewButtons = document.querySelectorAll('.view-btn');
-    viewButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const view = e.target.dataset.view;
-        this.setView(view);
-      });
-    });
-
-    // Modal close
-    const modal = document.getElementById('workModal');
-    const modalClose = document.querySelector('.modal-close');
-    
-    if (modal && modalClose) {
-      modalClose.addEventListener('click', () => this.closeModal());
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) this.closeModal();
-      });
-    }
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') this.closeModal();
-      
-      // Search focus with Ctrl/Cmd + K
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        searchInput?.focus();
-      }
-    });
-  }
-
-  parseUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    
-    // Category filter from URL
-    const category = params.get('category');
-    if (category && this.categories[category]) {
-      this.currentCategory = category;
-      const categorySelect = document.getElementById('categorySelect');
-      if (categorySelect) categorySelect.value = category;
-    }
-
-    // Specific work preview
-    const workId = params.get('work');
-    if (workId) {
-      const work = this.works.find(w => w.id === workId);
-      if (work) {
-        setTimeout(() => this.openModal(work), 500);
-      }
-    }
-
-    // View mode
-    const view = params.get('view');
-    if (view && ['grid', 'list'].includes(view)) {
-      this.setView(view);
-    }
-  }
-
-  applyFilters() {
-    let filtered = [...this.works];
-
-    // Apply category filter
-    if (this.currentCategory !== 'all') {
-      filtered = filtered.filter(work => work.category === this.currentCategory);
-    }
-
-    // Apply search filter
-    if (this.searchQuery) {
-      filtered = filtered.filter(work => 
-        work.title.toLowerCase().includes(this.searchQuery) ||
-        work.description.toLowerCase().includes(this.searchQuery) ||
-        work.technologies.some(tech => tech.toLowerCase().includes(this.searchQuery))
-      );
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (this.currentSort) {
-        case 'newest':
-          return new Date(b.createDate) - new Date(a.createDate);
-        case 'oldest':
-          return new Date(a.createDate) - new Date(b.createDate);
-        case 'title':
-          return a.title.localeCompare(b.title);
-        case 'category':
-          return a.category.localeCompare(b.category);
-        default:
-          return 0;
-      }
-    });
-
-    this.filteredWorks = filtered;
-    this.renderWorks();
-    this.updateUrl();
-  }
-
-  setView(view) {
-    this.currentView = view;
-    
-    // Update view buttons
-    document.querySelectorAll('.view-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.view === view);
-    });
-
-    // Update grid classes
-    const grid = document.getElementById('worksGrid');
-    if (grid) {
-      grid.className = `works-grid ${view}-view`;
-    }
-
-    // Re-render works with new view
-    this.renderWorks();
-    this.updateUrl();
-  }
-
-  render() {
-    this.renderFilters();
-    this.renderWorks();
-  }
-
-  renderFilters() {
-    const categorySelect = document.getElementById('categorySelect');
-    if (categorySelect && Object.keys(this.categories).length > 0) {
-      categorySelect.innerHTML = `
-        <option value="all">All Categories (${this.works.length})</option>
-        ${Object.entries(this.categories).map(([key, category]) => {
-          const count = this.works.filter(work => work.category === key).length;
-          return `<option value="${key}">${category.name} (${count})</option>`;
-        }).join('')}
-      `;
-      categorySelect.value = this.currentCategory;
-    }
-  }
-
-  renderWorks() {
-    const grid = document.getElementById('worksGrid');
-    if (!grid) return;
-
-    if (this.filteredWorks.length === 0) {
-      this.showEmptyState(grid);
+    if (!this.container) {
+      console.error('Gallery container not found');
       return;
     }
 
-    grid.innerHTML = this.filteredWorks.map(work => this.createWorkCard(work)).join('');
-    
-    // Setup work card click handlers
-    grid.querySelectorAll('.work-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Don't trigger if clicking on action buttons or iframe
-        if (e.target.closest('.work-actions') || e.target.closest('.work-preview-iframe')) return;
-        
-        const workId = card.dataset.workId;
-        const work = this.works.find(w => w.id === workId);
-        if (work) {
-          window.open(work.path, '_blank');
-        }
+    try {
+      // Load data
+      await this.loadData();
+
+      // Create all cards
+      this.createAllCards();
+
+      // Distribute cards to rows
+      this.distributeCards();
+
+      // Render the gallery
+      this.render();
+
+      // Setup interactions
+      this.setupDrag();
+      this.setupResize();
+      this.setupCardClicks();
+
+      // Initial resize calculation
+      this.resize();
+
+      // Hide loading overlay
+      this.hideLoading();
+
+      console.log('Gallery initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize gallery:', error);
+      this.hideLoading();
+    }
+  },
+
+  /**
+   * Load works data from JSON
+   */
+  async loadData() {
+    try {
+      const response = await fetch('data/works.json');
+      if (!response.ok) throw new Error('Failed to load works.json');
+
+      const data = await response.json();
+      this.works = data.works || [];
+      this.categories = data.categories || {};
+    } catch (error) {
+      console.error('Error loading data:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Create all card objects (works + special cards)
+   */
+  createAllCards() {
+    this.allCards = [];
+
+    // Create work cards
+    this.works.forEach(work => {
+      this.allCards.push({
+        type: 'work',
+        data: work
       });
     });
 
-    // Setup action button handlers
-    grid.querySelectorAll('.action-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const action = btn.dataset.action;
-        const workId = e.target.closest('.work-card').dataset.workId;
-        const work = this.works.find(w => w.id === workId);
-        
-        if (action === 'open') {
-          window.open(work.path, '_blank');
+    // Create special cards
+    this.allCards.push({
+      type: 'brand',
+      data: {
+        name: 'CHAN MENG',
+        tagline: 'Digital Designer'
+      }
+    });
+
+    this.allCards.push({
+      type: 'title',
+      data: {
+        title: 'DIGITAL DESIGN',
+        subtitle: 'Portfolio'
+      }
+    });
+
+    this.allCards.push({
+      type: 'github',
+      data: {
+        username: 'chanmeng666',
+        url: 'https://github.com/chanmeng666'
+      }
+    });
+
+    this.allCards.push({
+      type: 'contact',
+      data: {
+        label: 'Email',
+        value: 'chanmeng666@outlook.com',
+        href: 'mailto:chanmeng666@outlook.com'
+      }
+    });
+
+    // Add category cards
+    Object.entries(this.categories).forEach(([slug, category]) => {
+      const count = this.works.filter(w => w.category === slug).length;
+      this.allCards.push({
+        type: 'category',
+        data: {
+          slug: slug,
+          name: category.name,
+          color: category.color,
+          count: count
         }
       });
     });
+  },
 
-    // Setup iframe interaction prevention for smooth card hover
-    grid.querySelectorAll('.work-preview-iframe').forEach(iframe => {
-      iframe.addEventListener('mouseenter', (e) => {
-        e.target.style.pointerEvents = 'none';
-      });
-      
-      const card = iframe.closest('.work-card');
-      if (card) {
-        card.addEventListener('mouseleave', () => {
-          iframe.style.pointerEvents = 'auto';
+  /**
+   * Distribute cards across 4 rows
+   */
+  distributeCards() {
+    this.rows = [[], [], [], []];
+
+    // Shuffle cards for variety
+    const shuffled = [...this.allCards].sort(() => Math.random() - 0.5);
+
+    // Distribute evenly
+    shuffled.forEach((card, index) => {
+      this.rows[index % 4].push(card);
+    });
+
+    // Duplicate cards in each row to ensure seamless infinite scroll
+    this.rows = this.rows.map(row => {
+      // Need enough cards to fill the viewport width + some extra
+      const minCards = 10;
+      while (row.length < minCards) {
+        row = [...row, ...row];
+      }
+      return row;
+    });
+  },
+
+  /**
+   * Render the gallery to DOM
+   */
+  render() {
+    this.container.innerHTML = '';
+    this.rowElements = [];
+    this.cardData = [];
+
+    this.rows.forEach((row, rowIndex) => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'gallery-row';
+      rowEl.dataset.row = rowIndex;
+
+      row.forEach((card) => {
+        const cardEl = this.createCardElement(card);
+        rowEl.appendChild(cardEl);
+
+        // Store card data for animation
+        this.cardData.push({
+          node: cardEl,
+          x: 0,
+          y: 0,
+          movX: 0,
+          movY: 0,
+          animation: null
         });
-      }
-    });
-  }
+      });
 
-  createWorkCard(work) {
-    const category = this.categories[work.category];
-    const isListView = this.currentView === 'list';
-    
+      this.container.appendChild(rowEl);
+      this.rowElements.push(rowEl);
+    });
+  },
+
+  /**
+   * Create a card DOM element based on type
+   */
+  createCardElement(card) {
+    const el = document.createElement('div');
+    el.className = `gallery-card ${card.type}-card`;
+
+    switch (card.type) {
+      case 'work':
+        el.innerHTML = this.renderWorkCard(card.data);
+        el.dataset.path = card.data.path;
+        break;
+
+      case 'brand':
+        el.innerHTML = this.renderBrandCard(card.data);
+        el.dataset.url = 'https://github.com/chanmeng666';
+        break;
+
+      case 'title':
+        el.innerHTML = this.renderTitleCard(card.data);
+        break;
+
+      case 'github':
+        el.innerHTML = this.renderGithubCard(card.data);
+        el.dataset.url = card.data.url;
+        break;
+
+      case 'contact':
+        el.innerHTML = this.renderContactCard(card.data);
+        el.dataset.href = card.data.href;
+        break;
+
+      case 'category':
+        el.innerHTML = this.renderCategoryCard(card.data);
+        el.classList.add(`cat-${card.data.slug}`);
+        break;
+    }
+
+    return el;
+  },
+
+  /**
+   * Render work card HTML
+   */
+  renderWorkCard(work) {
+    const categoryName = this.categories[work.category]?.name || work.category;
     return `
-      <div class="work-card ${isListView ? 'list-view' : ''}" data-work-id="${work.id}">
-        <div class="work-preview ${isListView ? 'list-view' : ''}">
-          <iframe 
-            class="work-preview-iframe" 
-            src="${work.path}" 
-            title="${work.title} Preview"
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin"
-          ></iframe>
-          <div class="work-preview-overlay">
-            <div class="category-badge">
-              <span class="category-icon">${category?.icon || '🎨'}</span>
-              <span class="category-text">${category?.name || work.category}</span>
-            </div>
-          </div>
-        </div>
-        <div class="work-card-content ${isListView ? 'list-view' : ''}">
-          <div class="work-card-header">
-            <h3 class="work-title">${work.title}</h3>
-            <span class="work-category category-${work.category}">
-              ${category?.name || work.category}
-            </span>
-          </div>
-          <p class="work-description">${work.description}</p>
-          <div class="work-tech">
-            ${work.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-          </div>
-        </div>
-        <div class="work-actions ${isListView ? 'list-view' : ''}">
-          <button class="action-btn primary" data-action="open">
-            🔗 Open
-          </button>
+      <div class="card-inner">
+        <iframe
+          src="${work.path}"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+          title="${work.title}"
+        ></iframe>
+        <div class="work-card-overlay">
+          <h3 class="work-card-title">${work.title}</h3>
+          <span class="work-card-category">${categoryName}</span>
         </div>
       </div>
     `;
-  }
-
-  showEmptyState(container) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <h3 class="empty-title">No matching works found</h3>
-        <p class="empty-description">
-          ${this.searchQuery ? 
-            `No works found containing "${this.searchQuery}"` : 
-            'No works match the current filter criteria'}
-        </p>
-        <button class="btn btn-primary" onclick="gallery.clearFilters()">
-          Clear Filters
-        </button>
-      </div>
-    `;
-  }
-
-  clearFilters() {
-    this.currentCategory = 'all';
-    this.searchQuery = '';
-    this.currentSort = 'newest';
-    
-    // Reset form controls
-    const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categorySelect');
-    const sortSelect = document.getElementById('sortSelect');
-    
-    if (searchInput) searchInput.value = '';
-    if (categorySelect) categorySelect.value = 'all';
-    if (sortSelect) sortSelect.value = 'newest';
-    
-    this.applyFilters();
-  }
-
-  openModal(work) {
-    const modal = document.getElementById('workModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalIframe = document.getElementById('modalIframe');
-    const modalInfo = document.querySelector('.modal-info');
-    
-    if (!modal || !modalTitle || !modalIframe || !modalInfo) return;
-
-    // Set modal content
-    modalTitle.textContent = work.title;
-    modalIframe.src = work.path;
-    
-    modalInfo.innerHTML = `
-      <div style="margin-bottom: 1rem;">
-        <strong>Category:</strong> ${this.categories[work.category]?.name || work.category}
-      </div>
-      <div style="margin-bottom: 1rem;">
-        <strong>Technologies:</strong> ${work.technologies.join(', ')}
-      </div>
-      <div>
-        <strong>Description:</strong> ${work.description}
-      </div>
-    `;
-
-    // Show modal
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-
-    // Update URL
-    const url = new URL(window.location);
-    url.searchParams.set('work', work.id);
-    window.history.pushState({}, '', url);
-  }
-
-  closeModal() {
-    const modal = document.getElementById('workModal');
-    const modalIframe = document.getElementById('modalIframe');
-    
-    if (modal) {
-      modal.classList.remove('open');
-      document.body.style.overflow = '';
-      
-      // Clear iframe src to stop any animations/sounds
-      if (modalIframe) {
-        modalIframe.src = '';
-      }
-
-      // Update URL
-      const url = new URL(window.location);
-      url.searchParams.delete('work');
-      window.history.pushState({}, '', url);
-    }
-  }
-
-  updateUrl() {
-    const url = new URL(window.location);
-    
-    // Update category param
-    if (this.currentCategory !== 'all') {
-      url.searchParams.set('category', this.currentCategory);
-    } else {
-      url.searchParams.delete('category');
-    }
-
-    // Update view param
-    if (this.currentView !== 'grid') {
-      url.searchParams.set('view', this.currentView);
-    } else {
-      url.searchParams.delete('view');
-    }
-
-    // Update sort param
-    if (this.currentSort !== 'newest') {
-      url.searchParams.set('sort', this.currentSort);
-    } else {
-      url.searchParams.delete('sort');
-    }
-
-    // Update search param
-    if (this.searchQuery) {
-      url.searchParams.set('search', this.searchQuery);
-    } else {
-      url.searchParams.delete('search');
-    }
-
-    window.history.replaceState({}, '', url);
-  }
-
-  showError(message) {
-    const grid = document.getElementById('worksGrid');
-    if (grid) {
-      grid.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">⚠️</div>
-          <h3 class="empty-title">Load Failed</h3>
-          <p class="empty-description">${message}</p>
-          <button class="btn btn-primary" onclick="location.reload()">
-            Reload
-          </button>
-        </div>
-      `;
-    }
-  }
-
-  // Public methods for external access
-  getStats() {
-    return {
-      total: this.works.length,
-      categories: Object.keys(this.categories).length,
-      filtered: this.filteredWorks.length,
-      featured: this.works.filter(work => work.featured).length
-    };
-  }
-
-  getWorkById(id) {
-    return this.works.find(work => work.id === id);
-  }
-
-  getWorksByCategory(category) {
-    return this.works.filter(work => work.category === category);
-  }
-}
-
-// Utility functions for gallery
-const GalleryUtils = {
-  // Create thumbnail from iframe
-  createThumbnail(work, callback) {
-    const iframe = document.createElement('iframe');
-    iframe.src = work.path;
-    iframe.style.cssText = `
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-      width: 1200px;
-      height: 800px;
-    `;
-    
-    document.body.appendChild(iframe);
-    
-    iframe.onload = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 300;
-        canvas.height = 200;
-        
-        // Note: This won't work for cross-origin iframes
-        // In a real implementation, you'd need to use a screenshot service
-        
-        setTimeout(() => {
-          document.body.removeChild(iframe);
-          callback(canvas.toDataURL());
-        }, 1000);
-      } catch (error) {
-        document.body.removeChild(iframe);
-        callback(null);
-      }
-    };
   },
 
-  // Format date
-  formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+  /**
+   * Render brand card HTML
+   */
+  renderBrandCard(data) {
+    return `
+      <div class="card-inner">
+        <div class="brand-logo">
+          <svg viewBox="0 0 100 100" fill="currentColor">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"/>
+            <text x="50" y="58" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="32" fill="currentColor">CM</text>
+          </svg>
+        </div>
+        <div class="brand-name">${data.name}</div>
+        <div class="brand-tagline">${data.tagline}</div>
+      </div>
+    `;
+  },
+
+  /**
+   * Render title card HTML
+   */
+  renderTitleCard(data) {
+    return `
+      <div class="card-inner">
+        <div class="title-text">${data.title}</div>
+        <div class="title-text-sub">${data.subtitle}</div>
+      </div>
+    `;
+  },
+
+  /**
+   * Render GitHub card HTML
+   */
+  renderGithubCard(data) {
+    return `
+      <div class="card-inner">
+        <div class="github-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </div>
+        <div class="github-text">View on GitHub</div>
+        <div class="github-username">@${data.username}</div>
+      </div>
+    `;
+  },
+
+  /**
+   * Render contact card HTML
+   */
+  renderContactCard(data) {
+    return `
+      <div class="card-inner">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="contact-label">${data.label}</div>
+        <div class="contact-value">${data.value}</div>
+      </div>
+    `;
+  },
+
+  /**
+   * Render category card HTML
+   */
+  renderCategoryCard(data) {
+    return `
+      <div class="card-inner">
+        <div class="category-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <div class="category-name">${data.name}</div>
+        <div class="category-count">${data.count} works</div>
+      </div>
+    `;
+  },
+
+  /**
+   * Setup drag interaction
+   */
+  setupDrag() {
+    this.container.addEventListener('mousedown', (e) => {
+      this.isDragging = true;
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      this.container.style.cursor = 'grabbing';
+    });
+
+    this.container.addEventListener('mouseup', () => {
+      this.isDragging = false;
+      this.container.style.cursor = 'grab';
+    });
+
+    this.container.addEventListener('mouseleave', () => {
+      this.isDragging = false;
+      this.container.style.cursor = 'grab';
+    });
+
+    this.container.addEventListener('mousemove', (e) => {
+      this.move(e.clientX, e.clientY);
+    });
+
+    // Touch support
+    this.container.addEventListener('touchstart', (e) => {
+      this.isDragging = true;
+      this.mouseX = e.touches[0].clientX;
+      this.mouseY = e.touches[0].clientY;
+      this.startX = e.touches[0].clientX;
+      this.startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    this.container.addEventListener('touchend', () => {
+      this.isDragging = false;
+    });
+
+    this.container.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        this.move(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+  },
+
+  /**
+   * Handle drag movement with infinite loop wrapping
+   */
+  move(x, y) {
+    if (!this.isDragging) return;
+
+    const distanceX = (x - this.mouseX) / this.scaleNum;
+    const distanceY = (y - this.mouseY) / this.scaleNum;
+
+    this.cardData.forEach((card) => {
+      let duration = 1;
+
+      // Update X position
+      card.movX += distanceX;
+
+      // Wrap horizontally
+      if (card.x + card.movX > this.containerWidth) {
+        card.movX -= this.containerWidth;
+        duration = 0;
+      }
+      if (card.x + card.movX < -this.cardWidth) {
+        card.movX += this.containerWidth;
+        duration = 0;
+      }
+
+      // Update Y position
+      card.movY += distanceY;
+
+      // Wrap vertically
+      if (card.y + card.movY > this.containerHeight) {
+        card.movY -= this.containerHeight;
+        duration = 0;
+      }
+      if (card.y + card.movY < -this.cardHeight) {
+        card.movY += this.containerHeight;
+        duration = 0;
+      }
+
+      // Kill previous animation if exists
+      if (card.animation) card.animation.kill();
+
+      // Animate to new position
+      card.animation = gsap.to(card.node, {
+        transform: `translate(${card.movX}px, ${card.movY}px)`,
+        duration: duration,
+        ease: 'power4.out'
+      });
+    });
+
+    this.mouseX = x;
+    this.mouseY = y;
+  },
+
+  /**
+   * Setup resize handler
+   */
+  setupResize() {
+    window.addEventListener('resize', () => {
+      this.resize();
     });
   },
 
-  // Generate SEO friendly URL
-  generateSlug(title) {
-    return title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+  /**
+   * Handle window resize
+   */
+  resize() {
+    const cards = [...document.querySelectorAll('.gallery-card')];
+    if (cards.length === 0) return;
+
+    this.containerWidth = this.container.offsetWidth;
+    this.containerHeight = this.container.offsetHeight;
+    this.cardWidth = cards[0].offsetWidth;
+    this.cardHeight = cards[0].offsetHeight;
+
+    this.scaleNum = document.body.offsetWidth / this.standardWidth;
+    this.container.style.transform = `scale(${this.scaleNum})`;
+
+    // Reset all card positions
+    gsap.to(cards, {
+      transform: 'translate(0, 0)',
+      duration: 0,
+      ease: 'power4.out'
+    });
+
+    // Update card data positions
+    this.cardData = [];
+    cards.forEach(card => {
+      this.cardData.push({
+        node: card,
+        x: card.offsetLeft,
+        y: card.offsetTop,
+        movX: 0,
+        movY: 0,
+        animation: null
+      });
+    });
+  },
+
+  /**
+   * Setup card click handlers
+   */
+  setupCardClicks() {
+    this.container.addEventListener('click', (e) => {
+      // Don't trigger click if we were dragging (moved more than 5px)
+      const dragDistance = Math.abs(this.startX - e.clientX) + Math.abs(this.startY - e.clientY);
+      if (dragDistance > 10) {
+        return;
+      }
+
+      const card = e.target.closest('.gallery-card');
+      if (!card) return;
+
+      // Work card - open demo in new tab
+      if (card.classList.contains('work-card') && card.dataset.path) {
+        window.open(card.dataset.path, '_blank');
+        return;
+      }
+
+      // GitHub card
+      if (card.classList.contains('github-card') && card.dataset.url) {
+        window.open(card.dataset.url, '_blank');
+        return;
+      }
+
+      // Brand card
+      if (card.classList.contains('brand-card') && card.dataset.url) {
+        window.open(card.dataset.url, '_blank');
+        return;
+      }
+
+      // Contact card
+      if (card.classList.contains('contact-card') && card.dataset.href) {
+        window.location.href = card.dataset.href;
+        return;
+      }
+    });
+  },
+
+  /**
+   * Hide loading overlay
+   */
+  hideLoading() {
+    if (this.loadingOverlay) {
+      this.loadingOverlay.classList.add('hidden');
+    }
   }
 };
 
-// Initialize gallery when DOM is loaded
+// Initialize gallery when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('worksGrid')) {
-    window.gallery = new Gallery();
-  }
+  Gallery.init();
 });
 
-// Export for use in other modules
+// Export for external access
 window.Gallery = Gallery;
-window.GalleryUtils = GalleryUtils; 
