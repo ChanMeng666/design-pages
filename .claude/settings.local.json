@@ -3,7 +3,19 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(branding\\): add brand logo to favicon, header and footer\n\n- Add design-pages-logo.svg as favicon and apple-touch-icon\n- Display logo in header navigation alongside site title\n- Update footer brand section with new logo\n- Add hover animations for logo icons\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Skill(example-skills:frontend-design)",
+      "Bash(python -m http.server:*)",
+      "Skill(example-skills:webapp-testing)",
+      "Bash(python:*)",
+      "Bash(pip show:*)",
+      "Bash(curl:*)",
+      "Bash(cd:*)",
+      "Bash(dir:*)",
+      "Bash(git -C \"D:\\\\github_repository\\\\design-pages\" log --oneline -15)",
+      "Bash(git -C \"D:\\\\github_repository\\\\design-pages\" status)",
+      "Bash(grep:*)"
     ]
   }
 }

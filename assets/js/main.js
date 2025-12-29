@@ -79,28 +79,26 @@ class App {
   setTheme(theme) {
     const body = document.body;
     const themeToggle = document.querySelector('.theme-toggle');
-    
+
     // Remove existing theme classes
     body.classList.remove('light-theme', 'dark-theme');
-    
+
     // Add new theme class
     if (theme === 'light') {
       body.classList.add('light-theme');
       if (themeToggle) {
-        themeToggle.innerHTML = '🌙';
         themeToggle.setAttribute('aria-label', 'Switch to dark theme');
       }
     } else {
       body.classList.add('dark-theme');
       if (themeToggle) {
-        themeToggle.innerHTML = '☀️';
         themeToggle.setAttribute('aria-label', 'Switch to light theme');
       }
     }
-    
+
     // Save theme preference
     localStorage.setItem('theme', theme);
-    
+
     // Dispatch theme change event
     window.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
   }
@@ -123,13 +121,123 @@ class App {
   updateMobileMenuIcon(isOpen) {
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     if (mobileMenuToggle) {
-      mobileMenuToggle.innerHTML = isOpen ? '✕' : '☰';
+      mobileMenuToggle.classList.toggle('is-open', isOpen);
       mobileMenuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     }
   }
 
   setupAnimations() {
-    // Intersection Observer for fade-in animations
+    // Check if GSAP is available
+    if (typeof gsap !== 'undefined') {
+      this.setupGSAPAnimations();
+    } else {
+      // Fallback to Intersection Observer
+      this.setupFallbackAnimations();
+    }
+  }
+
+  setupGSAPAnimations() {
+    // Register ScrollTrigger plugin
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // Immersive Hero section animations
+    const heroTimeline = gsap.timeline({
+      defaults: { ease: 'power4.out' }
+    });
+
+    // Set initial states
+    gsap.set('.hero-eyebrow', { opacity: 0, y: 40 });
+    gsap.set('.hero-title', { opacity: 0, y: 80, scale: 0.95 });
+    gsap.set('.hero-accent-line', { scaleX: 0 });
+    gsap.set('.hero-subtitle', { opacity: 0, y: 30 });
+    gsap.set('.hero-scroll-indicator', { opacity: 0, y: 20 });
+
+    // Animate hero elements with stagger
+    heroTimeline
+      .to('.hero-eyebrow', {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        delay: 0.3
+      })
+      .to('.hero-title', {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2
+      }, '-=0.6')
+      .to('.hero-accent-line', {
+        scaleX: 1,
+        transformOrigin: 'center center',
+        duration: 0.8
+      }, '-=0.4')
+      .to('.hero-subtitle', {
+        y: 0,
+        opacity: 1,
+        duration: 0.8
+      }, '-=0.4')
+      .to('.hero-scroll-indicator', {
+        y: 0,
+        opacity: 0.6,
+        duration: 0.6
+      }, '-=0.2');
+
+    // Gallery controls animation
+    gsap.from('.gallery-controls-float', {
+      y: -20,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.gallery-section',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // Scroll indicator click handler
+    const scrollIndicator = document.querySelector('.hero-scroll-indicator');
+    if (scrollIndicator) {
+      scrollIndicator.addEventListener('click', () => {
+        const gallerySection = document.querySelector('.gallery-section');
+        if (gallerySection) {
+          gallerySection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Parallax effect on hero gradient
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.to('.hero-gradient', {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      // Footer animation
+      gsap.from('.footer', {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.footer',
+          start: 'top 90%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }
+  }
+
+  setupFallbackAnimations() {
+    // Fallback Intersection Observer for browsers without GSAP
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -145,7 +253,7 @@ class App {
     }, observerOptions);
 
     // Observe elements that should animate in
-    document.querySelectorAll('.category-card, .featured-work, .section-header').forEach(el => {
+    document.querySelectorAll('.category-card, .featured-work, .section-header, .work-card').forEach(el => {
       observer.observe(el);
     });
   }
