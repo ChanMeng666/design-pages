@@ -67,6 +67,16 @@
       "createDate": "2024-01-08"
     },
     {
+      "id": "xwing-starfighter",
+      "title": "X-Wing Starfighter",
+      "category": "3d-effects",
+      "description": "Cinematic CSS 3D X-Wing starfighter with animated flight sequence and engine effects",
+      "technologies": ["CSS 3D Transform", "CSS Animation", "Keyframes"],
+      "path": "demos/3d-effects/xwing-starfighter.html",
+      "featured": true,
+      "createDate": "2026-01-23"
+    },
+    {
       "id": "visual-rhythm",
       "title": "Visual Rhythm",
       "category": "experimental",
