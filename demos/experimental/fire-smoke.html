@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire & Smoke - Design Pages by Chan Meng</title>
+    <meta name="description" content="Realistic procedural fire with rising smoke using fractal noise. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, fire, smoke, flames, procedural, experimental, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/experimental/fire-smoke.html">
+    <meta property="og:title" content="Fire & Smoke - Design Pages">
+    <meta property="og:description" content="Realistic procedural fire with rising smoke using fractal noise.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/experimental/fire-smoke.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Fire & Smoke",
+      "description": "Realistic procedural fire with rising smoke using fractal noise",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/experimental/fire-smoke.html",
+      "genre": "Experimental",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Fire & Smoke Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            
+            // Hash function
+            float hash(vec2 p) {
+                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+            }
+            
+            // Noise function
+            float noise(vec2 p) {
+                vec2 i = floor(p);
+                vec2 f = fract(p);
+                f = f * f * (3.0 - 2.0 * f);
+                
+                float a = hash(i);
+                float b = hash(i + vec2(1.0, 0.0));
+                float c = hash(i + vec2(0.0, 1.0));
+                float d = hash(i + vec2(1.0, 1.0));
+                
+                return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+            }
+            
+            // Fractal Brownian Motion
+            float fbm(vec2 p, int octaves) {
+                float value = 0.0;
+                float amplitude = 0.5;
+                float frequency = 1.0;
+                
+                for (int i = 0; i < 8; i++) {
+                    if (i >= octaves) break;
+                    value += amplitude * noise(p * frequency);
+                    frequency *= 2.0;
+                    amplitude *= 0.5;
+                }
+                return value;
+            }
+            
+            void main() {
+                vec2 uv = gl_FragCoord.xy / uResolution.xy;
+                uv.x = (uv.x - 0.5) * (uResolution.x / uResolution.y) + 0.5;
+                
+                float time = uTime;
+                
+                // Background - dark gradient
+                vec3 bg = mix(vec3(0.02, 0.01, 0.02), vec3(0.1, 0.05, 0.02), uv.y * 0.5);
+                
+                vec3 col = bg;
+                
+                // Fire base position
+                vec2 fireCenter = vec2(0.5, 0.15);
+                vec2 fireUV = uv - fireCenter;
+                
+                // Fire shape
+                float fireWidth = 0.25 - uv.y * 0.15;
+                float fireMask = smoothstep(fireWidth, fireWidth * 0.3, abs(fireUV.x));
+                fireMask *= smoothstep(-0.1, 0.1, uv.y);
+                fireMask *= smoothstep(0.9, 0.3, uv.y);
+                
+                // Animated turbulence
+                vec2 noiseUV = vec2(fireUV.x * 4.0, uv.y * 3.0 - time * 2.0);
+                float turbulence = fbm(noiseUV, 6);
+                
+                // Distort fire shape
+                float distortedMask = fireMask;
+                distortedMask *= turbulence * 1.5 + 0.3;
+                
+                // Fire intensity based on height
+                float intensity = smoothstep(0.8, 0.0, uv.y);
+                intensity *= distortedMask;
+                
+                // Fire colors
+                vec3 fireCore = vec3(1.0, 0.9, 0.5);
+                vec3 fireMid = vec3(1.0, 0.5, 0.1);
+                vec3 fireOuter = vec3(0.8, 0.2, 0.05);
+                vec3 fireEdge = vec3(0.3, 0.05, 0.0);
+                
+                // Mix fire colors based on intensity and height
+                vec3 fireCol = mix(fireEdge, fireOuter, smoothstep(0.0, 0.3, intensity));
+                fireCol = mix(fireCol, fireMid, smoothstep(0.2, 0.5, intensity));
+                fireCol = mix(fireCol, fireCore, smoothstep(0.5, 0.9, intensity));
+                
+                // Add fire to scene
+                col = mix(col, fireCol, smoothstep(0.05, 0.3, intensity));
+                
+                // Embers / sparks
+                for (float i = 0.0; i < 20.0; i++) {
+                    vec2 sparkPos = vec2(
+                        0.5 + sin(i * 1234.5 + time * (0.5 + hash(vec2(i)) * 0.5)) * 0.3,
+                        fract(hash(vec2(i, 0.0)) + time * (0.2 + hash(vec2(0.0, i)) * 0.3))
+                    );
+                    
+                    float sparkDist = length(uv - sparkPos);
+                    float spark = smoothstep(0.01, 0.005, sparkDist);
+                    spark *= smoothstep(0.0, 0.3, sparkPos.y) * smoothstep(0.9, 0.5, sparkPos.y);
+                    
+                    vec3 sparkCol = mix(vec3(1.0, 0.6, 0.2), vec3(1.0, 0.3, 0.1), hash(vec2(i)));
+                    col += sparkCol * spark * 0.5;
+                }
+                
+                // Smoke
+                vec2 smokeUV = uv - vec2(0.5, 0.0);
+                smokeUV.x += sin(uv.y * 5.0 + time) * 0.1 * uv.y;
+                
+                vec2 smokeNoiseUV = vec2(smokeUV.x * 2.0, uv.y * 1.5 - time * 0.5);
+                float smoke = fbm(smokeNoiseUV, 5);
+                
+                float smokeMask = smoothstep(0.4, 0.1, abs(smokeUV.x));
+                smokeMask *= smoothstep(0.3, 0.5, uv.y);
+                smokeMask *= smoothstep(1.1, 0.6, uv.y);
+                smokeMask *= smoke;
+                
+                vec3 smokeCol = vec3(0.3, 0.3, 0.35);
+                col = mix(col, smokeCol, smokeMask * 0.4);
+                
+                // Glow around fire
+                float glow = smoothstep(0.5, 0.0, length(uv - vec2(0.5, 0.25)));
+                col += vec3(1.0, 0.4, 0.1) * glow * 0.2;
+                
+                // Ground reflection
+                if (uv.y < 0.1) {
+                    col += vec3(0.5, 0.2, 0.05) * (0.1 - uv.y) * 2.0 * intensity;
+                }
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>

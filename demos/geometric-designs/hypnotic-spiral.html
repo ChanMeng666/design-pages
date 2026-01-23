@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypnotic Spiral - Design Pages by Chan Meng</title>
+    <meta name="description" content="Infinite zooming spiral pattern with mesmerizing optical illusion effects. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, spiral, hypnotic, optical illusion, geometric designs, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/geometric-designs/hypnotic-spiral.html">
+    <meta property="og:title" content="Hypnotic Spiral - Design Pages">
+    <meta property="og:description" content="Infinite zooming spiral pattern with mesmerizing optical illusion effects.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/geometric-designs/hypnotic-spiral.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Hypnotic Spiral",
+      "description": "Infinite zooming spiral pattern with optical illusion effects",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/geometric-designs/hypnotic-spiral.html",
+      "genre": "Geometric Designs",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Hypnotic Spiral Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            #define TAU 6.28318530718
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                float time = uTime;
+                
+                // Convert to polar coordinates
+                float r = length(uv);
+                float a = atan(uv.y, uv.x);
+                
+                // Logarithmic spiral - infinite zoom effect
+                float spiral = a / TAU + log(r + 0.001) * 1.5 - time * 0.3;
+                
+                // Create spiral arms
+                float arms = 6.0;
+                spiral *= arms;
+                
+                // Pattern
+                float pattern = sin(spiral * TAU);
+                
+                // Add secondary pattern for complexity
+                float pattern2 = sin((spiral + 0.5) * TAU + time);
+                
+                // Color based on pattern
+                vec3 col1 = vec3(0.1, 0.0, 0.2);
+                vec3 col2 = vec3(0.9, 0.1, 0.3);
+                vec3 col3 = vec3(0.1, 0.5, 0.9);
+                vec3 col4 = vec3(0.9, 0.9, 0.1);
+                
+                // Mix colors based on patterns
+                vec3 col = mix(col1, col2, smoothstep(-1.0, 1.0, pattern));
+                col = mix(col, col3, smoothstep(-1.0, 1.0, pattern2) * 0.3);
+                
+                // Add some variation with radius
+                col = mix(col, col4, sin(r * 20.0 - time * 2.0) * 0.1 + 0.1);
+                
+                // Pulsing brightness
+                float pulse = sin(time * 2.0) * 0.1 + 0.9;
+                col *= pulse;
+                
+                // Edge glow based on spiral pattern
+                float glow = 1.0 - abs(pattern);
+                glow = pow(glow, 4.0);
+                col += vec3(0.5, 0.2, 0.8) * glow * 0.5;
+                
+                // Center highlight
+                float center = smoothstep(0.3, 0.0, r);
+                col = mix(col, vec3(1.0, 0.9, 0.8), center * 0.3);
+                
+                // Outer fade
+                col *= smoothstep(1.5, 0.5, r);
+                
+                // Vignette
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.5 + 0.5 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.2);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>

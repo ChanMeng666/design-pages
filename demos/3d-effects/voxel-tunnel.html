@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voxel Tunnel - Design Pages by Chan Meng</title>
+    <meta name="description" content="WebGL raymarched voxel tunnel with infinite depth effect. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, voxel, tunnel, raymarching, 3D effects, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/3d-effects/voxel-tunnel.html">
+    <meta property="og:title" content="Voxel Tunnel - Design Pages">
+    <meta property="og:description" content="WebGL raymarched voxel tunnel with infinite depth effect. A GLSL shader experiment by Chan Meng.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/3d-effects/voxel-tunnel.html">
+    <script type="text/llms.txt">
+## Voxel Tunnel
+
+A WebGL shader experiment by Chan Meng featuring a raymarched voxel tunnel effect.
+
+### Technical Details
+- Category: 3D Effects
+- Technologies: WebGL, GLSL, Shaderview
+- Created: 2025-01-23
+- Featured: No
+
+### Key Features
+- Real-time raymarching in fragment shader
+- Voxel-based 3D rendering
+- Infinite tunnel effect with depth
+- GPU-accelerated via WebGL
+
+### Shader Attribution
+- Original concept inspired by lsdlives on Shadertoy
+- License: CC BY-SA-NC
+- Adapted for Shaderview Web Component
+
+### Part of Design Pages Portfolio
+Full gallery: https://chanmeng666.github.io/design-pages
+Author: Chan Meng | GitHub: https://github.com/ChanMeng666
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Voxel Tunnel",
+      "description": "WebGL raymarched voxel tunnel with infinite depth effect",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/voxel-tunnel.html",
+      "genre": "3D Effects",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        
+        .fallback {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Voxel Tunnel Shader
+            // Inspired by lsdlives on Shadertoy
+            // License: CC BY-SA-NC
+            // Adapted for Design Pages by Chan Meng
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            
+            // Hash function for pseudo-random values
+            float hash(vec3 p) {
+                p = fract(p * 0.3183099 + 0.1);
+                p *= 17.0;
+                return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+            }
+            
+            // Box signed distance function
+            float sdBox(vec3 p, vec3 b) {
+                vec3 d = abs(p) - b;
+                return min(max(d.x, max(d.y, d.z)), 0.0) + length(max(d, 0.0));
+            }
+            
+            // Tunnel distance function
+            float tunnel(vec3 p) {
+                // Create tunnel shape
+                float radius = 2.5;
+                vec2 q = vec2(length(p.xy) - radius, p.z);
+                
+                // Voxelize
+                vec3 voxelSize = vec3(0.3);
+                vec3 vp = floor(p / voxelSize) * voxelSize;
+                
+                // Random voxel presence
+                float h = hash(vp);
+                
+                // Distance to voxel
+                float d = sdBox(p - vp - voxelSize * 0.5, voxelSize * 0.4);
+                
+                // Only show voxels near tunnel surface
+                float tunnelDist = abs(length(p.xy) - radius) - 0.5;
+                
+                return h > 0.6 ? max(d, tunnelDist) : tunnelDist + 0.1;
+            }
+            
+            // Raymarching
+            float raymarch(vec3 ro, vec3 rd) {
+                float t = 0.0;
+                for (int i = 0; i < 80; i++) {
+                    vec3 p = ro + rd * t;
+                    float d = tunnel(p);
+                    if (d < 0.001) break;
+                    t += d * 0.5;
+                    if (t > 50.0) break;
+                }
+                return t;
+            }
+            
+            // Calculate normal
+            vec3 getNormal(vec3 p) {
+                vec2 e = vec2(0.001, 0.0);
+                return normalize(vec3(
+                    tunnel(p + e.xyy) - tunnel(p - e.xyy),
+                    tunnel(p + e.yxy) - tunnel(p - e.yxy),
+                    tunnel(p + e.yyx) - tunnel(p - e.yyx)
+                ));
+            }
+            
+            // Color palette
+            vec3 palette(float t) {
+                vec3 a = vec3(0.5, 0.5, 0.5);
+                vec3 b = vec3(0.5, 0.5, 0.5);
+                vec3 c = vec3(1.0, 1.0, 1.0);
+                vec3 d = vec3(0.0, 0.33, 0.67);
+                return a + b * cos(6.28318 * (c * t + d));
+            }
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                
+                // Camera setup - moving through tunnel
+                float time = uTime * 0.8;
+                vec3 ro = vec3(0.0, 0.0, time * 3.0);
+                
+                // Camera rotation
+                float angle = time * 0.3;
+                vec3 rd = normalize(vec3(uv.x * cos(angle) - uv.y * sin(angle), 
+                                         uv.x * sin(angle) + uv.y * cos(angle), 
+                                         1.5));
+                
+                // Raymarch
+                float t = raymarch(ro, rd);
+                
+                // Coloring
+                vec3 col = vec3(0.02, 0.02, 0.05);
+                
+                if (t < 50.0) {
+                    vec3 p = ro + rd * t;
+                    vec3 n = getNormal(p);
+                    
+                    // Lighting
+                    vec3 lightDir = normalize(vec3(0.0, 0.0, 1.0));
+                    float diff = max(dot(n, lightDir), 0.0);
+                    
+                    // Color based on position and time
+                    vec3 voxelColor = palette(hash(floor(p * 3.0)) + time * 0.1);
+                    
+                    // Combine lighting and color
+                    col = voxelColor * (0.3 + 0.7 * diff);
+                    
+                    // Distance fog
+                    col = mix(col, vec3(0.02, 0.02, 0.05), 1.0 - exp(-0.03 * t));
+                    
+                    // Glow effect
+                    col += voxelColor * 0.1 * exp(-0.1 * t);
+                }
+                
+                // Vignette
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.5 + 0.5 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.3);
+                
+                // Gamma correction
+                col = pow(col, vec3(0.4545));
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+        <div class="fallback" role="img" aria-label="Voxel Tunnel - WebGL shader visualization"></div>
+    </kc-shaderview>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palette Flow - Design Pages by Chan Meng</title>
+    <meta name="description" content="Dynamic color palette animation with fractal patterns. A GLSL shader experiment using Shaderview, inspired by kishimisu.">
+    <meta name="keywords" content="WebGL, GLSL, shader, palette, gradient, color theory, gradient effects, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/gradient-effects/palette-flow.html">
+    <meta property="og:title" content="Palette Flow - Design Pages">
+    <meta property="og:description" content="Dynamic color palette animation with fractal patterns. A GLSL shader experiment by Chan Meng.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/gradient-effects/palette-flow.html">
+    <script type="text/llms.txt">
+## Palette Flow
+
+A WebGL shader experiment by Chan Meng featuring dynamic color palette animations.
+
+### Technical Details
+- Category: Gradient Effects
+- Technologies: WebGL, GLSL, Shaderview
+- Created: 2025-01-23
+- Featured: Yes
+
+### Key Features
+- IQ color palette technique
+- Fractal-like pattern generation
+- Smooth animated color transitions
+- GPU-accelerated via WebGL
+
+### Shader Attribution
+- Original concept by kishimisu on Shadertoy
+- Palette technique by Inigo Quilez
+- License: CC BY-SA-NC
+- Adapted for Shaderview Web Component
+
+### Part of Design Pages Portfolio
+Full gallery: https://chanmeng666.github.io/design-pages
+Author: Chan Meng | GitHub: https://github.com/ChanMeng666
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Palette Flow",
+      "description": "Dynamic color palette animation with fractal patterns",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/palette-flow.html",
+      "genre": "Gradient Effects",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        
+        .fallback {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Palette Flow Shader
+            // Inspired by kishimisu's "Shader Art Coding Introduction"
+            // Palette technique by Inigo Quilez (https://iquilezles.org/articles/palettes/)
+            // License: CC BY-SA-NC
+            // Adapted for Design Pages by Chan Meng
+            
+            precision mediump float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            // Inigo Quilez color palette
+            // https://iquilezles.org/articles/palettes/
+            vec3 palette(float t) {
+                vec3 a = vec3(0.5, 0.5, 0.5);
+                vec3 b = vec3(0.5, 0.5, 0.5);
+                vec3 c = vec3(1.0, 1.0, 1.0);
+                vec3 d = vec3(0.263, 0.416, 0.557);
+                return a + b * cos(6.28318 * (c * t + d));
+            }
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy) / uResolution.y;
+                vec2 uv0 = uv;
+                vec3 finalColor = vec3(0.0);
+                
+                for (float i = 0.0; i < 4.0; i++) {
+                    uv = fract(uv * 1.5) - 0.5;
+                    
+                    float d = length(uv) * exp(-length(uv0));
+                    
+                    vec3 col = palette(length(uv0) + i * 0.4 + uTime * 0.4);
+                    
+                    d = sin(d * 8.0 + uTime) / 8.0;
+                    d = abs(d);
+                    
+                    d = pow(0.01 / d, 1.2);
+                    
+                    finalColor += col * d;
+                }
+                
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        </script>
+        <div class="fallback" role="img" aria-label="Palette Flow - WebGL shader visualization"></div>
+    </kc-shaderview>
+</body>
+</html>

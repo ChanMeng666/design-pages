@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Borealis - Design Pages by Chan Meng</title>
+    <meta name="description" content="Northern lights shader effect with flowing curtains of ethereal light. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, aurora, borealis, northern lights, gradient effects, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/gradient-effects/aurora-borealis.html">
+    <meta property="og:title" content="Aurora Borealis - Design Pages">
+    <meta property="og:description" content="Northern lights shader effect with flowing curtains of ethereal light.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/gradient-effects/aurora-borealis.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Aurora Borealis",
+      "description": "Northern lights shader effect with flowing curtains of ethereal light",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/gradient-effects/aurora-borealis.html",
+      "genre": "Gradient Effects",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Aurora Borealis Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            
+            // Simplex-like noise
+            float hash(vec2 p) {
+                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+            }
+            
+            float noise(vec2 p) {
+                vec2 i = floor(p);
+                vec2 f = fract(p);
+                f = f * f * (3.0 - 2.0 * f);
+                
+                float a = hash(i);
+                float b = hash(i + vec2(1.0, 0.0));
+                float c = hash(i + vec2(0.0, 1.0));
+                float d = hash(i + vec2(1.0, 1.0));
+                
+                return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+            }
+            
+            float fbm(vec2 p) {
+                float value = 0.0;
+                float amplitude = 0.5;
+                float frequency = 1.0;
+                
+                for (int i = 0; i < 6; i++) {
+                    value += amplitude * noise(p * frequency);
+                    frequency *= 2.0;
+                    amplitude *= 0.5;
+                }
+                return value;
+            }
+            
+            vec3 aurora(vec2 uv, float time) {
+                vec3 col = vec3(0.0);
+                
+                // Multiple aurora layers
+                for (float i = 0.0; i < 5.0; i++) {
+                    float offset = i * 0.15;
+                    float speed = 0.3 + i * 0.1;
+                    
+                    // Curtain shape using sine waves and noise
+                    float curtain = sin(uv.x * 3.0 + time * speed + i) * 0.5;
+                    curtain += sin(uv.x * 5.0 - time * speed * 0.7) * 0.3;
+                    curtain += fbm(vec2(uv.x * 2.0 + time * 0.2, i)) * 0.4;
+                    
+                    // Vertical position of aurora band
+                    float y = 0.3 + offset + curtain * 0.15;
+                    
+                    // Aurora intensity
+                    float intensity = smoothstep(y + 0.3, y, uv.y);
+                    intensity *= smoothstep(y - 0.2, y + 0.1, uv.y);
+                    intensity *= 0.5 + 0.5 * fbm(vec2(uv.x * 4.0, time * 0.5 + i));
+                    
+                    // Aurora colors - green, cyan, purple
+                    vec3 auroraColor;
+                    float colorPhase = i / 5.0 + time * 0.1;
+                    auroraColor = mix(vec3(0.1, 0.8, 0.3), vec3(0.1, 0.6, 0.9), sin(colorPhase) * 0.5 + 0.5);
+                    auroraColor = mix(auroraColor, vec3(0.6, 0.2, 0.8), sin(colorPhase * 2.0 + 1.0) * 0.3 + 0.2);
+                    
+                    col += auroraColor * intensity * (0.4 - i * 0.05);
+                }
+                
+                return col;
+            }
+            
+            void main() {
+                vec2 uv = gl_FragCoord.xy / uResolution.xy;
+                float time = uTime * 0.5;
+                
+                // Dark night sky gradient
+                vec3 skyColor = mix(vec3(0.0, 0.02, 0.05), vec3(0.02, 0.0, 0.05), uv.y);
+                
+                // Add stars
+                float stars = pow(hash(uv * 500.0), 20.0);
+                stars *= smoothstep(0.3, 0.7, uv.y);
+                skyColor += vec3(stars);
+                
+                // Add twinkling
+                float twinkle = sin(time * 10.0 + hash(floor(uv * 200.0)) * 100.0) * 0.5 + 0.5;
+                skyColor += vec3(pow(hash(uv * 300.0), 25.0) * twinkle * 0.5);
+                
+                // Aurora effect
+                vec3 auroraCol = aurora(uv, time);
+                
+                // Combine
+                vec3 col = skyColor + auroraCol;
+                
+                // Ground silhouette
+                float ground = smoothstep(0.1, 0.08, uv.y + fbm(vec2(uv.x * 5.0, 0.0)) * 0.05);
+                col = mix(col, vec3(0.01, 0.01, 0.02), ground);
+                
+                // Slight glow
+                col += auroraCol * 0.3 * (1.0 - uv.y);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>

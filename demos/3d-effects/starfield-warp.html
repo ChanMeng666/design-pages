@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starfield Warp - Design Pages by Chan Meng</title>
+    <meta name="description" content="Star Trek-style warp speed effect flying through space with streaking stars. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, starfield, warp, space, stars, 3D effects, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/3d-effects/starfield-warp.html">
+    <meta property="og:title" content="Starfield Warp - Design Pages">
+    <meta property="og:description" content="Star Trek-style warp speed effect flying through space with streaking stars.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/3d-effects/starfield-warp.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Starfield Warp",
+      "description": "Star Trek-style warp speed effect with streaking stars",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/starfield-warp.html",
+      "genre": "3D Effects",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Starfield Warp Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            #define NUM_LAYERS 5.0
+            
+            // Rotation matrix
+            mat2 rot(float a) {
+                float c = cos(a), s = sin(a);
+                return mat2(c, -s, s, c);
+            }
+            
+            // Hash functions
+            float hash(float n) {
+                return fract(sin(n) * 43758.5453);
+            }
+            
+            float hash2(vec2 p) {
+                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+            }
+            
+            // Star layer
+            float starLayer(vec2 uv, float time, float speed, float density) {
+                float stars = 0.0;
+                
+                // Grid of potential star positions
+                vec2 gv = fract(uv * density) - 0.5;
+                vec2 id = floor(uv * density);
+                
+                // Random offset within cell
+                vec2 offset = vec2(hash2(id), hash2(id + 100.0)) - 0.5;
+                offset *= 0.8;
+                
+                // Star position
+                vec2 starPos = gv - offset;
+                
+                // Z-depth (simulated)
+                float z = fract(hash2(id + 200.0) + time * speed);
+                
+                // Star size based on z
+                float size = mix(0.01, 0.04, z);
+                
+                // Star brightness
+                float brightness = smoothstep(size, 0.0, length(starPos));
+                brightness *= smoothstep(0.0, 0.3, z); // Fade in
+                brightness *= smoothstep(1.0, 0.8, z); // Fade out
+                
+                // Star streak based on speed and z
+                float streak = smoothstep(0.0, 0.5, z);
+                vec2 streakDir = normalize(uv);
+                float streakLength = z * speed * 0.3;
+                
+                // Add streak
+                for (float i = 0.0; i < 8.0; i++) {
+                    vec2 streakPos = starPos + streakDir * (i / 8.0) * streakLength;
+                    float streakBrightness = smoothstep(size * 2.0, 0.0, length(streakPos));
+                    streakBrightness *= (1.0 - i / 8.0) * 0.5;
+                    stars += streakBrightness * streak;
+                }
+                
+                stars += brightness;
+                
+                return stars;
+            }
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                float time = uTime;
+                
+                // Warp speed factor
+                float warpSpeed = 2.0;
+                
+                // Background - deep space
+                vec3 col = vec3(0.0, 0.0, 0.02);
+                
+                // Add nebula colors
+                float nebula = 0.0;
+                nebula += sin(uv.x * 3.0 + time * 0.1) * sin(uv.y * 2.0 - time * 0.15) * 0.5 + 0.5;
+                nebula *= 0.05;
+                col += vec3(0.1, 0.0, 0.2) * nebula;
+                col += vec3(0.0, 0.1, 0.2) * nebula * sin(time * 0.2 + 1.0);
+                
+                // Multiple star layers at different depths
+                for (float i = 0.0; i < NUM_LAYERS; i++) {
+                    float layerDepth = (i + 1.0) / NUM_LAYERS;
+                    float layerSpeed = warpSpeed * (0.5 + layerDepth * 1.5);
+                    float layerDensity = 10.0 + i * 5.0;
+                    
+                    // Slight rotation per layer
+                    vec2 layerUV = rot(i * 0.1) * uv;
+                    
+                    float stars = starLayer(layerUV, time, layerSpeed, layerDensity);
+                    
+                    // Color variation
+                    vec3 starColor = vec3(1.0);
+                    float colorVar = hash(i);
+                    if (colorVar < 0.3) {
+                        starColor = vec3(0.8, 0.9, 1.0); // Blue-white
+                    } else if (colorVar < 0.6) {
+                        starColor = vec3(1.0, 0.95, 0.8); // Yellow-white
+                    } else {
+                        starColor = vec3(1.0, 0.8, 0.7); // Orange-white
+                    }
+                    
+                    col += starColor * stars * (0.3 + layerDepth * 0.7);
+                }
+                
+                // Central glow (destination/origin point)
+                float centerGlow = exp(-length(uv) * 3.0);
+                col += vec3(0.5, 0.7, 1.0) * centerGlow * 0.3;
+                
+                // Radial streaks
+                float angle = atan(uv.y, uv.x);
+                float radialStreak = sin(angle * 20.0 + time * warpSpeed) * 0.5 + 0.5;
+                radialStreak *= exp(-length(uv) * 2.0);
+                col += vec3(0.3, 0.5, 0.8) * radialStreak * 0.1;
+                
+                // Vignette
+                float vignette = 1.0 - length(uv) * 0.5;
+                col *= vignette;
+                
+                // Slight blue tint at edges
+                col = mix(col, col * vec3(0.8, 0.9, 1.1), length(uv) * 0.3);
+                
+                // Gamma correction
+                col = pow(col, vec3(0.9));
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>

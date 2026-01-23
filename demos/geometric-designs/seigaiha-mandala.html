@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seigaiha Mandala - Design Pages by Chan Meng</title>
+    <meta name="description" content="Japanese wave pattern mandala with animated rotation. A GLSL shader experiment using Shaderview, inspired by Philippe Desgranges.">
+    <meta name="keywords" content="WebGL, GLSL, shader, seigaiha, mandala, Japanese pattern, geometric designs, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/geometric-designs/seigaiha-mandala.html">
+    <meta property="og:title" content="Seigaiha Mandala - Design Pages">
+    <meta property="og:description" content="Japanese wave pattern mandala with animated rotation. A GLSL shader experiment by Chan Meng.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/geometric-designs/seigaiha-mandala.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Seigaiha Mandala",
+      "description": "Japanese wave pattern mandala with animated rotation",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/geometric-designs/seigaiha-mandala.html",
+      "genre": "Geometric Designs",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        
+        .fallback {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: radial-gradient(circle at center, #1a365d 0%, #0d1b2a 100%);
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Seigaiha Mandala Shader
+            // Inspired by Philippe Desgranges on Shadertoy
+            // License: CC BY-SA-NC
+            // Adapted for Design Pages by Chan Meng
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            #define TAU 6.28318530718
+            
+            // Rotation matrix
+            mat2 rot(float a) {
+                float c = cos(a), s = sin(a);
+                return mat2(c, -s, s, c);
+            }
+            
+            // Seigaiha wave pattern
+            float seigaiha(vec2 uv, float scale) {
+                uv *= scale;
+                
+                // Grid offset for alternating rows
+                vec2 id = floor(uv);
+                float rowMod = mod(id.y, 2.0);
+                if (rowMod < 0.5) {
+                    uv.x += 0.5;
+                }
+                
+                // Repeat
+                vec2 gv = fract(uv) - 0.5;
+                
+                // Multiple concentric arcs
+                float d = length(gv - vec2(0.0, -0.25));
+                
+                float wave = 0.0;
+                wave += smoothstep(0.02, 0.0, abs(d - 0.15));
+                wave += smoothstep(0.02, 0.0, abs(d - 0.23));
+                wave += smoothstep(0.02, 0.0, abs(d - 0.31));
+                wave += smoothstep(0.02, 0.0, abs(d - 0.39));
+                wave += smoothstep(0.02, 0.0, abs(d - 0.47));
+                
+                // Only show upper half (wave shape)
+                wave *= smoothstep(-0.02, 0.02, gv.y + 0.25);
+                
+                return wave;
+            }
+            
+            // Mandala pattern
+            float mandala(vec2 uv, float time) {
+                float pattern = 0.0;
+                
+                // Layer 1
+                float rotation1 = time * 0.1;
+                vec2 ruv1 = rot(rotation1) * uv;
+                pattern += seigaiha(ruv1, 3.0) * 0.5;
+                
+                // Layer 2
+                float rotation2 = -time * 0.15;
+                vec2 ruv2 = rot(rotation2) * uv;
+                pattern += seigaiha(ruv2, 5.0) * 0.4;
+                
+                // Layer 3
+                float rotation3 = time * 0.2;
+                vec2 ruv3 = rot(rotation3) * uv;
+                pattern += seigaiha(ruv3, 7.0) * 0.3;
+                
+                // Layer 4
+                float rotation4 = -time * 0.25;
+                vec2 ruv4 = rot(rotation4) * uv;
+                pattern += seigaiha(ruv4, 9.0) * 0.2;
+                
+                return pattern;
+            }
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                
+                float time = uTime * 0.5;
+                
+                // Create mandala pattern
+                float pattern = mandala(uv, time);
+                
+                // Color palette - traditional Japanese indigo
+                vec3 col1 = vec3(0.95, 0.95, 0.98); // White
+                vec3 col2 = vec3(0.0, 0.2, 0.4);     // Deep indigo
+                vec3 col3 = vec3(0.1, 0.4, 0.6);     // Light indigo
+                vec3 col4 = vec3(0.8, 0.7, 0.5);     // Gold accent
+                
+                // Background gradient
+                float r = length(uv);
+                vec3 bg = mix(col2, col3, smoothstep(0.0, 1.5, r));
+                
+                // Apply pattern
+                vec3 col = mix(bg, col1, pattern * 0.6);
+                
+                // Add subtle gold accents
+                col = mix(col, col4, pattern * 0.1);
+                
+                // Radial highlight
+                float highlight = 1.0 - smoothstep(0.0, 0.8, r);
+                col += col1 * highlight * 0.1;
+                
+                // Pulsing glow
+                float pulse = 0.5 + 0.5 * sin(time * 2.0);
+                col += col3 * 0.1 * pulse * (1.0 - r);
+                
+                // Vignette using screen coordinates
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.7 + 0.3 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.2);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+        <div class="fallback" role="img" aria-label="Seigaiha Mandala - WebGL shader visualization"></div>
+    </kc-shaderview>
+</body>
+</html>

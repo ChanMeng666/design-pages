@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Metal Blob - Design Pages by Chan Meng</title>
+    <meta name="description" content="Morphing metallic blob with chrome-like reflections that responds to mouse position. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, metaball, liquid metal, chrome, experimental, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/experimental/liquid-metal-blob.html">
+    <meta property="og:title" content="Liquid Metal Blob - Design Pages">
+    <meta property="og:description" content="Morphing metallic blob with chrome-like reflections that responds to mouse position.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/experimental/liquid-metal-blob.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Liquid Metal Blob",
+      "description": "Morphing metallic blob with chrome-like reflections",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/experimental/liquid-metal-blob.html",
+      "genre": "Experimental",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+        
+        customElements.whenDefined('kc-shaderview').then(() => {
+            const shader = document.getElementById('blob');
+            window.addEventListener('pointermove', (e) => {
+                const rect = shader.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = 0.5 - (e.clientY - rect.top) / rect.height;
+                shader.setUniform('uMouse', x, y);
+            });
+        });
+    </script>
+</head>
+<body>
+    <kc-shaderview id="blob" autoplay>
+        <script type="x-shader/x-fragment">
+            // Liquid Metal Blob Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            uniform vec2 uMouse;
+            
+            #define PI 3.14159265359
+            
+            // Smooth minimum for metaball blending
+            float smin(float a, float b, float k) {
+                float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+                return mix(b, a, h) - k * h * (1.0 - h);
+            }
+            
+            // Sphere SDF
+            float sdSphere(vec3 p, float r) {
+                return length(p) - r;
+            }
+            
+            // Scene distance function
+            float map(vec3 p) {
+                float time = uTime;
+                
+                // Main blob
+                float d = sdSphere(p, 0.5);
+                
+                // Orbiting smaller blobs
+                for (float i = 0.0; i < 5.0; i++) {
+                    float angle = time * (0.5 + i * 0.1) + i * PI * 0.4;
+                    float radius = 0.4 + 0.1 * sin(time + i);
+                    vec3 offset = vec3(
+                        cos(angle) * radius,
+                        sin(angle * 1.3 + i) * 0.3,
+                        sin(angle) * radius
+                    );
+                    
+                    // Mouse influence
+                    offset.xy += uMouse * 0.5;
+                    
+                    float blobSize = 0.15 + 0.05 * sin(time * 2.0 + i * 2.0);
+                    d = smin(d, sdSphere(p - offset, blobSize), 0.3);
+                }
+                
+                // Mouse-attracted blob
+                vec3 mousePos = vec3(uMouse * 1.5, 0.3 * sin(time));
+                d = smin(d, sdSphere(p - mousePos, 0.2), 0.4);
+                
+                return d;
+            }
+            
+            // Calculate normal
+            vec3 getNormal(vec3 p) {
+                vec2 e = vec2(0.001, 0.0);
+                return normalize(vec3(
+                    map(p + e.xyy) - map(p - e.xyy),
+                    map(p + e.yxy) - map(p - e.yxy),
+                    map(p + e.yyx) - map(p - e.yyx)
+                ));
+            }
+            
+            // Environment map for reflections
+            vec3 envMap(vec3 rd) {
+                float t = uTime * 0.2;
+                
+                // Gradient sky
+                vec3 col = mix(vec3(0.1, 0.1, 0.2), vec3(0.3, 0.4, 0.5), rd.y * 0.5 + 0.5);
+                
+                // Some colored bands
+                col += vec3(0.8, 0.2, 0.3) * smoothstep(0.9, 1.0, sin(rd.x * 10.0 + t));
+                col += vec3(0.2, 0.5, 0.8) * smoothstep(0.9, 1.0, sin(rd.y * 8.0 - t));
+                col += vec3(0.3, 0.8, 0.4) * smoothstep(0.9, 1.0, cos(rd.z * 12.0 + t * 0.5));
+                
+                return col;
+            }
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                
+                // Camera
+                vec3 ro = vec3(0.0, 0.0, 2.5);
+                vec3 rd = normalize(vec3(uv, -1.0));
+                
+                // Slight camera movement
+                float camAngle = uTime * 0.1;
+                ro.xz = mat2(cos(camAngle), sin(camAngle), -sin(camAngle), cos(camAngle)) * ro.xz;
+                rd.xz = mat2(cos(camAngle), sin(camAngle), -sin(camAngle), cos(camAngle)) * rd.xz;
+                
+                // Raymarching
+                float t = 0.0;
+                float d;
+                vec3 p;
+                
+                for (int i = 0; i < 100; i++) {
+                    p = ro + rd * t;
+                    d = map(p);
+                    if (d < 0.001 || t > 10.0) break;
+                    t += d;
+                }
+                
+                vec3 col = vec3(0.05);
+                
+                if (d < 0.001) {
+                    vec3 n = getNormal(p);
+                    
+                    // Reflection
+                    vec3 ref = reflect(rd, n);
+                    vec3 refCol = envMap(ref);
+                    
+                    // Fresnel
+                    float fresnel = pow(1.0 - max(0.0, dot(-rd, n)), 3.0);
+                    
+                    // Chrome-like material
+                    col = mix(vec3(0.8, 0.8, 0.9), refCol, 0.7 + 0.3 * fresnel);
+                    
+                    // Iridescence
+                    float irid = dot(n, vec3(1.0, 0.0, 0.0)) * 0.5 + 0.5;
+                    vec3 iridCol = mix(vec3(0.9, 0.5, 0.3), vec3(0.3, 0.5, 0.9), irid);
+                    col = mix(col, iridCol, 0.2 * fresnel);
+                    
+                    // Specular highlights
+                    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+                    float spec = pow(max(0.0, dot(ref, lightDir)), 50.0);
+                    col += vec3(1.0) * spec;
+                    
+                    // Ambient occlusion approximation
+                    float ao = 1.0 - smoothstep(0.0, 0.5, map(p + n * 0.1) / 0.1);
+                    col *= 0.5 + 0.5 * ao;
+                }
+                
+                // Background gradient
+                col = mix(col, vec3(0.1, 0.1, 0.15), smoothstep(0.0, 10.0, t));
+                
+                // Vignette
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.5 + 0.5 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.2);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+    <div class="instructions">Move mouse to interact with the blob</div>
+</body>
+</html>

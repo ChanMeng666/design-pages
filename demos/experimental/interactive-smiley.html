@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Smiley - Design Pages by Chan Meng</title>
+    <meta name="description" content="Pointer-tracking emoji with expression changes. A GLSL shader experiment using Shaderview, inspired by BigWIngs.">
+    <meta name="keywords" content="WebGL, GLSL, shader, smiley, emoji, interactive, experimental, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/experimental/interactive-smiley.html">
+    <meta property="og:title" content="Interactive Smiley - Design Pages">
+    <meta property="og:description" content="Pointer-tracking emoji with expression changes. A GLSL shader experiment by Chan Meng.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/experimental/interactive-smiley.html">
+    <script type="text/llms.txt">
+## Interactive Smiley
+
+A WebGL shader experiment by Chan Meng featuring an interactive pointer-tracking smiley face.
+
+### Technical Details
+- Category: Experimental
+- Technologies: WebGL, GLSL, Shaderview
+- Created: 2025-01-23
+- Featured: No
+
+### Key Features
+- Pointer position tracking
+- Dynamic facial expressions
+- Smooth distance field rendering
+- GPU-accelerated via WebGL
+
+### Shader Attribution
+- Original concept by BigWIngs on Shadertoy ("Smiley Tutorial")
+- License: CC BY-SA-NC
+- Adapted for Shaderview Web Component
+
+### Part of Design Pages Portfolio
+Full gallery: https://chanmeng666.github.io/design-pages
+Author: Chan Meng | GitHub: https://github.com/ChanMeng666
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Interactive Smiley",
+      "description": "Pointer-tracking emoji with expression changes",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/experimental/interactive-smiley.html",
+      "genre": "Experimental",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            cursor: none;
+        }
+        
+        .fallback {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+        
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview id="smiley" autoplay>
+        <script type="x-shader/x-fragment" src="smiley.glsl"></script>
+        <div class="fallback" role="img" aria-label="Interactive Smiley - WebGL shader visualization"></div>
+    </kc-shaderview>
+    <div class="instructions">Move mouse to interact with the smiley</div>
+
+    <script>
+        customElements.whenDefined('kc-shaderview').then(() => {
+            window.addEventListener('pointermove', (e) => {
+                const b = smiley.getBoundingClientRect();
+
+                // Set the position uniform. The shader expects 
+                // uPosition to be a `vec2` type.
+                const x = e.clientX - b.left - b.width / 2;
+                const y = e.clientY - b.top - b.height / 2; 
+                smiley.setUniform('uPosition', x, y);
+            });
+        });
+    </script>
+</body>
+</html>

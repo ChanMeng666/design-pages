@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Waves - Design Pages by Chan Meng</title>
+    <meta name="description" content="Realistic ocean surface with animated waves, foam, and sun reflections. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, ocean, waves, water, sea, experimental, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/experimental/ocean-waves.html">
+    <meta property="og:title" content="Ocean Waves - Design Pages">
+    <meta property="og:description" content="Realistic ocean surface with animated waves, foam, and sun reflections.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/experimental/ocean-waves.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Ocean Waves",
+      "description": "Realistic ocean surface with animated waves, foam, and sun reflections",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/experimental/ocean-waves.html",
+      "genre": "Experimental",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Ocean Waves Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            
+            // Hash function
+            float hash(vec2 p) {
+                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+            }
+            
+            // Noise function
+            float noise(vec2 p) {
+                vec2 i = floor(p);
+                vec2 f = fract(p);
+                f = f * f * (3.0 - 2.0 * f);
+                
+                float a = hash(i);
+                float b = hash(i + vec2(1.0, 0.0));
+                float c = hash(i + vec2(0.0, 1.0));
+                float d = hash(i + vec2(1.0, 1.0));
+                
+                return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+            }
+            
+            // FBM for ocean detail
+            float fbm(vec2 p) {
+                float v = 0.0;
+                float a = 0.5;
+                mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+                for (int i = 0; i < 5; i++) {
+                    v += a * noise(p);
+                    p = rot * p * 2.0;
+                    a *= 0.5;
+                }
+                return v;
+            }
+            
+            // Wave function - multiple overlapping waves
+            float waves(vec2 p, float time) {
+                float w = 0.0;
+                
+                // Large rolling waves
+                w += sin(p.x * 0.3 + time * 0.8) * 0.5;
+                w += sin(p.x * 0.5 + p.y * 0.2 + time * 1.2) * 0.3;
+                w += sin(p.y * 0.4 - time * 0.9) * 0.25;
+                
+                // Medium waves
+                w += sin(p.x * 1.5 + time * 2.0) * 0.1;
+                w += sin(p.y * 1.2 + time * 1.8) * 0.1;
+                
+                // Small detail waves
+                w += fbm(p * 0.5 + time * 0.3) * 0.15;
+                
+                return w;
+            }
+            
+            // Calculate wave normal
+            vec3 waveNormal(vec2 p, float time) {
+                float eps = 0.01;
+                float h = waves(p, time);
+                float hx = waves(p + vec2(eps, 0.0), time);
+                float hy = waves(p + vec2(0.0, eps), time);
+                
+                return normalize(vec3(
+                    (h - hx) / eps,
+                    1.0,
+                    (h - hy) / eps
+                ));
+            }
+            
+            void main() {
+                vec2 uv = gl_FragCoord.xy / uResolution.xy;
+                float time = uTime;
+                
+                // Sky gradient
+                vec3 skyColor = mix(
+                    vec3(0.9, 0.6, 0.4),
+                    vec3(0.4, 0.6, 0.9),
+                    smoothstep(0.3, 0.8, uv.y)
+                );
+                
+                // Sun position
+                vec2 sunPos = vec2(0.5, 0.75);
+                float sunDist = length(uv - sunPos);
+                vec3 sunColor = vec3(1.0, 0.95, 0.8);
+                skyColor = mix(skyColor, sunColor, smoothstep(0.3, 0.0, sunDist));
+                skyColor += sunColor * 0.5 * exp(-sunDist * 3.0);
+                
+                // Horizon line
+                float horizon = 0.4;
+                
+                vec3 col = skyColor;
+                
+                // Ocean surface below horizon
+                if (uv.y < horizon) {
+                    // Project onto water plane
+                    float waterY = horizon - uv.y;
+                    float perspective = 1.0 / (waterY + 0.1);
+                    vec2 waterUV = vec2((uv.x - 0.5) * perspective * 5.0, perspective * 3.0);
+                    
+                    // Wave height and normal
+                    float waveHeight = waves(waterUV, time);
+                    vec3 normal = waveNormal(waterUV, time);
+                    
+                    // Base water color
+                    vec3 deepColor = vec3(0.0, 0.1, 0.2);
+                    vec3 shallowColor = vec3(0.0, 0.3, 0.4);
+                    vec3 waterColor = mix(deepColor, shallowColor, exp(-waterY * 3.0));
+                    
+                    // Sun reflection
+                    vec3 viewDir = normalize(vec3(uv.x - 0.5, -0.5, uv.y - horizon));
+                    vec3 lightDir = normalize(vec3(sunPos.x - 0.5, 0.5, sunPos.y - horizon));
+                    vec3 reflectDir = reflect(-lightDir, normal);
+                    
+                    float spec = pow(max(0.0, dot(viewDir, reflectDir)), 100.0);
+                    vec3 sunReflection = sunColor * spec * 2.0;
+                    
+                    // Fresnel
+                    float fresnel = pow(1.0 - max(0.0, dot(-viewDir, normal)), 3.0);
+                    
+                    // Sky reflection
+                    vec3 skyReflection = mix(skyColor * 0.3, skyColor, fresnel);
+                    
+                    // Combine water color
+                    waterColor = mix(waterColor, skyReflection, fresnel * 0.5);
+                    waterColor += sunReflection;
+                    
+                    // Foam on wave peaks
+                    float foam = smoothstep(0.4, 0.6, waveHeight);
+                    foam *= exp(-waterY * 5.0);
+                    waterColor = mix(waterColor, vec3(0.9, 0.95, 1.0), foam * 0.5);
+                    
+                    // Distance fog
+                    waterColor = mix(waterColor, skyColor * 0.7, 1.0 - exp(-waterY * 0.5));
+                    
+                    col = waterColor;
+                }
+                
+                // Horizon glow
+                col += vec3(1.0, 0.8, 0.6) * 0.1 * exp(-abs(uv.y - horizon) * 20.0);
+                
+                // Vignette
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.7 + 0.3 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.2);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>

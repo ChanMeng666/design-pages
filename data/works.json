@@ -195,6 +195,166 @@
       "path": "demos/gradient-effects/svg-gradient.html",
       "featured": false,
       "createDate": "2024-01-22"
+    },
+    {
+      "id": "voxel-tunnel",
+      "title": "Voxel Tunnel",
+      "category": "3d-effects",
+      "description": "WebGL raymarched voxel tunnel with infinite depth effect and dynamic lighting",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/3d-effects/voxel-tunnel.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "fractal-mandelbrot",
+      "title": "Fractal Mandelbrot",
+      "category": "geometric-designs",
+      "description": "Interactive Mandelbrot fractal explorer with mouse-controlled zoom and smooth coloring",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/geometric-designs/fractal-mandelbrot.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "palette-flow",
+      "title": "Palette Flow",
+      "category": "gradient-effects",
+      "description": "Dynamic color palette animation with fractal patterns using IQ palette technique",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/gradient-effects/palette-flow.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "interactive-smiley",
+      "title": "Interactive Smiley",
+      "category": "experimental",
+      "description": "Pointer-tracking emoji with dynamic facial expressions rendered in WebGL",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/experimental/interactive-smiley.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "plasma-wave",
+      "title": "Plasma Wave",
+      "category": "gradient-effects",
+      "description": "Classic demo scene plasma effect with smooth animated color gradients",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/gradient-effects/plasma-wave.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "seigaiha-mandala",
+      "title": "Seigaiha Mandala",
+      "category": "geometric-designs",
+      "description": "Traditional Japanese wave pattern mandala with animated rotation and indigo colors",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/geometric-designs/seigaiha-mandala.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "aurora-borealis",
+      "title": "Aurora Borealis",
+      "category": "gradient-effects",
+      "description": "Northern lights shader effect with flowing curtains of ethereal green, purple, and cyan light",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/gradient-effects/aurora-borealis.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "neon-grid-tunnel",
+      "title": "Neon Grid Tunnel",
+      "category": "3d-effects",
+      "description": "Synthwave-style infinite neon grid tunnel with cyberpunk aesthetics and retro sunset",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/3d-effects/neon-grid-tunnel.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "liquid-metal-blob",
+      "title": "Liquid Metal Blob",
+      "category": "experimental",
+      "description": "Morphing metallic blob with chrome-like reflections that responds to mouse position",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/experimental/liquid-metal-blob.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "voronoi-crystal",
+      "title": "Voronoi Crystal",
+      "category": "geometric-designs",
+      "description": "Animated Voronoi diagram creating crystal and stained glass patterns with metallic edges",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/geometric-designs/voronoi-crystal.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "ocean-waves",
+      "title": "Ocean Waves",
+      "category": "experimental",
+      "description": "Realistic ocean surface with animated waves, foam, and sun reflections at sunset",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/experimental/ocean-waves.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "hypnotic-spiral",
+      "title": "Hypnotic Spiral",
+      "category": "geometric-designs",
+      "description": "Infinite zooming logarithmic spiral pattern with mesmerizing optical illusion effects",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/geometric-designs/hypnotic-spiral.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "fire-smoke",
+      "title": "Fire & Smoke",
+      "category": "experimental",
+      "description": "Realistic procedural fire with rising smoke and floating embers using fractal noise",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/experimental/fire-smoke.html",
+      "featured": false,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "kaleidoscope",
+      "title": "Kaleidoscope",
+      "category": "geometric-designs",
+      "description": "Classic kaleidoscope with rotating mirrored segments and colorful animated patterns",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/geometric-designs/kaleidoscope.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "starfield-warp",
+      "title": "Starfield Warp",
+      "category": "3d-effects",
+      "description": "Star Trek-style warp speed effect flying through space with streaking stars and nebula",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/3d-effects/starfield-warp.html",
+      "featured": true,
+      "createDate": "2025-01-23"
+    },
+    {
+      "id": "ink-in-water",
+      "title": "Ink in Water",
+      "category": "experimental",
+      "description": "Fluid-like ink drops spreading and mixing in water with organic curl motion",
+      "technologies": ["WebGL", "GLSL", "Shaderview"],
+      "path": "demos/experimental/ink-in-water.html",
+      "featured": false,
+      "createDate": "2025-01-23"
     }
   ]
 } 

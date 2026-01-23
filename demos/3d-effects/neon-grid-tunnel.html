@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Grid Tunnel - Design Pages by Chan Meng</title>
+    <meta name="description" content="Synthwave-style infinite neon grid tunnel with cyberpunk aesthetics. A GLSL shader experiment using Shaderview.">
+    <meta name="keywords" content="WebGL, GLSL, shader, synthwave, neon, tunnel, cyberpunk, 3D effects, web design">
+    <meta name="author" content="Chan Meng">
+    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/demos/3d-effects/neon-grid-tunnel.html">
+    <meta property="og:title" content="Neon Grid Tunnel - Design Pages">
+    <meta property="og:description" content="Synthwave-style infinite neon grid tunnel with cyberpunk aesthetics.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/demos/3d-effects/neon-grid-tunnel.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Neon Grid Tunnel",
+      "description": "Synthwave-style infinite neon grid tunnel with cyberpunk aesthetics",
+      "author": {"@type": "Person", "name": "Chan Meng", "url": "https://github.com/ChanMeng666"},
+      "dateCreated": "2025-01-23",
+      "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/neon-grid-tunnel.html",
+      "genre": "3D Effects",
+      "keywords": ["WebGL", "GLSL", "Shaderview"],
+      "isPartOf": {"@type": "CollectionPage", "name": "Design Pages", "url": "https://chanmeng666.github.io/design-pages"},
+      "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        kc-shaderview {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script type="module">
+        import ShaderviewElement from 'https://cdn.jsdelivr.net/gh/keithclark/shaderview@1.2.0/dist/shaderview.min.js';
+        customElements.define('kc-shaderview', ShaderviewElement);
+    </script>
+</head>
+<body>
+    <kc-shaderview autoplay>
+        <script type="x-shader/x-fragment">
+            // Neon Grid Tunnel Shader
+            // Original creation by Chan Meng for Design Pages
+            // License: MIT
+            
+            precision highp float;
+            uniform float uTime;
+            uniform vec2 uResolution;
+            
+            #define PI 3.14159265359
+            
+            void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+                float time = uTime;
+                
+                // Background gradient - synthwave sunset
+                vec3 col = vec3(0.0);
+                float sunY = -0.2;
+                
+                // Sky gradient
+                vec3 skyTop = vec3(0.05, 0.0, 0.15);
+                vec3 skyMid = vec3(0.4, 0.0, 0.3);
+                vec3 skyBot = vec3(1.0, 0.3, 0.1);
+                
+                col = mix(skyBot, skyMid, smoothstep(sunY, sunY + 0.3, uv.y));
+                col = mix(col, skyTop, smoothstep(sunY + 0.2, 0.8, uv.y));
+                
+                // Sun
+                float sunDist = length(uv - vec2(0.0, sunY));
+                vec3 sunCol = mix(vec3(1.0, 0.9, 0.3), vec3(1.0, 0.3, 0.1), smoothstep(0.0, 0.2, sunDist));
+                float sun = smoothstep(0.22, 0.2, sunDist);
+                
+                // Sun stripes
+                float stripes = step(0.0, sin(uv.y * 40.0 + time * 2.0));
+                sun *= 0.7 + 0.3 * stripes;
+                
+                col = mix(col, sunCol, sun * step(uv.y, sunY + 0.2));
+                
+                // Grid floor
+                if (uv.y < sunY) {
+                    // Perspective projection for floor
+                    float fov = 1.5;
+                    float horizon = sunY;
+                    float y = (horizon - uv.y);
+                    float z = 0.5 / y;
+                    float x = uv.x * z * fov;
+                    
+                    // Moving grid
+                    vec2 gridUV = vec2(x, z - time * 2.0);
+                    
+                    // Grid lines using smoothstep instead of fwidth
+                    vec2 grid = abs(fract(gridUV * 0.5 - 0.5) - 0.5);
+                    float lineWidth = 0.02;
+                    float g = 1.0 - smoothstep(0.0, lineWidth, min(grid.x, grid.y));
+                    
+                    // Neon colors
+                    vec3 neonPink = vec3(1.0, 0.1, 0.5);
+                    vec3 neonCyan = vec3(0.1, 0.8, 1.0);
+                    
+                    // Color based on position
+                    vec3 gridCol = mix(neonPink, neonCyan, sin(gridUV.x * 0.5) * 0.5 + 0.5);
+                    
+                    // Glow effect
+                    float glow = 0.0;
+                    vec2 gv = abs(fract(gridUV * 0.5 - 0.5) - 0.5);
+                    glow += 0.01 / (gv.x + 0.01);
+                    glow += 0.01 / (gv.y + 0.01);
+                    glow = clamp(glow, 0.0, 1.0);
+                    
+                    // Distance fade
+                    float fade = smoothstep(30.0, 0.0, z);
+                    
+                    // Floor color
+                    vec3 floorCol = vec3(0.02, 0.0, 0.05);
+                    floorCol += gridCol * g * fade;
+                    floorCol += gridCol * glow * 0.3 * fade;
+                    
+                    col = mix(col, floorCol, smoothstep(horizon, horizon - 0.01, uv.y));
+                }
+                
+                // Scan lines
+                col *= 0.95 + 0.05 * sin(gl_FragCoord.y * 2.0);
+                
+                // Vignette
+                vec2 q = gl_FragCoord.xy / uResolution.xy;
+                col *= 0.5 + 0.5 * pow(16.0 * q.x * q.y * (1.0 - q.x) * (1.0 - q.y), 0.2);
+                
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    </kc-shaderview>
+</body>
+</html>
