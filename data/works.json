@@ -27,6 +27,16 @@
   },
   "works": [
     {
+      "id": "dissolve-bloom-transition",
+      "title": "Dissolve + Bloom Transition",
+      "category": "experimental",
+      "description": "Professional image transition effect with Sobel edge detection, dissolve, and bloom",
+      "technologies": ["Three.js", "GLSL", "GSAP"],
+      "path": "demos/experimental/dissolve-bloom-transition/index.html",
+      "featured": true,
+      "createDate": "2026-01-27"
+    },
+    {
       "id": "rotating-cube",
       "title": "3D Rotating Cube",
       "category": "3d-effects",

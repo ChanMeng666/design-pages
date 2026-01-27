@@ -1,57 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chan Meng Digital Design Portfolio - Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
-    <meta name="keywords" content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects, Chan Meng portfolio">
-    <meta name="author" content="Chan Meng">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Chan Meng Digital Design Portfolio - Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
+  <meta name="keywords"
+    content="digital design, web design, CSS animation, 3D effects, geometric design, gradient effects, Chan Meng portfolio">
+  <meta name="author" content="Chan Meng">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://chanmeng666.github.io/design-pages/">
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://chanmeng666.github.io/design-pages/">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Chan Meng - Digital Design Portfolio">
-    <meta property="og:description" content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://chanmeng666.github.io/design-pages/">
-    <meta property="og:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
-    <meta property="og:site_name" content="Design Pages">
-    <meta property="og:locale" content="en_US">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Chan Meng - Digital Design Portfolio">
+  <meta property="og:description"
+    content="Explore innovative digital design experiments featuring 3D effects, geometric patterns, gradient effects, and experimental artworks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chanmeng666.github.io/design-pages/">
+  <meta property="og:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
+  <meta property="og:site_name" content="Design Pages">
+  <meta property="og:locale" content="en_US">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Chan Meng - Digital Design Portfolio">
-    <meta name="twitter:description" content="Explore 16 innovative digital design experiments featuring 3D effects, geometric patterns, and gradient effects.">
-    <meta name="twitter:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chan Meng - Digital Design Portfolio">
+  <meta name="twitter:description"
+    content="Explore 16 innovative digital design experiments featuring 3D effects, geometric patterns, and gradient effects.">
+  <meta name="twitter:image" content="https://chanmeng666.github.io/design-pages/assets/images/gallery-overview.png">
 
-    <title>Chan Meng - Digital Design Portfolio</title>
+  <title>Chan Meng - Digital Design Portfolio</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/images/design-pages-logo.svg">
-    <link rel="apple-touch-icon" href="assets/images/design-pages-logo.svg">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/design-pages-logo.svg">
+  <link rel="apple-touch-icon" href="assets/images/design-pages-logo.svg">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/gallery.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/gallery.css">
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="data/works.json" as="fetch" crossorigin>
+  <!-- Preload critical resources -->
+  <link rel="preload" href="data/works.json" as="fetch" crossorigin>
 
-    <!-- LLM Instructions (inline) -->
-    <script type="text/llms.txt">
+  <!-- LLM Instructions (inline) -->
+  <script type="text/llms.txt">
 ## Design Pages - Digital Design Portfolio
 
 This is the main portfolio page by Chan Meng featuring a full-screen infinite scrolling gallery with 16 interactive CSS/JavaScript design experiments.
 
 ### Content Overview
-- **Total Works**: 16 design experiments
-- **Categories**: 3D Effects (4), Geometric Designs (3), Gradient Effects (5), Experimental (4)
+- **Total Works**: 17 design experiments
+- **Categories**: 3D Effects (4), Geometric Designs (3), Gradient Effects (5), Experimental (5)
 - **Featured Works**: 7 highlighted designs
 - **Technologies**: HTML5, CSS3, JavaScript ES6+, GSAP 3.12.2
 
@@ -82,23 +89,24 @@ Chan Meng | GitHub: https://github.com/ChanMeng666 | Email: chanmeng.dev@gmail.c
 For comprehensive documentation, see /llms.txt
     </script>
 </head>
+
 <body>
-    <!-- Full-Screen Infinite Scrolling Gallery -->
-    <div class="gallery-container">
-        <!-- Rows will be generated dynamically by JavaScript -->
-    </div>
+  <!-- Full-Screen Infinite Scrolling Gallery -->
+  <div class="gallery-container">
+    <!-- Rows will be generated dynamically by JavaScript -->
+  </div>
 
-    <!-- Loading State -->
-    <div id="loadingState" class="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
+  <!-- Loading State -->
+  <div id="loadingState" class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="assets/js/gallery.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="assets/js/gallery.js"></script>
 
-    <!-- Schema.org structured data -->
-    <script type="application/ld+json">
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
@@ -115,10 +123,10 @@ For comprehensive documentation, see /llms.txt
           "dateModified": "2025-12-29",
           "inLanguage": "en-US",
           "license": "https://opensource.org/licenses/MIT",
-          "numberOfItems": 16,
+          "numberOfItems": 17,
           "mainEntity": {
             "@type": "ItemList",
-            "numberOfItems": 16,
+            "numberOfItems": 17,
             "itemListElement": [
               {"@type": "ListItem", "position": 1, "name": "3D Rotating Cube", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/rotating-cube.html"},
               {"@type": "ListItem", "position": 2, "name": "Isometric Cube", "url": "https://chanmeng666.github.io/design-pages/demos/3d-effects/isometric-cube.html"},
@@ -135,7 +143,8 @@ For comprehensive documentation, see /llms.txt
               {"@type": "ListItem", "position": 13, "name": "Visual Rhythm", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/visual-rhythm.html"},
               {"@type": "ListItem", "position": 14, "name": "Composition Study", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/composition-study.html"},
               {"@type": "ListItem", "position": 15, "name": "Dancing Cat in Flowers", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/dancing-cat-in-flowers.html"},
-              {"@type": "ListItem", "position": 16, "name": "Horizontal Scroll Ticker", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/horizontal-scroll-ticker.html"}
+              {"@type": "ListItem", "position": 16, "name": "Horizontal Scroll Ticker", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/horizontal-scroll-ticker.html"},
+              {"@type": "ListItem", "position": 17, "name": "Dissolve + Bloom Transition", "url": "https://chanmeng666.github.io/design-pages/demos/experimental/dissolve-bloom-transition/index.html"}
             ]
           }
         },
@@ -172,4 +181,5 @@ For comprehensive documentation, see /llms.txt
     }
     </script>
 </body>
+
 </html>

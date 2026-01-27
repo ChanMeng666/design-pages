@@ -14,7 +14,7 @@
 
 ## Content Categories
 
-The portfolio contains 16 design experiments across 4 categories:
+The portfolio contains 17 design experiments across 4 categories:
 
 ### 1. 3D Effects (4 designs)
 
@@ -61,7 +61,7 @@ Demo URLs:
 - https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient-v2.html
 - https://chanmeng666.github.io/design-pages/demos/gradient-effects/svg-gradient.html
 
-### 4. Experimental (4 designs)
+### 4. Experimental (5 designs)
 
 | Title | Description | Technologies |
 |-------|-------------|--------------|
@@ -69,12 +69,14 @@ Demo URLs:
 | Composition Study | Experimental visual composition research | CSS Layout, Experimental Design |
 | Dancing Cat in Flowers | Canvas animation with interactive speech bubbles | Canvas API, 2D Graphics, JavaScript |
 | Horizontal Scroll Ticker | GSAP ScrollTrigger horizontal scroll animation | GSAP, ScrollTrigger, SVG |
+| Dissolve + Bloom Transition | Professional image transition effect with Sobel, Dissolve, and Bloom | Three.js, GLSL, GSAP |
 
 Demo URLs:
 - https://chanmeng666.github.io/design-pages/demos/experimental/visual-rhythm.html
 - https://chanmeng666.github.io/design-pages/demos/experimental/composition-study.html
 - https://chanmeng666.github.io/design-pages/demos/experimental/dancing-cat-in-flowers.html
 - https://chanmeng666.github.io/design-pages/demos/experimental/horizontal-scroll-ticker.html
+- https://chanmeng666.github.io/design-pages/demos/experimental/dissolve-bloom-transition/index.html
 
 ## Featured Works
 
