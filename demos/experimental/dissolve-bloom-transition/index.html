@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dissolve Bloom Transition - Design Pages</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="c"></canvas>
+    
+    <div class="ui-overlay">
+        <h1>Dissolve + Bloom Transition</h1>
+        <p>Click anywhere to toggle transition</p>
+        <div class="loading" id="loading">Loading assets...</div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/",
+            "gsap": "https://unpkg.com/gsap@3.12.5/index.js"
+        }
+    }
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
