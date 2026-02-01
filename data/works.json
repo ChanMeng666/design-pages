@@ -365,6 +365,16 @@
       "path": "demos/experimental/ink-in-water.html",
       "featured": false,
       "createDate": "2025-01-23"
+    },
+    {
+      "id": "spotify-wrapped-card",
+      "title": "Spotify Wrapped Card",
+      "category": "experimental",
+      "description": "Spotify Wrapped 2023 style stats card with bold typography and checkerboard divider",
+      "technologies": ["CSS Layout", "SVG Patterns", "Typography"],
+      "path": "demos/experimental/spotify-wrapped-card.html",
+      "featured": false,
+      "createDate": "2026-02-01"
     }
   ]
 } 

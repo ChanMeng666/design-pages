@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Wrapped Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #050505;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Card Container */
+    .wrapped-card {
+      position: relative;
+      width: 400px;
+      height: 711px;
+      background: #191919;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      user-select: none;
+      color: white;
+    }
+
+    /* Top Section */
+    .top-section {
+      position: relative;
+      height: 390px;
+      width: 100%;
+      display: flex;
+      background: #191919;
+    }
+
+    /* Year Sidebar */
+    .year-sidebar {
+      width: 85px;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #191919;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .year-text {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 150px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      font-style: italic;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      color: #8B75FF;
+      text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+      left: -160px;
+      opacity: 0.9;
+    }
+
+    .year-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Image Section */
+    .image-section {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      padding-left: 8px;
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      border: 5px solid white;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top right, rgba(0, 0, 0, 0.1), transparent);
+      pointer-events: none;
+    }
+
+    .accent-blur {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      filter: blur(48px);
+      opacity: 0.2;
+      background: #8B75FF;
+      pointer-events: none;
+    }
+
+    /* Checkerboard Divider */
+    .checkerboard {
+      width: 100%;
+      height: 24px;
+      z-index: 20;
+    }
+
+    /* Bottom Section */
+    .bottom-section {
+      flex: 1;
+      background: #191919;
+      padding: 20px;
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-blur {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 256px;
+      height: 256px;
+      background: rgba(255, 255, 255, 0.05);
+      filter: blur(80px);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Lists Grid */
+    .lists-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .list-section h3 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #b3b3b3;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .list-section ol {
+      list-style: none;
+    }
+
+    .list-section li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+
+    .list-number {
+      font-weight: 700;
+      font-size: 14px;
+      min-width: 12px;
+      color: white;
+    }
+
+    .list-item {
+      font-weight: 800;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+      color: white;
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: auto;
+      margin-bottom: 24px;
+    }
+
+    .stat-section h3 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #b3b3b3;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0;
+    }
+
+    .stat-value {
+      font-weight: 900;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: white;
+    }
+
+    .stat-value.genre {
+      font-size: 26px;
+      word-break: break-word;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 16px;
+    }
+
+    .spotify-logo {
+      width: 32px;
+      height: 32px;
+    }
+
+    .footer-text {
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Noise Texture Overlay */
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
+      z-index: 50;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapped-card">
+    <!-- Top Section -->
+    <div class="top-section">
+      <!-- Year Sidebar -->
+      <div class="year-sidebar">
+        <div class="year-text">2023</div>
+        <div class="year-divider"></div>
+      </div>
+
+      <!-- Image Section -->
+      <div class="image-section">
+        <div class="image-container">
+          <img src="https://images.unsplash.com/photo-1585110396000-c92857419dae?q=80&w=1000&auto=format&fit=crop" alt="Top Artist">
+          <div class="image-overlay"></div>
+        </div>
+        <div class="accent-blur"></div>
+      </div>
+    </div>
+
+    <!-- Checkerboard Divider -->
+    <div class="checkerboard">
+      <svg width="100%" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="checker" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="12" height="12" fill="white" />
+            <rect x="12" y="0" width="12" height="12" fill="#121212" />
+            <rect x="0" y="12" width="12" height="12" fill="#121212" />
+            <rect x="12" y="12" width="12" height="12" fill="white" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#checker)" />
+      </svg>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <div class="background-blur"></div>
+
+      <!-- Lists Grid -->
+      <div class="lists-grid">
+        <!-- Top Artists -->
+        <div class="list-section">
+          <h3>Top-Artists</h3>
+          <ol>
+            <li><span class="list-number">1</span><span class="list-item">$OHO BANI</span></li>
+            <li><span class="list-number">2</span><span class="list-item">01099</span></li>
+            <li><span class="list-number">3</span><span class="list-item">Ski Aggu</span></li>
+            <li><span class="list-number">4</span><span class="list-item">Symba</span></li>
+            <li><span class="list-number">5</span><span class="list-item">NF</span></li>
+          </ol>
+        </div>
+
+        <!-- Top Songs -->
+        <div class="list-section">
+          <h3>Top-Songs</h3>
+          <ol>
+            <li><span class="list-number">1</span><span class="list-item">BERGSTEIGEN</span></li>
+            <li><span class="list-number">2</span><span class="list-item">OLYMPIA</span></li>
+            <li><span class="list-number">3</span><span class="list-item">NPCs (mit Aggu)</span></li>
+            <li><span class="list-number">4</span><span class="list-item">Powerade</span></li>
+            <li><span class="list-number">5</span><span class="list-item">Uludağ und Sor...</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-section">
+          <h3>Gehörte Minuten</h3>
+          <div class="stat-value">27.031</div>
+        </div>
+        <div class="stat-section">
+          <h3>Top-Genre</h3>
+          <div class="stat-value genre">Deutscher...</div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <svg class="spotify-logo" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+        </svg>
+        <span class="footer-text">SPOTIFY.COM/WRAPPED</span>
+      </div>
+    </div>
+
+    <!-- Noise Texture Overlay -->
+    <div class="noise-overlay"></div>
+  </div>
+</body>
+</html>
