@@ -375,6 +375,16 @@
       "path": "demos/experimental/spotify-wrapped-card.html",
       "featured": false,
       "createDate": "2026-02-01"
+    },
+    {
+      "id": "electric-valentine-card",
+      "title": "Electric Valentine Card",
+      "category": "experimental",
+      "description": "SVG turbulence-powered electric glow card with animated displacement filter border effect",
+      "technologies": ["SVG Filter", "CSS oklch", "ResizeObserver"],
+      "path": "demos/experimental/electric-valentine-card.html",
+      "featured": true,
+      "createDate": "2026-02-14"
     }
   ]
 } 

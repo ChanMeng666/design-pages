@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Valentine Card</title>
+    <style>
+        :root {
+            --electric-border-color: #44ddff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: oklch(0.145 0 0);
+            color: oklch(0.985 0 0);
+            height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            place-content: center;
+            height: 100vh;
+        }
+
+        .card {
+            font-size: 16px;
+            border-radius: 1.5em;
+            position: relative;
+        }
+
+        .card__layer {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .card__layer--main {
+            border: 2px solid oklch(from var(--electric-border-color) l c h / 0.5);
+        }
+
+        .card__layer--main::after {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border: 2px solid var(--electric-border-color);
+            border-radius: inherit;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .card__layer--main::after {
+            opacity: 1;
+            margin-top: -4px;
+            margin-left: -4px;
+            filter: url(#turbulent-displace);
+        }
+
+        .card__layer--glow-tight {
+            border: 2px solid oklch(from var(--electric-border-color) l c h / 0.6);
+            filter: blur(1px);
+        }
+
+        .card__layer--glow-wide {
+            border: 2px solid var(--electric-border-color);
+            filter: blur(4px);
+        }
+
+        .card__layer--overlay-primary {
+            background: linear-gradient(
+                -30deg,
+                white,
+                transparent 30%,
+                transparent 70%,
+                white
+            );
+            transform: scale(1.1);
+            filter: blur(16px);
+            mix-blend-mode: overlay;
+        }
+
+        .card__layer--overlay-secondary {
+            opacity: 0.5;
+            background: linear-gradient(
+                -30deg,
+                white,
+                transparent 30%,
+                transparent 70%,
+                white
+            );
+            transform: scale(1.1);
+            filter: blur(16px);
+            mix-blend-mode: overlay;
+        }
+
+        .card__layer--background-glow {
+            background: linear-gradient(
+                -30deg,
+                var(--electric-border-color),
+                transparent,
+                var(--electric-border-color)
+            );
+            filter: blur(32px);
+            transform: scale(1.1);
+            opacity: 0.2;
+        }
+
+        .card__content {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 3em;
+        }
+
+        .card__title {
+            font-size: 2.25em;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .card__recipient {
+            opacity: 0.8;
+            text-align: end;
+            font-size: 1.2em;
+        }
+
+        .card__divider {
+            border: none;
+            height: 1px;
+            background-color: currentColor;
+            opacity: 0.2;
+            width: 80%;
+            margin-inline: auto;
+            mask-image: linear-gradient(to right, transparent, black, transparent);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="card">
+            <div class="card__layer card__layer--main"></div>
+            <div class="card__layer card__layer--glow-tight"></div>
+            <div class="card__layer card__layer--glow-wide"></div>
+            <div class="card__layer card__layer--overlay-primary"></div>
+            <div class="card__layer card__layer--overlay-secondary"></div>
+            <div class="card__layer card__layer--background-glow"></div>
+
+            <div class="card__content">
+                <h1 class="card__title">
+                    "你指尖跃动的电光<br />是我此生不灭的信仰"
+                </h1>
+                <hr class="card__divider" />
+                <p class="card__recipient">
+                    TO：御坂美琴
+                </p>
+            </div>
+
+            <svg width="0" height="0">
+                <defs>
+                    <filter id="turbulent-displace" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+                        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" seed="1" result="verticalNoise" />
+                        <feOffset in="verticalNoise" result="animatedVertical_1">
+                            <animate id="animate-dy-1" attributeName="dy" values="700; 0" dur="4s" repeatCount="indefinite" />
+                        </feOffset>
+                        <feOffset in="verticalNoise" result="animatedVertical_2">
+                            <animate id="animate-dy-2" attributeName="dy" values="0; -700" dur="4s" repeatCount="indefinite" />
+                        </feOffset>
+                        <feComposite in="animatedVertical_1" in2="animatedVertical_2" operator="over" result="seamlessVerticalNoise" />
+
+                        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" seed="2" result="horizontalNoise" />
+                        <feOffset in="horizontalNoise" result="animatedHorizontal_1">
+                            <animate id="animate-dx-1" attributeName="dx" values="400; 0" dur="4s" repeatCount="indefinite" />
+                        </feOffset>
+                        <feOffset in="horizontalNoise" result="animatedHorizontal_2">
+                            <animate id="animate-dx-2" attributeName="dx" values="0; -400" dur="4s" repeatCount="indefinite" />
+                        </feOffset>
+                        <feComposite in="animatedHorizontal_1" in2="animatedHorizontal_2" operator="over" result="seamlessHorizontalNoise" />
+
+                        <feBlend in="seamlessVerticalNoise" in2="seamlessHorizontalNoise" mode="color-dodge" result="finalBlendedNoise" />
+
+                        <feDisplacementMap in="SourceGraphic" in2="finalBlendedNoise" scale="30" xChannelSelector="R" yChannelSelector="B" />
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+    </main>
+
+    <script>
+        function updateAnimationValues() {
+            const card = document.querySelector(".card");
+            if (!card) return;
+
+            const PX_PER_SEC = 100;
+            const SIZE_FACTOR = 1.4;
+
+            const { width, height } = card.getBoundingClientRect();
+
+            const filterHeight = height * SIZE_FACTOR;
+            const durY = filterHeight / PX_PER_SEC;
+            const animateDy1 = document.getElementById("animate-dy-1");
+            const animateDy2 = document.getElementById("animate-dy-2");
+            if (animateDy1) {
+                animateDy1.setAttribute("values", `${filterHeight}; 0`);
+                animateDy1.setAttribute("dur", `${durY}s`);
+            }
+            if (animateDy2) {
+                animateDy2.setAttribute("values", `0; -${filterHeight}`);
+                animateDy2.setAttribute("dur", `${durY}s`);
+            }
+
+            const filterWidth = width * SIZE_FACTOR;
+            const durX = filterWidth / PX_PER_SEC;
+            const animateDx1 = document.getElementById("animate-dx-1");
+            const animateDx2 = document.getElementById("animate-dx-2");
+            if (animateDx1) {
+                animateDx1.setAttribute("values", `${filterWidth}; 0`);
+                animateDx1.setAttribute("dur", `${durX}s`);
+            }
+            if (animateDx2) {
+                animateDx2.setAttribute("values", `0; -${filterWidth}`);
+                animateDx2.setAttribute("dur", `${durX}s`);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const cardToObserve = document.querySelector(".card");
+            if (!cardToObserve) return;
+
+            const resizeObserver = new ResizeObserver(() => {
+                updateAnimationValues();
+            });
+
+            updateAnimationValues();
+            resizeObserver.observe(cardToObserve);
+        });
+    </script>
+</body>
+</html>
