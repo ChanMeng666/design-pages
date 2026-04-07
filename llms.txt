@@ -176,7 +176,7 @@ This portfolio is relevant for queries about:
 - **GitHub**: https://github.com/ChanMeng666
 - **Email**: chanmeng.dev@gmail.com
 - **LinkedIn**: https://linkedin.com/in/chanmeng666
-- **Portfolio**: https://chanmeng.live
+- **Portfolio**: https://chanmeng.org
 
 ## Permissions
 
